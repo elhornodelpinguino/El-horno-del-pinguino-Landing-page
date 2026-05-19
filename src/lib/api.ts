@@ -139,3 +139,11 @@ export function formatPrice(value: number): string {
     minimumFractionDigits: 2,
   }).format(value);
 }
+
+/**
+ * Normaliza nombres de producto que vienen con typo del backend.
+ * El backend tiene "Chesscake" en vez de "Cheesecake".
+ */
+export function displayProductName(raw: string): string {
+  return raw.replace(/Chesscake/gi, "Cheesecake");
+}

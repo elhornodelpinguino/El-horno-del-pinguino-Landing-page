@@ -1,6 +1,6 @@
 ---
 import type { Product } from "~/lib/api";
-import { formatPrice } from "~/lib/api";
+import { formatPrice, displayProductName } from "~/lib/api";
 import { whatsappLink } from "~/lib/config";
 
 interface Props {
@@ -9,10 +9,10 @@ interface Props {
 
 const { product } = Astro.props;
 const fallbackPhoto =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23fbebde'/><text x='50%' y='52%' font-size='72' text-anchor='middle' fill='%23a81452' font-family='serif'>🧁</text></svg>";
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%23fef3ed'/><rect x='100' y='120' width='200' height='160' rx='12' fill='%23fbebde' stroke='%23a81452' stroke-width='2' opacity='0.3'/><circle cx='200' cy='200' r='48' fill='none' stroke='%23a81452' stroke-width='1.5' opacity='0.4'/><text x='200' y='208' font-size='14' text-anchor='middle' fill='%23a81452' font-family='sans-serif' opacity='0.6' letter-spacing='2'>PRODUCTO</text></svg>";
 
 const orderLink = whatsappLink(
-  `Hola! Quiero pedir información sobre: ${product.name} (${formatPrice(product.price)}). ¿Está disponible?`,
+  `Hola! Quiero pedir información sobre: ${displayProductName(product.name)} (${formatPrice(product.price)}). ¿Está disponible?`,
 );
 ---
 
@@ -40,7 +40,7 @@ const orderLink = whatsappLink(
 
   <div class="flex flex-col flex-1 p-5">
     <h3 class="font-display text-lg text-horno-magentaDeep leading-snug mb-2">
-      {product.name}
+      {displayProductName(product.name)}
     </h3>
     <p class="text-sm text-horno-magentaDeep/70 line-clamp-3 mb-4 flex-1">
       {product.description}
