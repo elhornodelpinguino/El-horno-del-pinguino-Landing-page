@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://hornodelpinguino.vercel.app/sitemap-index.xml
