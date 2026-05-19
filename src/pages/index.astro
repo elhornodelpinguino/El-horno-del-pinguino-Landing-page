@@ -48,6 +48,10 @@ if (!hasHeroError) {
   }
 }
 
+Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+Astro.response.headers.set("Pragma", "no-cache");
+Astro.response.headers.set("Expires", "0");
+
 const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
