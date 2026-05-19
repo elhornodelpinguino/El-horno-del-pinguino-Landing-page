@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { org } = Astro.props;
-const logo = org?.logo_url ?? "/logo.png";
+const logo = org?.logo_url || "/logo.png";
 const name = org?.name ?? SITE.name;
 const description = org?.description ?? SITE.tagline;
 ---
