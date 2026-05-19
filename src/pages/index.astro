@@ -48,19 +48,12 @@ if (!hasHeroError) {
   }
 }
 
-Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-Astro.response.headers.set("Pragma", "no-cache");
-Astro.response.headers.set("Expires", "0");
-
-const now = new Date().toISOString();
-console.log("[SSR] Rendering at", now);
-
 const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: org?.name ?? SITE.name,
-  url: "https://hornodelpinguino.vercel.app",
-  logo: org?.logo_url || "https://hornodelpinguino.vercel.app/logo.png",
+  url: "https://hornodelpinguino.onrender.com",
+  logo: org?.logo_url || "https://hornodelpinguino.onrender.com/logo.png",
   description: org?.description ?? SITE.description,
   address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
 };
@@ -75,10 +68,9 @@ if (products.length > 0) {
 <BaseLayout
   title={`${SITE.name} — Postres artesanales hechos para sorprender`}
   description={SITE.description}
-  canonicalUrl="https://hornodelpinguino.vercel.app"
+  canonicalUrl="https://hornodelpinguino.onrender.com"
   jsonLd={jsonLd}
 >
-  <!-- SSR rendered at: {now} -->
   <main>
     <ErrorBoundary hasError={hasHeroError} message="No pudimos cargar la información de la pastelería. Escríbenos por WhatsApp.">
       <Hero org={org} />
