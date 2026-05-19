@@ -5,10 +5,10 @@ export const SITE = {
     "Creamos postres artesanales hechos para sorprender. Calidad, creatividad y cercanía en cada pedido.",
   whatsapp:
     (import.meta.env.PUBLIC_WHATSAPP_NUMBER as string | undefined) ??
-    "593XXXXXXXXX",
+    "593994808252",
   instagram:
     (import.meta.env.PUBLIC_INSTAGRAM_HANDLE as string | undefined) ??
-    "hornodlpinguino",
+    "elhornodelpinguino",
   location: "Loja, Ecuador",
 };
 
