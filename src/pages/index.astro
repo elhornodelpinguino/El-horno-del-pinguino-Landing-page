@@ -52,6 +52,9 @@ Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate
 Astro.response.headers.set("Pragma", "no-cache");
 Astro.response.headers.set("Expires", "0");
 
+const now = new Date().toISOString();
+console.log("[SSR] Rendering at", now);
+
 const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -75,6 +78,7 @@ if (products.length > 0) {
   canonicalUrl="https://hornodelpinguino.vercel.app"
   jsonLd={jsonLd}
 >
+  <!-- SSR rendered at: {now} -->
   <main>
     <ErrorBoundary hasError={hasHeroError} message="No pudimos cargar la información de la pastelería. Escríbenos por WhatsApp.">
       <Hero org={org} />
