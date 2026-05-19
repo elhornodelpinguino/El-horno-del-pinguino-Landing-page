@@ -26,6 +26,8 @@ export default {
       backgroundImage: {
         "horno-gradient":
           "linear-gradient(135deg, #fbebde 0%, #ffffff 55%, #fff5ef 100%)",
+        "horno-gradient-strong":
+          "linear-gradient(135deg, #a81452 0%, #8a0f43 50%, #c42a6a 100%)",
       },
     },
   },

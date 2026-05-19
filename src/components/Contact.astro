@@ -2,136 +2,48 @@
 import { SITE, whatsappLink, instagramLink } from "~/lib/config";
 ---
 
-<section id="contacto" class="py-20 sm:py-28 bg-horno-gradient relative">
-  <div
-    aria-hidden="true"
-    class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.6),transparent_50%)]"
-  >
-  </div>
-  <div class="section relative z-10">
-    <div class="grid gap-10 lg:grid-cols-2 items-center">
+<footer id="contacto" class="bg-horno-magentaDeep text-horno-cream">
+  <div class="section py-12">
+    <div class="grid gap-8 sm:grid-cols-3">
       <div>
-        <span class="eyebrow">Hablemos</span>
-        <h2 class="text-3xl sm:text-4xl mb-5">
-          ¿Tienes un evento especial?
-        </h2>
-        <p class="text-horno-magentaDeep/80 text-lg mb-8 max-w-lg">
-          Escríbenos por WhatsApp o búscanos en Instagram. Hacemos postres personalizados
-          para cumpleaños, reuniones y cualquier ocasión que quieras endulzar.
-        </p>
-
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={whatsappLink(`¡Hola ${SITE.name}! Quisiera hacer un pedido.`)}
-            target="_blank"
-            rel="noopener"
-            class="btn-primary"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="h-5 w-5"
-            >
-              <path
-                d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"
-              />
-            </svg>
-            Escribir por WhatsApp
-          </a>
-          <a
-            href={instagramLink()}
-            target="_blank"
-            rel="noopener"
-            class="btn-secondary"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="h-5 w-5"
-            >
-              <path
-                d="M7.75 2A5.75 5.75 0 002 7.75v8.5A5.75 5.75 0 007.75 22h8.5A5.75 5.75 0 0022 16.25v-8.5A5.75 5.75 0 0016.25 2h-8.5zm0 1.5h8.5A4.25 4.25 0 0120.5 7.75v8.5a4.25 4.25 0 01-4.25 4.25h-8.5A4.25 4.25 0 013.5 16.25v-8.5A4.25 4.25 0 017.75 3.5zM17.5 6a1 1 0 100 2 1 1 0 000-2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"
-              />
-            </svg>
-            @{SITE.instagram}
-          </a>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="/isotipo.png" alt="Isotipo" class="h-10 w-10 object-contain brightness-0 invert" />
+          <span class="font-display text-lg text-white">{SITE.name}</span>
         </div>
+        <p class="text-sm text-horno-cream/70 max-w-xs leading-relaxed">
+          Postres artesanales con buena presentación, sabor consistente y atención cercana.
+        </p>
       </div>
 
-      <div class="grid gap-4">
-        <div class="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-card flex items-start gap-4">
-          <div class="h-10 w-10 rounded-full bg-horno-cream grid place-items-center text-xl">
-            📍
-          </div>
-          <div>
-            <p class="text-xs uppercase tracking-widest text-horno-magenta/60">
-              Ubicación
-            </p>
-            <p class="font-display text-lg text-horno-magentaDeep">
-              {SITE.location}
-            </p>
-            <p class="text-sm text-horno-magentaDeep/70">
-              Entregas en Loja
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-card flex items-start gap-4">
-          <div class="h-10 w-10 rounded-full bg-horno-cream grid place-items-center text-xl">
-            💬
-          </div>
-          <div>
-            <p class="text-xs uppercase tracking-widest text-horno-magenta/60">
-              WhatsApp
-            </p>
-            <p class="font-display text-lg text-horno-magentaDeep">
+      <div>
+        <h4 class="font-display text-white text-sm uppercase tracking-widest mb-4">Contacto</h4>
+        <ul class="space-y-3 text-sm text-horno-cream/70">
+          <li>
+            <a href={whatsappLink(`Hola ${SITE.name}!`)} target="_blank" rel="noopener" class="hover:text-white transition flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4 text-emerald-400"><path d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24z"/></svg>
               +{SITE.whatsapp}
-            </p>
-            <p class="text-sm text-horno-magentaDeep/70">
-              Lun – Sáb · 9:00 a 19:00
-            </p>
-          </div>
-        </div>
+            </a>
+          </li>
+          <li>
+            <a href={instagramLink()} target="_blank" rel="noopener" class="hover:text-white transition flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><path d="M7.75 2A5.75 5.75 0 002 7.75v8.5A5.75 5.75 0 007.75 22h8.5A5.75 5.75 0 0022 16.25v-8.5A5.75 5.75 0 0016.25 2h-8.5z"/></svg>
+              @{SITE.instagram}
+            </a>
+          </li>
+        </ul>
+      </div>
 
-        <div class="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-card flex items-start gap-4">
-          <div class="h-10 w-10 rounded-full bg-horno-cream grid place-items-center text-xl">
-            🎂
-          </div>
-          <div>
-            <p class="text-xs uppercase tracking-widest text-horno-magenta/60">
-              Encargos
-            </p>
-            <p class="font-display text-lg text-horno-magentaDeep">
-              Personalizados disponibles
-            </p>
-            <p class="text-sm text-horno-magentaDeep/70">
-              Cuéntanos tu idea y la endulzamos juntos.
-            </p>
-          </div>
-        </div>
+      <div>
+        <h4 class="font-display text-white text-sm uppercase tracking-widest mb-4">Dirección</h4>
+        <p class="text-sm text-horno-cream/70 leading-relaxed">
+          {SITE.location}<br />
+          Entregas en Loja
+        </p>
       </div>
     </div>
-  </div>
-</section>
 
-<footer class="bg-horno-magentaDeep text-horno-cream py-8">
-  <div class="section flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-    <p>© {new Date().getFullYear()} {SITE.name} · Hecho con amor en Loja.</p>
-    <div class="flex gap-5">
-      <a
-        href={whatsappLink(`Hola ${SITE.name}!`)}
-        target="_blank"
-        rel="noopener"
-        class="hover:text-white transition">WhatsApp</a
-      >
-      <a
-        href={instagramLink()}
-        target="_blank"
-        rel="noopener"
-        class="hover:text-white transition">Instagram</a
-      >
+    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-horno-cream/50">
+      <p>© {new Date().getFullYear()} {SITE.name} · Hecho con 🐧 en Loja, Ecuador</p>
     </div>
   </div>
 </footer>

@@ -12,107 +12,68 @@ const name = org?.name ?? SITE.name;
 const description = org?.description ?? SITE.tagline;
 ---
 
-<header
-  class="relative overflow-hidden bg-horno-gradient pt-10 pb-24 sm:pb-32"
->
-  <!-- Decorative shapes -->
-  <div
-    aria-hidden="true"
-    class="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-horno-orange/30 blur-3xl"
-  >
-  </div>
-  <div
-    aria-hidden="true"
-    class="absolute -bottom-24 -right-16 w-80 h-80 rounded-full bg-horno-magenta/20 blur-3xl"
-  >
-  </div>
+<header class="relative overflow-hidden bg-gradient-to-b from-[#fbebde] via-[#fef3ed] to-white pt-6 pb-24 sm:pb-32">
+  <!-- Decorative blobs -->
+  <div aria-hidden="true" class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-horno-magenta/[0.04] blur-3xl"></div>
+  <div aria-hidden="true" class="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-horno-orange/[0.06] blur-3xl"></div>
+  <div aria-hidden="true" class="absolute -bottom-20 left-1/3 w-80 h-80 rounded-full bg-horno-magenta/[0.03] blur-3xl"></div>
 
   <nav class="section flex items-center justify-between relative z-10">
-    <a href="#" class="flex items-center gap-3">
+    <a href="#" class="flex items-center gap-3 group">
       <img
         src="/isotipo.png"
         alt={`Logo ${name}`}
-        class="h-12 w-12 object-contain"
+        class="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
         loading="eager"
       />
-      <span class="font-display text-xl text-horno-magentaDeep">{name}</span>
+      <span class="font-display text-lg text-horno-magentaDeep hidden sm:inline">{name}</span>
     </a>
-    <div class="hidden sm:flex gap-6 text-sm font-medium text-horno-magentaDeep">
+    <div class="flex gap-6 text-sm font-medium text-horno-magentaDeep/80">
       <a href="#catalogo" class="hover:text-horno-magenta transition">Catálogo</a>
+      <a href="#como-pedir" class="hover:text-horno-magenta transition">Cómo pedir</a>
       <a href="#contacto" class="hover:text-horno-magenta transition">Contacto</a>
     </div>
   </nav>
 
-  <div
-    class="section relative z-10 mt-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center"
-  >
+  <div class="section relative z-10 mt-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
     <div>
       <span class="eyebrow">🍰 Artesanal · Loja, Ecuador</span>
-      <h1
-        class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6"
-      >
-        Postres que
-        <span class="text-horno-magenta">sorprenden</span>,
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6">
+        Postres que <span class="text-horno-magenta">sorprenden</span>,
         <span class="italic">hechos con alma</span>.
       </h1>
-      <p class="text-lg text-horno-magentaDeep/80 max-w-xl mb-8">
+      <p class="text-lg text-horno-magentaDeep/80 max-w-xl mb-8 leading-relaxed">
         {description}
       </p>
       <div class="flex flex-wrap gap-3">
         <a href="#catalogo" class="btn-primary">
           Ver catálogo
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
           </svg>
         </a>
         <a
-          href={whatsappLink(`Hola ${name}! Vi su web y quiero más info.` )}
+          href={whatsappLink(`Hola ${name}! Vi su web y quiero más info.`)}
           target="_blank"
           rel="noopener"
           class="btn-secondary"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="h-5 w-5 text-emerald-600"
-          >
-            <path
-              d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-emerald-600">
+            <path d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
           </svg>
           Hablar por WhatsApp
         </a>
       </div>
 
-      <div
-        class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-horno-magentaDeep/70"
-      >
-        <span class="flex items-center gap-2"
-          ><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Entregas en Loja</span
-        >
-        <span class="flex items-center gap-2"
-          ><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Por pedido</span
-        >
-        <span class="flex items-center gap-2"
-          ><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Calidad artesanal</span
-        >
+      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-horno-magentaDeep/70">
+        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Entregas en Loja</span>
+        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Por pedido</span>
+        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Calidad artesanal</span>
       </div>
     </div>
 
     <div class="relative">
-      <div
-        class="aspect-square rounded-[2.5rem] bg-white/60 backdrop-blur-md shadow-soft p-6 ring-1 ring-white"
-      >
+      <div class="aspect-square rounded-[2.5rem] bg-white/70 backdrop-blur-md shadow-soft p-6 ring-1 ring-white/50">
         <img
           src={logo}
           alt={name}
@@ -120,14 +81,10 @@ const description = org?.description ?? SITE.tagline;
           loading="eager"
         />
       </div>
-      <div
-        class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-card px-5 py-3 flex items-center gap-3"
-      >
+      <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-card px-5 py-3 flex items-center gap-3">
         <span class="text-3xl">🧁</span>
         <div>
-          <p class="text-xs uppercase tracking-widest text-horno-magenta/60">
-            Hecho con amor
-          </p>
+          <p class="text-xs uppercase tracking-widest text-horno-magenta/60">Hecho con amor</p>
           <p class="font-display text-horno-magentaDeep">100% artesanal</p>
         </div>
       </div>

@@ -1,0 +1,26 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+---
+
+<section class="py-20 sm:py-28 bg-horno-gradient-strong relative overflow-hidden">
+  <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.12),transparent_60%)]"></div>
+  <div class="section relative z-10 text-center">
+    <h2 class="text-3xl sm:text-4xl text-white mb-5 leading-tight">
+      ¿Listo para endulzar tu día?
+    </h2>
+    <p class="text-white/80 text-lg max-w-xl mx-auto mb-10">
+      Escríbenos por WhatsApp y hagamos magia juntos.
+    </p>
+    <a
+      href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido.`)}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-3 bg-white text-horno-magenta hover:bg-horno-cream rounded-full px-8 py-4 font-display font-semibold text-lg shadow-soft transition-all duration-300 hover:-translate-y-0.5"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6 text-emerald-500">
+        <path d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+      </svg>
+      Escribir por WhatsApp
+    </a>
+  </div>
+</section>

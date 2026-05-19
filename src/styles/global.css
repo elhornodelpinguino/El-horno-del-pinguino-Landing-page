@@ -47,17 +47,13 @@
   }
 }
 
-/* Decorative divider */
+/* Decorative curved divider */
 .ornament-divider {
   display: block;
-  height: 24px;
+  height: 28px;
   width: 100%;
-  background-image: radial-gradient(
-    circle at 12px 12px,
-    rgba(244, 157, 80, 0.5) 4px,
-    transparent 5px
-  );
-  background-size: 24px 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 28'%3E%3Cpath d='M0 14 Q 75 0, 150 14 T 300 14 T 450 14 T 600 14 T 750 14 T 900 14 T 1050 14 T 1200 14' stroke='%23f49d50' stroke-width='2' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 1200px 28px;
   background-repeat: repeat-x;
-  opacity: 0.8;
+  opacity: 0.7;
 }

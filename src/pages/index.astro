@@ -2,6 +2,12 @@
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import Hero from "~/components/Hero.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
+import HowToOrder from "~/components/HowToOrder.astro";
+import LimitedSpots from "~/components/LimitedSpots.astro";
+import SpecialEditions from "~/components/SpecialEditions.astro";
+import Trust from "~/components/Trust.astro";
+import FAQ from "~/components/FAQ.astro";
+import FinalCTA from "~/components/FinalCTA.astro";
 import Contact from "~/components/Contact.astro";
 import ErrorBoundary from "~/components/ErrorBoundary.astro";
 import { getOrganization, getProducts, loadFallback } from "~/lib/api";
@@ -70,6 +76,12 @@ if (products.length > 0) {
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />
     </ErrorBoundary>
+    <HowToOrder />
+    <LimitedSpots />
+    <SpecialEditions />
+    <Trust />
+    <FAQ />
+    <FinalCTA />
     <Contact />
   </main>
 </BaseLayout>
