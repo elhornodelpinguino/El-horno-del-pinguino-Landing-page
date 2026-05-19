@@ -1,0 +1,75 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import Hero from "~/components/Hero.astro";
+import ProductGrid from "~/components/ProductGrid.astro";
+import Contact from "~/components/Contact.astro";
+import ErrorBoundary from "~/components/ErrorBoundary.astro";
+import { getOrganization, getProducts, loadFallback } from "~/lib/api";
+import type { Organization, Product } from "~/lib/api";
+import { SITE } from "~/lib/config";
+
+let org: Organization | null = null;
+let products: Product[] = [];
+let hasHeroError = false;
+let hasProductsError = false;
+
+try {
+  org = await getOrganization();
+} catch (err) {
+  hasHeroError = true;
+  console.error("Error fetching organization:", err);
+  try {
+    const fallback = loadFallback();
+    org = fallback.org;
+    products = fallback.products;
+  } catch (fbErr) {
+    console.error("Fallback also failed:", fbErr);
+  }
+}
+
+if (!hasHeroError) {
+  try {
+    products = await getProducts();
+  } catch (err) {
+    hasProductsError = true;
+    console.error("Error fetching products:", err);
+    if (products.length === 0) {
+      try { products = loadFallback().products; }
+      catch (fbErr) { console.error("Fallback failed:", fbErr); }
+    }
+  }
+}
+
+const jsonLd: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: org?.name ?? SITE.name,
+  url: "https://hornodelpinguino.vercel.app",
+  logo: org?.logo_url || "https://hornodelpinguino.vercel.app/logo.png",
+  description: org?.description ?? SITE.description,
+  address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
+};
+if (products.length > 0) {
+  jsonLd.offers = products.slice(0, 3).map((p) => ({
+    "@type": "Offer", name: p.name, description: p.description,
+    price: p.price, priceCurrency: "USD",
+    availability: p.on_demand ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+  }));
+}
+---
+<BaseLayout
+  title={`${SITE.name} — Postres artesanales hechos para sorprender`}
+  description={SITE.description}
+  canonicalUrl="https://hornodelpinguino.vercel.app"
+  jsonLd={jsonLd}
+>
+  <main>
+    <ErrorBoundary hasError={hasHeroError} message="No pudimos cargar la información de la pastelería. Escríbenos por WhatsApp.">
+      <Hero org={org} />
+    </ErrorBoundary>
+    <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
+      <ProductGrid products={products} />
+    </ErrorBoundary>
+    <Contact />
+  </main>
+</BaseLayout>

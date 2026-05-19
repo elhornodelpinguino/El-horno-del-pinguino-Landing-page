@@ -1,0 +1,58 @@
+{
+  "org": {
+    "id": 1,
+    "external_id": "horno-del-pinguino-92f9",
+    "name": "Horno del Pingüino",
+    "legal_name": "Horno del Pingüino",
+    "email": "hornodelpinguino@example.com",
+    "description": "Postres artesanales con buena presentación, sabor consistente y atención cercana.",
+    "primary_color": "#a81452",
+    "secondary_color": "#fbebde",
+    "tertiary_color": "#f49d50",
+    "logo_url": "/logo.png",
+    "address": "Loja, Ecuador",
+    "telephone": "+593XXXXXXXXX",
+    "org_type": "bakery",
+    "is_active": true,
+    "extra_data": {},
+    "created_at": "2025-01-01T00:00:00.000Z"
+  },
+  "products": [
+    {
+      "id": 1,
+      "external_id": "prod-001",
+      "org_id": 1,
+      "name": "Brownie Artesanal",
+      "description": "Brownie de chocolate semi-amargo con nueces.",
+      "sku": "BRO-001",
+      "price": 8.5,
+      "cost": 3.5,
+      "stock": 0,
+      "on_demand": true,
+      "perecedero": true,
+      "photo_url": "",
+      "is_active": true,
+      "attributes": {},
+      "created_at": "2025-01-15T00:00:00.000Z",
+      "updated_at": "2025-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "external_id": "prod-002",
+      "org_id": 1,
+      "name": "Cheesecake de Maracuyá",
+      "description": "Cheesecake cremoso con base de galleta y maracuyá natural.",
+      "sku": "CHS-002",
+      "price": 12.0,
+      "cost": 5.0,
+      "stock": 0,
+      "on_demand": true,
+      "perecedero": true,
+      "photo_url": "",
+      "is_active": true,
+      "attributes": {},
+      "created_at": "2025-01-20T00:00:00.000Z",
+      "updated_at": "2025-01-20T00:00:00.000Z"
+    }
+  ]
+}

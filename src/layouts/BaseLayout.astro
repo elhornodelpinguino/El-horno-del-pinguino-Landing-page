@@ -1,0 +1,63 @@
+---
+import "~/styles/global.css";
+import { SITE } from "~/lib/config";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  jsonLd?: Record<string, unknown>;
+}
+
+const {
+  title = `${SITE.name} — Postres artesanales hechos para sorprender`,
+  description = SITE.description,
+  ogImage = "/og-image.png",
+  canonicalUrl = Astro.url.href,
+  jsonLd,
+} = Astro.props;
+
+const ogUrl = new URL(canonicalUrl, Astro.site).href;
+const ogImg = new URL(ogImage, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={ogUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImg} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:image" content={ogImg} />
+    <meta name="theme-color" content="#a81452" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23a81452'/%3E%3Ctext x='50%25' y='55%25' font-size='34' text-anchor='middle' fill='%23fbebde' font-family='serif'%3EH%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {
+      jsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

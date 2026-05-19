@@ -1,0 +1,45 @@
+---
+import ProductCard from "./ProductCard.astro";
+import type { Product } from "~/lib/api";
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+---
+
+<section id="catalogo" class="py-20 sm:py-28 bg-horno-cream">
+  <div class="section">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="eyebrow">Nuestro catálogo</span>
+      <h2 class="text-3xl sm:text-4xl mb-4">
+        Postres <span class="text-horno-magenta">hechos con cariño</span>
+      </h2>
+      <p class="text-horno-magentaDeep/70">
+        Cada postre nace de recetas propias, ingredientes de calidad y horas de dedicación.
+        Si te enamoras de alguno, escríbenos y lo coordinamos.
+      </p>
+    </div>
+
+    {
+      products.length === 0 ? (
+        <div class="text-center py-20 bg-white/60 rounded-3xl">
+          <p class="text-4xl mb-3">🍰</p>
+          <p class="font-display text-xl text-horno-magentaDeep">
+            Estamos preparando nuevas creaciones
+          </p>
+          <p class="text-horno-magentaDeep/60 mt-2">
+            Vuelve pronto o escríbenos por WhatsApp para encargos personalizados.
+          </p>
+        </div>
+      ) : (
+        <div class="grid gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <ProductCard product={product} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

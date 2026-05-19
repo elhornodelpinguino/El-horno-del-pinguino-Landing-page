@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-horno-cream text-horno-ink font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight text-horno-magentaDeep;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
+      font-medium transition-all duration-300 ease-out
+      shadow-soft focus:outline-none focus:ring-2 focus:ring-offset-2
+      focus:ring-horno-magenta;
+  }
+
+  .btn-primary {
+    @apply btn bg-horno-magenta text-white hover:bg-horno-magentaDeep
+      hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-horno-magenta border border-horno-creamDark
+      hover:bg-horno-creamDark;
+  }
+
+  .section {
+    @apply max-w-6xl mx-auto px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-block text-xs uppercase tracking-[0.3em]
+      text-horno-magenta/70 mb-3;
+  }
+}
+
+/* Decorative divider */
+.ornament-divider {
+  display: block;
+  height: 24px;
+  width: 100%;
+  background-image: radial-gradient(
+    circle at 12px 12px,
+    rgba(244, 157, 80, 0.5) 4px,
+    transparent 5px
+  );
+  background-size: 24px 24px;
+  background-repeat: repeat-x;
+  opacity: 0.8;
+}

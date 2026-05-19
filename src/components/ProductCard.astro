@@ -1,0 +1,74 @@
+---
+import type { Product } from "~/lib/api";
+import { formatPrice } from "~/lib/api";
+import { whatsappLink } from "~/lib/config";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const fallbackPhoto =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23fbebde'/><text x='50%' y='52%' font-size='72' text-anchor='middle' fill='%23a81452' font-family='serif'>🧁</text></svg>";
+
+const orderLink = whatsappLink(
+  `Hola! Quiero pedir información sobre: ${product.name} (${formatPrice(product.price)}). ¿Está disponible?`,
+);
+---
+
+<article
+  class="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 hover:-translate-y-1"
+>
+  <div
+    class="relative aspect-square overflow-hidden bg-horno-cream"
+  >
+    <img
+      src={product.photo_url || fallbackPhoto}
+      alt={product.name}
+      loading="lazy"
+      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      onerror={`this.src='${fallbackPhoto}'`}
+    />
+    {
+      product.on_demand && (
+        <span class="absolute top-3 left-3 bg-horno-magenta text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+          Por pedido
+        </span>
+      )
+    }
+  </div>
+
+  <div class="flex flex-col flex-1 p-5">
+    <h3 class="font-display text-lg text-horno-magentaDeep leading-snug mb-2">
+      {product.name}
+    </h3>
+    <p class="text-sm text-horno-magentaDeep/70 line-clamp-3 mb-4 flex-1">
+      {product.description}
+    </p>
+    <div class="flex items-center justify-between gap-3 mt-auto">
+      <span class="text-xl font-semibold text-horno-magenta">
+        {formatPrice(product.price)}
+      </span>
+      <a
+        href={orderLink}
+        target="_blank"
+        rel="noopener"
+        class="text-sm font-medium inline-flex items-center gap-1 text-horno-magenta hover:text-horno-magentaDeep transition"
+      >
+        Pedir
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

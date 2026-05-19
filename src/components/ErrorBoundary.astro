@@ -1,0 +1,14 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+interface Props { hasError: boolean; message?: string; }
+const { hasError, message = "Algo salió mal al cargar esta sección. Escríbenos por WhatsApp." } = Astro.props;
+---
+{hasError ? (
+  <div class="bg-horno-cream border border-horno-magenta/20 rounded-3xl p-8 text-center my-8">
+    <p class="text-4xl mb-4">🤗</p>
+    <p class="font-display text-lg text-horno-magentaDeep mb-4">{message}</p>
+    <a href={whatsappLink(`Hola ${SITE.name}! Quiero consultar por sus productos.`)} target="_blank" rel="noopener" class="btn-primary inline-flex">
+      Escríbenos por WhatsApp
+    </a>
+  </div>
+) : <slot />}
