@@ -45,6 +45,9 @@ if (!hasHeroError) {
       try { products = loadFallback().products; }
       catch (fbErr) { console.error("Fallback failed:", fbErr); }
     }
+    if (products.length > 0) {
+      hasProductsError = false;
+    }
   }
 }
 
