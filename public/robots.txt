@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hornodelpinguino.onrender.com/sitemap-index.xml
+Sitemap: https://el-horno-del-pinguino-landing-page.onrender.com/sitemap-index.xml

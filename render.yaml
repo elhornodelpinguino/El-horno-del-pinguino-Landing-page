@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: hornodelpinguino
+    name: el-horno-del-pinguino-landing-page
     runtime: docker
     plan: free
     branch: main
