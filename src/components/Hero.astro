@@ -9,33 +9,45 @@ interface Props {
 const { org } = Astro.props;
 const name = org?.name ?? SITE.name;
 const description = org?.description ?? SITE.tagline;
+const orderMessage = `Hola ${name}! Vi su web y quiero hacer un pedido artesanal.`;
 ---
 
-<header class="animate-on-scroll relative overflow-hidden pt-6 pb-24 sm:pb-32">
+<header class="hero-shell animate-on-scroll relative overflow-hidden pt-6 pb-20 sm:pb-28">
+  <div class="hero-glow hero-glow-left" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow-right" aria-hidden="true"></div>
 
-  <nav class="section flex items-center justify-between relative z-10">
-    <a href="#" class="flex items-center gap-3 group">
-      <img
-        src="/isotipo.png"
-        alt={`Logo ${name}`}
-        class="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
-        loading="eager"
-      />
-      <span class="font-display text-lg text-horno-magentaDeep hidden sm:inline">{name}</span>
+  <nav class="section relative z-20 flex items-center justify-between">
+    <a href="#" class="group flex items-center gap-3" aria-label={`${name} - inicio`}>
+      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-white/80 shadow-card ring-1 ring-horno-magenta/10 backdrop-blur">
+        <img
+          src="/isotipo.png"
+          alt={`Logo ${name}`}
+          class="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-105"
+          loading="eager"
+        />
+      </span>
+      <span class="hidden font-display text-lg text-horno-magentaDeep sm:inline">{name}</span>
     </a>
 
-    <!-- Desktop nav links — hidden on mobile -->
-    <div class="hidden sm:flex gap-6 text-sm font-medium text-horno-magentaDeep/80">
-      <a href="#catalogo" class="hover:text-horno-magenta transition">Catálogo</a>
-      <a href="#como-pedir" class="hover:text-horno-magenta transition">Cómo pedir</a>
-      <a href="#contacto" class="hover:text-horno-magenta transition">Contacto</a>
+    <div class="hidden items-center gap-7 rounded-full border border-white/70 bg-white/60 px-5 py-3 text-sm font-medium text-horno-magentaDeep/80 shadow-card backdrop-blur sm:flex">
+      <a href="#catalogo" class="transition hover:text-horno-magenta">Catálogo</a>
+      <a href="#como-pedir" class="transition hover:text-horno-magenta">Cómo pedir</a>
+      <a href="#contacto" class="transition hover:text-horno-magenta">Contacto</a>
     </div>
 
-    <!-- Hamburger button — visible on mobile only -->
+    <a
+      href={whatsappLink(orderMessage)}
+      target="_blank"
+      rel="noopener"
+      class="hidden rounded-full bg-horno-magenta px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep md:inline-flex"
+    >
+      Pedir ahora
+    </a>
+
     <button
       data-hamburger
       aria-controls="mobile-nav"
-      class="sm:hidden flex flex-col gap-1.5 p-3 -mr-3 min-w-[44px] min-h-[44px] items-center justify-center focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 rounded-lg"
+      class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-lg p-3 -mr-3 focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 sm:hidden"
       aria-label="Abrir menú"
       type="button"
     >
@@ -44,69 +56,72 @@ const description = org?.description ?? SITE.tagline;
       <span class="hamburger-line"></span>
     </button>
 
-    <!-- Mobile nav overlay -->
     <div id="mobile-nav" data-mobile-nav>
-      <a href="#catalogo" class="min-h-[44px] flex items-center" tabindex="0">Catálogo</a>
-      <a href="#como-pedir" class="min-h-[44px] flex items-center" tabindex="0">Cómo pedir</a>
-      <a href="#contacto" class="min-h-[44px] flex items-center" tabindex="0">Contacto</a>
+      <a href="#catalogo" class="flex min-h-[44px] items-center" tabindex="0">Catálogo</a>
+      <a href="#como-pedir" class="flex min-h-[44px] items-center" tabindex="0">Cómo pedir</a>
+      <a href="#contacto" class="flex min-h-[44px] items-center" tabindex="0">Contacto</a>
     </div>
   </nav>
 
-  <div class="section relative z-10 mt-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
-    <div>
-      <span class="eyebrow">🍰 Artesanal · Loja, Ecuador</span>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6">
-        Postres que <span class="text-horno-magenta">sorprenden</span>,
-        <span class="italic">hechos con alma</span>.
+  <div class="section relative z-10 mt-14 grid items-center gap-12 lg:mt-16 lg:grid-cols-[1.03fr_0.97fr]">
+    <div class="max-w-2xl">
+      <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">🍰 Artesanal · Loja, Ecuador</span>
+      <h1 class="mt-4 mb-6 text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
+        Postres artesanales con una <span class="text-horno-magenta">marca memorable</span>.
       </h1>
-      <p class="text-lg text-horno-magentaDeep/80 max-w-xl mb-8 leading-relaxed">
-        {description}
+      <p class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">
+        {description} Pedí por WhatsApp, coordiná los detalles y recibí un postre hecho para sorprender.
       </p>
+
       <div class="flex flex-wrap gap-3">
         <a href="#catalogo" class="btn-primary">
           Ver catálogo
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
           </svg>
         </a>
         <a
-          href={whatsappLink(`Hola ${name}! Vi su web y quiero más info.`)}
+          href={whatsappLink(orderMessage)}
           target="_blank"
           rel="noopener"
           class="btn-secondary"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-emerald-600">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-emerald-600" aria-hidden="true">
             <path d="M.057 24l1.687-6.163A11.867 11.867 0 010 12C0 5.373 5.373 0 12 0c3.181 0 6.167 1.24 8.413 3.488A11.82 11.82 0 0124 12c0 6.627-5.373 12-12 12a11.86 11.86 0 01-5.7-1.452L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
           </svg>
           Hablar por WhatsApp
         </a>
       </div>
 
-      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-horno-magentaDeep/70">
-        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Entregas en Loja</span>
-        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Por pedido</span>
-        <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-horno-magenta"></span> Calidad artesanal</span>
-      </div>
+      <dl class="mt-10 grid max-w-xl grid-cols-3 gap-3 text-sm">
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur">
+          <dt class="font-display text-xl text-horno-magenta">Loja</dt>
+          <dd class="mt-1 text-horno-magentaDeep/65">entregas locales</dd>
+        </div>
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur">
+          <dt class="font-display text-xl text-horno-magenta">48h</dt>
+          <dd class="mt-1 text-horno-magentaDeep/65">ideal para pedir</dd>
+        </div>
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur">
+          <dt class="font-display text-xl text-horno-magenta">100%</dt>
+          <dd class="mt-1 text-horno-magentaDeep/65">artesanal</dd>
+        </div>
+      </dl>
     </div>
 
-    <div class="relative flex items-center justify-center">
-      <div class="penguin-sprite" aria-hidden="true"></div>
+    <div class="relative flex min-h-[360px] items-center justify-center lg:min-h-[500px]">
+      <div class="hero-card" aria-hidden="true">
+        <div class="hero-card-grid"></div>
+        <div class="penguin-sprite" aria-hidden="true"></div>
+        <div class="order-ticket order-ticket-top">Recién horneado</div>
+        <div class="order-ticket order-ticket-bottom">Pedidos por WhatsApp</div>
+      </div>
     </div>
   </div>
 </header>
 
 <script>
   import "~/scripts/mobile-nav.js";
-</script>
-
-<script>
-  // Play penguin animation once on page load
-  document.addEventListener("DOMContentLoaded", () => {
-    const penguin = document.querySelector(".penguin-sprite");
-    if (penguin) {
-      penguin.classList.add("is-animated");
-    }
-  });
 </script>
 
 <div class="ornament-divider" aria-hidden="true"></div>

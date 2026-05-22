@@ -34,13 +34,14 @@
         content.style.maxHeight = content.scrollHeight + "px";
       });
     } else {
-      content.style.maxHeight = "0px";
+      content.style.maxHeight = content.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        content.style.maxHeight = "0px";
+      });
       content.addEventListener(
         "transitionend",
         () => {
-          if (!details.hasAttribute("open")) {
-            details.removeAttribute("open");
-          }
+          details.removeAttribute("open");
         },
         { once: true }
       );

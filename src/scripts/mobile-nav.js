@@ -45,7 +45,7 @@
     btn.setAttribute("aria-label", "Cerrar menú");
   }
 
-  function close() {
+  function close({ restoreFocus = true } = {}) {
     const btn = getButton();
     const nav = getNav();
     if (!btn || !nav) return;
@@ -53,7 +53,7 @@
     nav.setAttribute("data-menu-open", "false");
     btn.setAttribute("aria-expanded", "false");
     btn.setAttribute("aria-label", "Abrir menú");
-    btn.focus();
+    if (restoreFocus) btn.focus();
   }
 
   function toggle() {
@@ -118,6 +118,11 @@
         e.preventDefault();
         toggle();
       }
+    });
+
+    // Close menu after choosing an in-page destination.
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => close({ restoreFocus: false }));
     });
 
     // Global keyboard trap
