@@ -10,6 +10,7 @@ import Trust from "~/components/Trust.astro";
 import FAQ from "~/components/FAQ.astro";
 import FinalCTA from "~/components/FinalCTA.astro";
 import Contact from "~/components/Contact.astro";
+import StickyWhatsApp from "~/components/StickyWhatsApp.astro";
 import ErrorBoundary from "~/components/ErrorBoundary.astro";
 import { getOrganization, getProducts, loadFallback } from "~/lib/api";
 import type { Organization, Product } from "~/lib/api";
@@ -86,6 +87,7 @@ if (products.length > 0) {
     <FinalCTA />
     <Contact />
   </main>
+  <StickyWhatsApp />
 
   <script>
     import "~/scripts/scroll-animations.js";
