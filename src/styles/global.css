@@ -139,7 +139,10 @@
   background-size: calc(var(--sprite-display) * 4) var(--sprite-display);
   background-repeat: no-repeat;
   image-rendering: pixelated;
-  animation: penguin-mix 0.6s steps(4) infinite;
+}
+
+.penguin-sprite.is-animated {
+  animation: penguin-mix 0.6s steps(4) 1 forwards;
 }
 
 @media (min-width: 640px) {

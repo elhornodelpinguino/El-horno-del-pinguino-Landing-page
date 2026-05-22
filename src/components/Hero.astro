@@ -99,4 +99,14 @@ const description = org?.description ?? SITE.tagline;
   import "~/scripts/mobile-nav.js";
 </script>
 
+<script>
+  // Play penguin animation once on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    const penguin = document.querySelector(".penguin-sprite");
+    if (penguin) {
+      penguin.classList.add("is-animated");
+    }
+  });
+</script>
+
 <div class="ornament-divider" aria-hidden="true"></div>
