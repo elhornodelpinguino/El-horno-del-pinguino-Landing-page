@@ -754,21 +754,16 @@
   width: 92px;
   height: 92px;
   margin: 0 auto 1rem;
-  background-image: url("/penguin-sprite.png");
-  background-size: 368px 92px;
+  background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   image-rendering: pixelated;
-  animation: penguin-step-mix 1.45s steps(4, end) infinite;
 }
 
-.penguin-step-1 { animation-delay: 0ms; }
-.penguin-step-2 { animation-delay: 220ms; }
-.penguin-step-3 { animation-delay: 440ms; }
-
-@keyframes penguin-step-mix {
-  from { background-position: 0 0; }
-  to { background-position: -368px 0; }
-}
+.penguin-step-1 { background-image: url("/penguin-chef-smartphone-transparent.png"); }
+.penguin-step-2 { background-image: url("/penguin-chef-oven-transparent.png"); }
+.penguin-step-3 { background-image: url("/penguin-chef-delivery-box-transparent.png"); }
+.penguin-faq { background-image: url("/penguin-chef-question-bubble.png"); }
 
 .order-step-number {
   display: inline-flex;
@@ -975,9 +970,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ios-bubble,
-  .penguin-step,
-  .penguin-faq {
+  .ios-bubble {
     animation: none;
   }
 
@@ -1169,7 +1162,7 @@
   }
 }
 
-/* Generated from-scratch penguin action sprite sheets */
+/* Static section penguin pixel art */
 .pixel-scene-generated::before,
 .pixel-scene-generated::after {
   display: none;
@@ -1180,31 +1173,19 @@
   width: var(--action-size);
   height: var(--action-size);
   background-repeat: no-repeat;
-  background-size: calc(var(--action-size) * 4) var(--action-size);
-  background-position: 0 0;
+  background-size: contain;
+  background-position: center;
   image-rendering: pixelated;
-  animation: penguin-action-loop 1.45s steps(4, end) infinite;
 }
 
-.penguin-phone-action { background-image: url("/penguin-phone-sprite.png"); }
-.penguin-baking-action { background-image: url("/penguin-baking-sprite.png"); }
-.penguin-delivery-action { background-image: url("/penguin-delivery-sprite.png"); }
-.penguin-trust-action { background-image: url("/penguin-trust-sprite.png"); }
-.penguin-faq-action { background-image: url("/penguin-faq-sprite.png"); }
-
-@keyframes penguin-action-loop {
-  from { background-position: 0 0; }
-  to { background-position: calc(var(--action-size) * -4) 0; }
-}
+.penguin-phone-action { background-image: url("/penguin-chef-smartphone-transparent.png"); }
+.penguin-baking-action { background-image: url("/penguin-chef-oven-transparent.png"); }
+.penguin-delivery-action { background-image: url("/penguin-chef-delivery-box-transparent.png"); }
+.penguin-trust-action { background-image: url("/penguin-chef-clipboard-transparent.png"); }
+.penguin-faq-action { background-image: url("/penguin-chef-question-bubble.png"); }
 
 @media (min-width: 640px) {
   .penguin-action-sprite {
     --action-size: 128px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .penguin-action-sprite {
-    animation-play-state: paused;
   }
 }
