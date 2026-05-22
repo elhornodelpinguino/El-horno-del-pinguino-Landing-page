@@ -5,68 +5,72 @@ import { whatsappLink } from "~/lib/config";
 
 interface Props {
   product: Product;
+  index?: number;
 }
 
-const { product } = Astro.props;
+const { product, index = 0 } = Astro.props;
+const productName = displayProductName(product.name);
+const isFeatured = index === 0;
 const fallbackPhoto =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%23fef3ed'/><rect x='100' y='120' width='200' height='160' rx='12' fill='%23fbebde' stroke='%23a81452' stroke-width='2' opacity='0.3'/><circle cx='200' cy='200' r='48' fill='none' stroke='%23a81452' stroke-width='1.5' opacity='0.4'/><text x='200' y='208' font-size='14' text-anchor='middle' fill='%23a81452' font-family='sans-serif' opacity='0.6' letter-spacing='2'>PRODUCTO</text></svg>";
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%23fff7f0'/><circle cx='200' cy='190' r='116' fill='%23fbebde'/><path d='M122 246c28 34 129 34 157 0' fill='none' stroke='%23a81452' stroke-width='8' stroke-linecap='round' opacity='0.28'/><rect x='118' y='132' width='164' height='118' rx='26' fill='%23ffffff' stroke='%23a81452' stroke-width='5' opacity='0.55'/><circle cx='160' cy='182' r='13' fill='%23f49d50'/><circle cx='202' cy='174' r='10' fill='%23a81452' opacity='0.75'/><circle cx='240' cy='190' r='12' fill='%23f49d50' opacity='0.8'/><text x='200' y='313' font-size='16' text-anchor='middle' fill='%23a81452' font-family='sans-serif' font-weight='700' letter-spacing='3'>ARTESANAL</text></svg>";
 
 const orderLink = whatsappLink(
-  `Hola! Quiero pedir información sobre: ${displayProductName(product.name)} (${formatPrice(product.price)}). ¿Está disponible?`,
+  `Hola! Quiero pedir información sobre: ${productName} (${formatPrice(product.price)}). ¿Está disponible?`,
 );
 ---
 
-<article
-  class="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 hover:-translate-y-1"
->
-  <div
-    class="relative aspect-square overflow-hidden bg-horno-cream"
-  >
+<article class:list={["product-card group", isFeatured && "product-card-featured"]}>
+  <div class="product-card-media">
     <img
       src={product.photo_url || fallbackPhoto}
-      alt={product.name}
+      alt={productName}
       loading="lazy"
-      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
       onerror={`this.src='${fallbackPhoto}'`}
     />
-    {
-      product.on_demand && (
-        <span class="absolute top-3 left-3 bg-horno-magenta text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-          Por pedido
-        </span>
-      )
-    }
+    <div class="product-card-sheen" aria-hidden="true"></div>
+
+    <div class="absolute left-3 top-3 flex flex-wrap gap-2">
+      {isFeatured && <span class="product-badge product-badge-warm">Favorito</span>}
+      {product.on_demand && <span class="product-badge">Por pedido</span>}
+    </div>
   </div>
 
-  <div class="flex flex-col flex-1 p-5">
-    <h3 class="font-display text-lg text-horno-magentaDeep leading-snug mb-2">
-      {displayProductName(product.name)}
-    </h3>
-    <p class="text-sm text-horno-magentaDeep/70 line-clamp-3 mb-4 flex-1">
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <div class="mb-3 flex items-start justify-between gap-3">
+      <h3 class="font-display text-xl leading-snug text-horno-magentaDeep">
+        {productName}
+      </h3>
+      <span class="rounded-full bg-horno-cream px-3 py-1 text-xs font-semibold text-horno-magentaDeep/70">
+        Artesanal
+      </span>
+    </div>
+
+    <p class="mb-5 line-clamp-3 flex-1 text-sm leading-relaxed text-horno-magentaDeep/70">
       {product.description}
     </p>
-    <div class="flex items-center justify-between gap-3 mt-auto">
-      <span class="text-xl font-semibold text-horno-magenta">
-        {formatPrice(product.price)}
-      </span>
+
+    <div class="mb-5 flex flex-wrap gap-2 text-xs font-medium text-horno-magentaDeep/70">
+      <span class="rounded-full bg-horno-cream/80 px-3 py-1.5">🎁 Personalizable</span>
+      <span class="rounded-full bg-horno-cream/80 px-3 py-1.5">📍 Loja</span>
+    </div>
+
+    <div class="mt-auto flex items-center justify-between gap-3 border-t border-horno-creamDark/70 pt-5">
+      <div>
+        <span class="block text-xs text-horno-magentaDeep/50">Desde</span>
+        <span class="text-2xl font-semibold text-horno-magenta">
+          {formatPrice(product.price)}
+        </span>
+      </div>
       <a
         href={orderLink}
         target="_blank"
         rel="noopener"
-        class="text-sm font-medium inline-flex items-center gap-1 text-horno-magenta hover:text-horno-magentaDeep transition"
+        class="inline-flex items-center gap-2 rounded-full bg-horno-magenta px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep"
       >
         Pedir
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </a>
     </div>
