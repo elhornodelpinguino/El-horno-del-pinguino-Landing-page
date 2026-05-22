@@ -11,11 +11,7 @@ const name = org?.name ?? SITE.name;
 const description = org?.description ?? SITE.tagline;
 ---
 
-<header class="animate-on-scroll relative overflow-hidden bg-gradient-to-b from-[#fbebde] via-[#fef3ed] to-white pt-6 pb-24 sm:pb-32">
-  <!-- Decorative blobs -->
-  <div aria-hidden="true" class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-horno-magenta/[0.04] blur-3xl"></div>
-  <div aria-hidden="true" class="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-horno-orange/[0.06] blur-3xl"></div>
-  <div aria-hidden="true" class="absolute -bottom-20 left-1/3 w-80 h-80 rounded-full bg-horno-magenta/[0.03] blur-3xl"></div>
+<header class="animate-on-scroll relative overflow-hidden pt-6 pb-24 sm:pb-32">
 
   <nav class="section flex items-center justify-between relative z-10">
     <a href="#" class="flex items-center gap-3 group">
@@ -93,18 +89,8 @@ const description = org?.description ?? SITE.tagline;
       </div>
     </div>
 
-    <div class="relative">
-      <div
-        class="aspect-square rounded-[2rem] overflow-hidden shadow-soft ring-1 ring-white/50 relative bg-white flex items-center justify-center"
-      >
-        <div class="penguin-sprite" aria-hidden="true"></div>
-        <!-- Badge -->
-        <div class="absolute top-4 right-4 bg-horno-magenta text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">Nuevo</div>
-      </div>
-      <div class="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-card px-4 py-2.5 flex items-center gap-2.5">
-        <div class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-        <p class="text-xs font-medium text-horno-magentaDeep">Tomando pedidos hoy</p>
-      </div>
+    <div class="relative flex items-center justify-center">
+      <div class="penguin-sprite" aria-hidden="true"></div>
     </div>
   </div>
 </header>
