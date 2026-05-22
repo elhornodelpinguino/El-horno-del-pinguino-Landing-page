@@ -2,61 +2,52 @@
 import { SITE, whatsappLink } from "~/lib/config";
 ---
 
-<section id="como-pedir" class="animate-on-scroll py-20 sm:py-28">
-  <div class="section">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <span class="eyebrow">Es muy fácil</span>
-      <h2 class="text-3xl sm:text-4xl mb-4">
-        ¿Cómo hacer tu <span class="text-horno-magenta">pedido</span>?
+<section id="como-pedir" class="order-section animate-on-scroll relative overflow-hidden py-20 sm:py-28">
+  <div class="ios-bubble order-bubble order-bubble-1" aria-hidden="true"></div>
+  <div class="ios-bubble order-bubble order-bubble-2" aria-hidden="true"></div>
+
+  <div class="section relative z-10">
+    <div class="mx-auto mb-14 max-w-2xl text-center">
+      <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">El pingüino te guía</span>
+      <h2 class="mt-4 mb-4 text-3xl sm:text-4xl">
+        Hacer tu pedido debería sentirse <span class="text-horno-magenta">fácil y claro</span>
       </h2>
       <p class="text-horno-magentaDeep/70">
-        Tres pasos simples para endulzar tu ocasión especial.
+        Convertimos el “quiero algo rico” en un pedido concreto: sabor, tamaño, dedicatoria, fecha y entrega.
       </p>
     </div>
 
-    <div class="animate-group grid gap-6 sm:grid-cols-3 max-w-4xl mx-auto">
-      <div class="animate-item bg-white rounded-3xl p-8 shadow-card text-center hover:-translate-y-1 transition-all duration-300 relative overflow-hidden" style="--i: 0">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-horno-cream/50 rounded-bl-full -mr-4 -mt-4"></div>
-        <div class="relative z-10">
-          <span class="text-5xl font-display text-horno-magenta/20 leading-none">01</span>
-          <h3 class="font-display text-lg text-horno-magentaDeep mb-2 mt-2">Escríbenos por WhatsApp</h3>
-          <p class="text-sm text-horno-magentaDeep/70">
-            Cuéntanos qué necesitas, para cuándo y cualquier detalle especial que quieras incluir.
-          </p>
-        </div>
-      </div>
+    <div class="animate-group mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+      <article class="order-step-card animate-item" style="--i: 0">
+        <div class="penguin-step penguin-step-1" aria-hidden="true"></div>
+        <span class="order-step-number">01</span>
+        <h3>El pingüino recibe tu idea</h3>
+        <p>Escribís por WhatsApp con la ocasión, fecha y cantidad aproximada.</p>
+      </article>
 
-      <div class="animate-item bg-white rounded-3xl p-8 shadow-card text-center hover:-translate-y-1 transition-all duration-300 relative overflow-hidden" style="--i: 1">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-horno-cream/50 rounded-bl-full -mr-4 -mt-4"></div>
-        <div class="relative z-10">
-          <span class="text-5xl font-display text-horno-magenta/20 leading-none">02</span>
-          <h3 class="font-display text-lg text-horno-magentaDeep mb-2 mt-2">Personalizamos</h3>
-          <p class="text-sm text-horno-magentaDeep/70">
-            Diseñamos el postre a tu medida: tamaño, decoración, sabores y presentación.
-          </p>
-        </div>
-      </div>
+      <article class="order-step-card animate-item order-step-card-featured" style="--i: 1">
+        <div class="penguin-step penguin-step-2" aria-hidden="true"></div>
+        <span class="order-step-number">02</span>
+        <h3>Ajustamos el postre</h3>
+        <p>Te ayudamos a definir sabor, tamaño, decoración, empaque y mensaje.</p>
+      </article>
 
-      <div class="animate-item bg-white rounded-3xl p-8 shadow-card text-center hover:-translate-y-1 transition-all duration-300 relative overflow-hidden" style="--i: 2">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-horno-cream/50 rounded-bl-full -mr-4 -mt-4"></div>
-        <div class="relative z-10">
-          <span class="text-5xl font-display text-horno-magenta/20 leading-none">03</span>
-          <h3 class="font-display text-lg text-horno-magentaDeep mb-2 mt-2">Recibe y disfruta</h3>
-          <p class="text-sm text-horno-magentaDeep/70">
-            Entregamos en Loja en la fecha acordada. Solo te preocupas de disfrutar.
-          </p>
-        </div>
-      </div>
+      <article class="order-step-card animate-item" style="--i: 2">
+        <div class="penguin-step penguin-step-3" aria-hidden="true"></div>
+        <span class="order-step-number">03</span>
+        <h3>Sale del horno a tiempo</h3>
+        <p>Confirmamos pago, dirección y entrega en Loja para que llegue listo.</p>
+      </article>
     </div>
 
-    <div class="text-center mt-10">
+    <div class="mt-10 text-center">
       <a
-        href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido.`)}
+        href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido. ¿Me guía el pingüino chef?`)}
         target="_blank"
         rel="noopener"
         class="btn-primary"
       >
-        Empezar pedido
+        Empezar pedido guiado
       </a>
     </div>
   </div>

@@ -1,41 +1,44 @@
-<section class="testimonials-section animate-on-scroll py-20 sm:py-28">
+---
+import { instagramLink } from "~/lib/config";
+---
+
+<section class="social-proof-section animate-on-scroll py-20 sm:py-28">
   <div class="section">
     <div class="mx-auto mb-12 max-w-2xl text-center">
       <span class="eyebrow">Confianza real</span>
       <h2 class="mb-4 text-3xl sm:text-4xl">
-        Detalles que hacen que un pedido <span class="text-horno-magenta">se sienta especial</span>
+        Mejor que inventar reseñas: <span class="text-horno-magenta">mostremos el proceso</span>
       </h2>
       <p class="text-horno-magentaDeep/70">
-        Dejé estas tarjetas como base visual; cuando tengamos reseñas reales, cambiamos el texto por comentarios de clientes.
+        Esta zona queda preparada para alimentar confianza con Instagram: fotos reales, stories, empaques y pedidos terminados.
       </p>
     </div>
 
     <div class="animate-group grid gap-5 md:grid-cols-3">
-      <article class="testimonial-card animate-item" style="--i: 0">
-        <div class="mb-5 flex items-center justify-between">
-          <span class="testimonial-avatar">C</span>
-          <span class="text-sm text-horno-orange">★★★★★</span>
-        </div>
-        <p>“La presentación importa tanto como el sabor. Un postre bonito cambia cómo se siente el regalo.”</p>
-        <footer>Pedido para cumpleaños</footer>
+      <article class="social-proof-card animate-item" style="--i: 0">
+        <span class="social-proof-tag">Fotos reales</span>
+        <h3>Pedidos terminados</h3>
+        <p>Subí el producto final: corte, empaque, dedicatoria y entrega.</p>
       </article>
 
-      <article class="testimonial-card animate-item testimonial-card-featured" style="--i: 1">
-        <div class="mb-5 flex items-center justify-between">
-          <span class="testimonial-avatar">F</span>
-          <span class="text-sm text-horno-orange">★★★★★</span>
-        </div>
-        <p>“Coordinar por WhatsApp baja la fricción: fecha, tamaño, dedicatoria y entrega quedan claros.”</p>
-        <footer>Pedido familiar</footer>
+      <article class="social-proof-card animate-item social-proof-card-featured" style="--i: 1">
+        <span class="social-proof-tag">Instagram</span>
+        <h3>Stories que prueban trabajo</h3>
+        <p>Un highlight de “Pedidos” vale más que tres frases genéricas.</p>
+        <a href={instagramLink()} target="_blank" rel="noopener" class="social-proof-link">
+          <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+            <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" />
+          </svg>
+          Ver Instagram
+        </a>
       </article>
 
-      <article class="testimonial-card animate-item" style="--i: 2">
-        <div class="mb-5 flex items-center justify-between">
-          <span class="testimonial-avatar">D</span>
-          <span class="text-sm text-horno-orange">★★★★★</span>
-        </div>
-        <p>“El detalle artesanal se nota cuando el producto no parece sacado de una plantilla.”</p>
-        <footer>Detalle personalizado</footer>
+      <article class="social-proof-card animate-item" style="--i: 2">
+        <span class="social-proof-tag">Reseñas luego</span>
+        <h3>Comentarios verificados</h3>
+        <p>Cuando tengamos capturas reales, reemplazamos esta tarjeta.</p>
       </article>
     </div>
   </div>

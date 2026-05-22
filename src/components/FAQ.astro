@@ -1,85 +1,88 @@
-<section class="animate-on-scroll py-20 sm:py-28">
-  <div class="section">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <span class="eyebrow">Preguntas frecuentes</span>
-      <h2 class="text-3xl sm:text-4xl mb-4">
-        Resolvemos tus <span class="text-horno-magenta">dudas</span>
-      </h2>
-      <p class="text-horno-magentaDeep/70">
-        Lo que siempre nos preguntan. Si tienes otra consulta, escríbenos.
-      </p>
-    </div>
+<section class="faq-section animate-on-scroll relative overflow-hidden py-20 sm:py-28">
+  <div class="section relative z-10">
+    <div class="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+      <div class="faq-intro-card">
+        <div class="penguin-faq" aria-hidden="true"></div>
+        <span class="eyebrow">El pingüino responde</span>
+        <h2 class="mt-3 text-3xl leading-tight sm:text-4xl">
+          Dudas normales antes de pedir algo para una fecha importante.
+        </h2>
+        <p class="mt-4 text-horno-magentaDeep/70">
+          Si algo no queda claro, el camino real siempre es WhatsApp: ahí definimos detalles del pedido sin perder tiempo.
+        </p>
+      </div>
 
-    <div class="max-w-3xl mx-auto space-y-3" data-faq-root>
-      <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
-        <summary class="flex items-center justify-between gap-4 px-5 py-4 min-h-[44px] cursor-pointer list-none font-display text-base text-horno-magentaDeep hover:text-horno-magenta transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-horno-magenta focus-visible:ring-inset">
-          ¿Hacen envíos fuera de Loja?
-          <svg class="w-5 h-5 text-horno-magenta flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
-          <div class="px-5 pb-5 text-sm text-horno-magentaDeep/70 leading-relaxed">
-            Por ahora solo realizamos entregas dentro de Loja. ¡Estamos trabajando para ampliar cobertura pronto!
+      <div class="space-y-3" data-faq-root>
+        <details class="faq-item group">
+          <summary class="faq-summary">
+            ¿Hacen envíos fuera de Loja?
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
+            <div class="faq-answer">
+              Por ahora solo realizamos entregas dentro de Loja. Si el pedido requiere coordinación especial, lo revisamos por WhatsApp antes de confirmar.
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
-        <summary class="flex items-center justify-between gap-4 px-5 py-4 min-h-[44px] cursor-pointer list-none font-display text-base text-horno-magentaDeep hover:text-horno-magenta transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-horno-magenta focus-visible:ring-inset">
-          ¿Con cuánta anticipación debo pedir?
-          <svg class="w-5 h-5 text-horno-magenta flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
-          <div class="px-5 pb-5 text-sm text-horno-magentaDeep/70 leading-relaxed">
-            Recomendamos 2-3 días para pedidos normales y al menos 1 semana para pedidos personalizados. Así aseguramos que todo salga perfecto.
+        <details class="faq-item group">
+          <summary class="faq-summary">
+            ¿Con cuánta anticipación debo pedir?
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
+            <div class="faq-answer">
+              Lo ideal es escribir con 2 a 3 días de anticipación. Para pedidos personalizados, decoración especial o fechas con alta demanda, mejor coordinar con una semana.
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
-        <summary class="flex items-center justify-between gap-4 px-5 py-4 min-h-[44px] cursor-pointer list-none font-display text-base text-horno-magentaDeep hover:text-horno-magenta transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-horno-magenta focus-visible:ring-inset">
-          ¿Puedo personalizar un pastel?
-          <svg class="w-5 h-5 text-horno-magenta flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
-          <div class="px-5 pb-5 text-sm text-horno-magentaDeep/70 leading-relaxed">
-            ¡Claro que sí! Escríbenos por WhatsApp con tu idea y la hacemos realidad. Diseño, tamaño, sabores, decoración — todo se puede personalizar.
+        <details class="faq-item group">
+          <summary class="faq-summary">
+            ¿Puedo personalizar un pastel?
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
+            <div class="faq-answer">
+              Sí. Podés enviar referencias, colores, dedicatoria o idea general. Te ayudamos a bajarlo a algo viable, bonito y entregable.
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
-        <summary class="flex items-center justify-between gap-4 px-5 py-4 min-h-[44px] cursor-pointer list-none font-display text-base text-horno-magentaDeep hover:text-horno-magenta transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-horno-magenta focus-visible:ring-inset">
-          ¿Tienen opciones sin azúcar o sin gluten?
-          <svg class="w-5 h-5 text-horno-magenta flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
-          <div class="px-5 pb-5 text-sm text-horno-magentaDeep/70 leading-relaxed">
-            Trabajamos algunas opciones bajo pedido. Consúltanos qué necesitas y vemos cómo adaptarlo para ti.
+        <details class="faq-item group">
+          <summary class="faq-summary">
+            ¿Tienen opciones sin azúcar o sin gluten?
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
+            <div class="faq-answer">
+              Trabajamos algunas opciones bajo pedido. Contanos qué necesitás y revisamos si podemos adaptarlo sin comprometer sabor ni seguridad.
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="bg-white rounded-2xl shadow-card overflow-hidden group">
-        <summary class="flex items-center justify-between gap-4 px-5 py-4 min-h-[44px] cursor-pointer list-none font-display text-base text-horno-magentaDeep hover:text-horno-magenta transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-horno-magenta focus-visible:ring-inset">
-          ¿Cuáles son los métodos de pago?
-          <svg class="w-5 h-5 text-horno-magenta flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
-          <div class="px-5 pb-5 text-sm text-horno-magentaDeep/70 leading-relaxed">
-            Aceptamos efectivo y transferencia bancaria. Te confirmamos los datos al coordinar tu pedido.
+        <details class="faq-item group">
+          <summary class="faq-summary">
+            ¿Cuáles son los métodos de pago?
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0">
+            <div class="faq-answer">
+              Aceptamos efectivo y transferencia bancaria. Los datos se confirman por WhatsApp al cerrar el pedido.
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
+      </div>
     </div>
   </div>
 </section>
