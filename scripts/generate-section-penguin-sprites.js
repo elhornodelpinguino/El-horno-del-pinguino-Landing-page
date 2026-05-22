@@ -195,7 +195,6 @@ function drawBakingFrame(i) {
   drawPenguin(c, 24, 36, { bob: i % 2, wing: i % 2 });
   rect(c, 28, 43 + (i % 2), 45, 46 + (i % 2), "b");
   rect(c, 31, 40 + (i % 2), 41, 44 + (i % 2), "B");
-  if (i % 2) { px(c, 42, 32, "Y"); px(c, 44, 30, "Y"); }
   return c;
 }
 
