@@ -1168,3 +1168,43 @@
     animation: none;
   }
 }
+
+/* Generated from-scratch penguin action sprite sheets */
+.pixel-scene-generated::before,
+.pixel-scene-generated::after {
+  display: none;
+}
+
+.penguin-action-sprite {
+  --action-size: 112px;
+  width: var(--action-size);
+  height: var(--action-size);
+  background-repeat: no-repeat;
+  background-size: calc(var(--action-size) * 4) var(--action-size);
+  background-position: 0 0;
+  image-rendering: pixelated;
+  animation: penguin-action-loop 1.45s steps(4, end) infinite;
+}
+
+.penguin-phone-action { background-image: url("/penguin-phone-sprite.png"); }
+.penguin-baking-action { background-image: url("/penguin-baking-sprite.png"); }
+.penguin-delivery-action { background-image: url("/penguin-delivery-sprite.png"); }
+.penguin-trust-action { background-image: url("/penguin-trust-sprite.png"); }
+.penguin-faq-action { background-image: url("/penguin-faq-sprite.png"); }
+
+@keyframes penguin-action-loop {
+  from { background-position: 0 0; }
+  to { background-position: calc(var(--action-size) * -4) 0; }
+}
+
+@media (min-width: 640px) {
+  .penguin-action-sprite {
+    --action-size: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .penguin-action-sprite {
+    animation-play-state: paused;
+  }
+}
