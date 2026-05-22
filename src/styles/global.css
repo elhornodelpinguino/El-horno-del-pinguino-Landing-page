@@ -127,6 +127,42 @@
   }
 }
 
+/* ============================================
+   Penguin Sprite Animation
+   ============================================ */
+
+.penguin-sprite {
+  --sprite-display: 224px;
+  width: var(--sprite-display);
+  height: var(--sprite-display);
+  background-image: url("/penguin-sprite.png");
+  background-size: calc(var(--sprite-display) * 4) var(--sprite-display);
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: penguin-mix 0.6s steps(4) infinite;
+}
+
+@media (min-width: 640px) {
+  .penguin-sprite {
+    --sprite-display: 240px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .penguin-sprite {
+    --sprite-display: 256px;
+  }
+}
+
+@keyframes penguin-mix {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: calc(var(--sprite-display) * -3) 0;
+  }
+}
+
 /* Respect reduced motion — skip all animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-on-scroll {
@@ -137,6 +173,11 @@
 
   .animate-group .animate-item {
     transition-delay: 0ms !important;
+  }
+
+  .penguin-sprite {
+    animation: none;
+    background-position: 0 0;
   }
 }
 

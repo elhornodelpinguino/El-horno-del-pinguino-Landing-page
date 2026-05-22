@@ -94,15 +94,10 @@ const description = org?.description ?? SITE.tagline;
     </div>
 
     <div class="relative">
-      <div class="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-soft ring-1 ring-white/50 relative bg-white">
-        <img
-          src="/chesscake-hero.png"
-          alt="Cheesecake artesanal — Horno del Pingüino"
-          class="w-full h-full object-cover"
-          loading="eager"
-        />
-        <!-- Subtle gradient overlay at bottom -->
-        <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent"></div>
+      <div
+        class="aspect-square rounded-[2rem] overflow-hidden shadow-soft ring-1 ring-white/50 relative bg-white flex items-center justify-center"
+      >
+        <div class="penguin-sprite" aria-hidden="true"></div>
         <!-- Badge -->
         <div class="absolute top-4 right-4 bg-horno-magenta text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full">Nuevo</div>
       </div>
