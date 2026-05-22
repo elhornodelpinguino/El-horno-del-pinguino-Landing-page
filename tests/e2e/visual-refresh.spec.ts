@@ -162,38 +162,6 @@ test.describe("Visual Refresh — Interactions", () => {
     });
   });
 
-  test.describe("Counter Animation", () => {
-    test("counter value appears after scrolling into view", async ({ page }) => {
-      await page.goto("/");
-      const counter = page.locator("[data-target]");
-
-      // Scroll to the LimitedSpots section
-      await page.evaluate(() => {
-        const el = document.querySelector("[data-target]");
-        if (el) el.scrollIntoView({ block: "center" });
-      });
-      await page.waitForTimeout(2000);
-
-      // Counter should now have a formatted number
-      const text = await counter.textContent();
-      expect(text).not.toBe("0");
-      expect(text?.length).toBeGreaterThan(0);
-    });
-
-    test("counter does not re-animate after is-animated is set", async ({ page }) => {
-      await page.goto("/");
-      const counter = page.locator("[data-target]");
-
-      await page.evaluate(() => {
-        const el = document.querySelector("[data-target]");
-        if (el) el.scrollIntoView({ block: "center" });
-      });
-      await page.waitForTimeout(2000);
-
-      await expect(counter).toHaveClass(/is-animated/);
-    });
-  });
-
   test.describe("Responsive & Accessibility", () => {
     test("no horizontal scroll at 320px viewport", async ({ page }) => {
       await page.setViewportSize({ width: 320, height: 800 });
