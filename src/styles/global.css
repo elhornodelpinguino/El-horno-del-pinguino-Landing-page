@@ -991,48 +991,11 @@
   gap: 1rem;
 }
 
-.hero-actions-main,
-.hero-socials {
+.hero-actions-main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
-}
-
-.hero-socials {
-  width: fit-content;
-  border: 1px solid rgba(168, 20, 82, 0.1);
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 12px 30px -24px rgba(138, 15, 67, 0.55);
-  padding: 0.45rem 0.55rem 0.45rem 0.9rem;
-  backdrop-filter: blur(12px);
-}
-
-.hero-socials > span {
-  color: rgba(138, 15, 67, 0.58);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.hero-socials a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  border-radius: 9999px;
-  color: #8a0f43;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.55rem 0.75rem;
-  transition: background 200ms ease, color 200ms ease, transform 200ms ease;
-}
-
-.hero-socials a:hover {
-  background: rgba(168, 20, 82, 0.08);
-  color: #a81452;
-  transform: translateY(-1px);
 }
 
 .pixel-scene {

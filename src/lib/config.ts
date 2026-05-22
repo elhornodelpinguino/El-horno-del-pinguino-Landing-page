@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "Horno del Pingüino",
+  name: "El Horno del Pingüino",
   tagline: "Postres artesanales con buena presentación, sabor consistente y atención cercana.",
   description:
     "Creamos postres artesanales hechos para sorprender. Calidad, creatividad y cercanía en cada pedido.",
