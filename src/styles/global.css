@@ -988,3 +988,183 @@
     transform: none;
   }
 }
+
+/* ============================================
+   Cleaner layout + pixel-art scene roles
+   ============================================ */
+
+.hero-actions {
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-actions-main,
+.hero-socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-socials {
+  width: fit-content;
+  border: 1px solid rgba(168, 20, 82, 0.1);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 12px 30px -24px rgba(138, 15, 67, 0.55);
+  padding: 0.45rem 0.55rem 0.45rem 0.9rem;
+  backdrop-filter: blur(12px);
+}
+
+.hero-socials > span {
+  color: rgba(138, 15, 67, 0.58);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 9999px;
+  color: #8a0f43;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.55rem 0.75rem;
+  transition: background 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.hero-socials a:hover {
+  background: rgba(168, 20, 82, 0.08);
+  color: #a81452;
+  transform: translateY(-1px);
+}
+
+.pixel-scene {
+  position: relative;
+  display: grid;
+  min-height: 8.5rem;
+  place-items: center;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(rgba(168, 20, 82, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 20, 82, 0.05) 1px, transparent 1px),
+    rgba(251, 235, 222, 0.45);
+  background-size: 14px 14px;
+}
+
+.pixel-scene .penguin-step {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+}
+
+.pixel-scene::before,
+.pixel-scene::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  image-rendering: pixelated;
+}
+
+.pixel-scene-phone::after,
+.pixel-scene-typing::after {
+  right: 23%;
+  top: 34%;
+  width: 1.25rem;
+  height: 2rem;
+  border: 3px solid #111827;
+  border-radius: 0.25rem;
+  background: linear-gradient(#a7f3d0 0 72%, #111827 72% 82%, #a7f3d0 82%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+  animation: pixel-phone-bob 1.45s steps(2, end) infinite;
+}
+
+.pixel-scene-bake::after,
+.pixel-scene-oven::after {
+  right: 14%;
+  bottom: 18%;
+  width: 3.3rem;
+  height: 2.65rem;
+  border: 4px solid #111827;
+  border-radius: 0.25rem;
+  background:
+    linear-gradient(#8a0f43 0 22%, transparent 22%),
+    linear-gradient(90deg, transparent 0 18%, #f49d50 18% 28%, transparent 28% 46%, #f49d50 46% 56%, transparent 56%),
+    #fbebde;
+}
+
+.pixel-scene-bake::before,
+.pixel-scene-oven::before {
+  right: 18%;
+  bottom: 27%;
+  width: 2.3rem;
+  height: 0.7rem;
+  background: #f49d50;
+  clip-path: polygon(0 100%, 14% 0, 86% 0, 100% 100%);
+  animation: pixel-heat 1.45s steps(2, end) infinite;
+}
+
+.pixel-scene-delivery::after {
+  right: 14%;
+  bottom: 24%;
+  width: 3.4rem;
+  height: 2.3rem;
+  border: 4px solid #111827;
+  border-radius: 0.2rem;
+  background:
+    linear-gradient(90deg, #fbebde 0 62%, #f49d50 62%),
+    #fbebde;
+}
+
+.pixel-scene-delivery::before {
+  right: 17%;
+  bottom: 18%;
+  width: 3rem;
+  height: 0.55rem;
+  background:
+    radial-gradient(circle at 18% 50%, #111827 0 0.28rem, transparent 0.3rem),
+    radial-gradient(circle at 82% 50%, #111827 0 0.28rem, transparent 0.3rem);
+  animation: pixel-delivery-roll 1.45s steps(4, end) infinite;
+}
+
+@keyframes pixel-phone-bob {
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pixel-heat {
+  50% { transform: translateY(-3px); opacity: 0.65; }
+}
+
+@keyframes pixel-delivery-roll {
+  50% { transform: translateX(4px); }
+}
+
+.order-step-card p,
+.trust-card p,
+.social-proof-card p,
+.faq-intro-card p {
+  display: none;
+}
+
+.trust-card {
+  text-align: center;
+}
+
+.trust-card h3 {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-scene-phone::after,
+  .pixel-scene-typing::after,
+  .pixel-scene-bake::before,
+  .pixel-scene-oven::before,
+  .pixel-scene-delivery::before {
+    animation: none;
+  }
+}

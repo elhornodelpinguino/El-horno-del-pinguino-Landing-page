@@ -36,7 +36,7 @@ const { products } = Astro.props;
     {
       products.length === 0 ? (
         <div class="animate-on-scroll rounded-[2rem] bg-white/70 py-20 text-center shadow-card backdrop-blur">
-          <p class="mb-3 text-4xl">🍰</p>
+          <div class="mx-auto mb-4 h-12 w-12 rounded-2xl bg-horno-cream shadow-card" aria-hidden="true"></div>
           <p class="font-display text-xl text-horno-magentaDeep">Estamos preparando nuevas creaciones</p>
           <p class="mx-auto mt-2 max-w-md text-horno-magentaDeep/60">Vuelve pronto o escríbenos por WhatsApp para encargos personalizados.</p>
         </div>

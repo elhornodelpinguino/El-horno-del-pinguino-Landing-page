@@ -7,47 +7,36 @@ import { SITE, whatsappLink } from "~/lib/config";
   <div class="ios-bubble order-bubble order-bubble-2" aria-hidden="true"></div>
 
   <div class="section relative z-10">
-    <div class="mx-auto mb-14 max-w-2xl text-center">
-      <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">El pingüino te guía</span>
-      <h2 class="mt-4 mb-4 text-3xl sm:text-4xl">
-        Hacer tu pedido debería sentirse <span class="text-horno-magenta">fácil y claro</span>
+    <div class="mx-auto mb-12 max-w-2xl text-center">
+      <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedido guiado</span>
+      <h2 class="mt-4 text-3xl sm:text-4xl">
+        Tres pasos, sin vueltas
       </h2>
-      <p class="text-horno-magentaDeep/70">
-        Convertimos el “quiero algo rico” en un pedido concreto: sabor, tamaño, dedicatoria, fecha y entrega.
-      </p>
     </div>
 
     <div class="animate-group mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
       <article class="order-step-card animate-item" style="--i: 0">
-        <div class="penguin-step penguin-step-1" aria-hidden="true"></div>
+        <div class="pixel-scene pixel-scene-phone" aria-hidden="true"><div class="penguin-step"></div></div>
         <span class="order-step-number">01</span>
-        <h3>El pingüino recibe tu idea</h3>
-        <p>Escribís por WhatsApp con la ocasión, fecha y cantidad aproximada.</p>
+        <h3>Escribís por WhatsApp</h3>
       </article>
 
       <article class="order-step-card animate-item order-step-card-featured" style="--i: 1">
-        <div class="penguin-step penguin-step-2" aria-hidden="true"></div>
+        <div class="pixel-scene pixel-scene-bake" aria-hidden="true"><div class="penguin-step"></div></div>
         <span class="order-step-number">02</span>
-        <h3>Ajustamos el postre</h3>
-        <p>Te ayudamos a definir sabor, tamaño, decoración, empaque y mensaje.</p>
+        <h3>Se hornea tu pedido</h3>
       </article>
 
       <article class="order-step-card animate-item" style="--i: 2">
-        <div class="penguin-step penguin-step-3" aria-hidden="true"></div>
+        <div class="pixel-scene pixel-scene-delivery" aria-hidden="true"><div class="penguin-step"></div></div>
         <span class="order-step-number">03</span>
-        <h3>Sale del horno a tiempo</h3>
-        <p>Confirmamos pago, dirección y entrega en Loja para que llegue listo.</p>
+        <h3>Coordinamos entrega</h3>
       </article>
     </div>
 
     <div class="mt-10 text-center">
-      <a
-        href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido. ¿Me guía el pingüino chef?`)}
-        target="_blank"
-        rel="noopener"
-        class="btn-primary"
-      >
-        Empezar pedido guiado
+      <a href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido.`)} target="_blank" rel="noopener" class="btn-primary">
+        Empezar pedido
       </a>
     </div>
   </div>
