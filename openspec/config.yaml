@@ -1,9 +1,9 @@
 schema: spec-driven
 
 context: |
-  Tech stack: Astro 4, TypeScript strict, Tailwind CSS, shadcn/ui
-  Architecture: Static-first (SSG), no runtime server
-  Testing: Vitest (unit), Playwright (e2e smoke)
+  Tech stack: Astro 4.16, TypeScript strict, Tailwind CSS 3.4, npm, Node 20
+  Architecture: SSR with @astrojs/node (standalone), Docker multi-stage
+  Testing: Vitest 2.1 (unit), Playwright 1.52 (E2E smoke), GitHub Actions CI
   Style: Rioplatense Spanish UI copy, brand magenta #a81452 / crema #fbebde / naranja #f49d50
 
 rules:
