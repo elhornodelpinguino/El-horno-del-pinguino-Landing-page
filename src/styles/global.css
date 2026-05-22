@@ -45,6 +45,99 @@
     @apply inline-block text-xs uppercase tracking-[0.3em]
       text-horno-magenta/70 mb-3;
   }
+
+  /* Mobile hamburger — hamburger icon lines */
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: currentColor;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    border-radius: 1px;
+  }
+
+  /* Animate hamburger into X when menu is open */
+  [data-hamburger][aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(3px, 3px);
+  }
+
+  [data-hamburger][aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  [data-hamburger][aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(3px, -3px);
+  }
+
+  /* Mobile nav panel — hidden by default, slides in when open */
+  [data-mobile-nav] {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: rgba(251, 235, 222, 0.98);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+  }
+
+  [data-mobile-nav][data-menu-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Mobile nav links */
+  [data-mobile-nav] a {
+    @apply font-display text-2xl text-horno-magentaDeep no-underline
+      hover:text-horno-magenta transition-colors;
+  }
+}
+
+/* ============================================
+   Scroll-Triggered Animations
+   ============================================ */
+
+@layer utilities {
+  /* Hidden start state — elements wait off-screen */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
+  }
+
+  /* Revealed state — IO adds this class */
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Group container — children stagger */
+  .animate-group .animate-item {
+    transition-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  /* Cap stagger at 5 items so the last ones don't wait forever */
+  .animate-group .animate-item:nth-child(n + 6) {
+    transition-delay: 500ms;
+  }
+}
+
+/* Respect reduced motion — skip all animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-group .animate-item {
+    transition-delay: 0ms !important;
+  }
 }
 
 /* Decorative curved divider */

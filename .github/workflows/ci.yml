@@ -19,6 +19,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Security audit
+        run: npm audit --audit-level moderate
       - run: npm test
       - run: npm run build
       - name: Install Playwright browsers

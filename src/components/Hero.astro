@@ -7,12 +7,11 @@ interface Props {
 }
 
 const { org } = Astro.props;
-const logo = org?.logo_url || "/logo.png";
 const name = org?.name ?? SITE.name;
 const description = org?.description ?? SITE.tagline;
 ---
 
-<header class="relative overflow-hidden bg-gradient-to-b from-[#fbebde] via-[#fef3ed] to-white pt-6 pb-24 sm:pb-32">
+<header class="animate-on-scroll relative overflow-hidden bg-gradient-to-b from-[#fbebde] via-[#fef3ed] to-white pt-6 pb-24 sm:pb-32">
   <!-- Decorative blobs -->
   <div aria-hidden="true" class="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-horno-magenta/[0.04] blur-3xl"></div>
   <div aria-hidden="true" class="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-horno-orange/[0.06] blur-3xl"></div>
@@ -28,10 +27,32 @@ const description = org?.description ?? SITE.tagline;
       />
       <span class="font-display text-lg text-horno-magentaDeep hidden sm:inline">{name}</span>
     </a>
-    <div class="flex gap-6 text-sm font-medium text-horno-magentaDeep/80">
+
+    <!-- Desktop nav links — hidden on mobile -->
+    <div class="hidden sm:flex gap-6 text-sm font-medium text-horno-magentaDeep/80">
       <a href="#catalogo" class="hover:text-horno-magenta transition">Catálogo</a>
       <a href="#como-pedir" class="hover:text-horno-magenta transition">Cómo pedir</a>
       <a href="#contacto" class="hover:text-horno-magenta transition">Contacto</a>
+    </div>
+
+    <!-- Hamburger button — visible on mobile only -->
+    <button
+      data-hamburger
+      aria-controls="mobile-nav"
+      class="sm:hidden flex flex-col gap-1.5 p-3 -mr-3 min-w-[44px] min-h-[44px] items-center justify-center focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 rounded-lg"
+      aria-label="Abrir menú"
+      type="button"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Mobile nav overlay -->
+    <div id="mobile-nav" data-mobile-nav>
+      <a href="#catalogo" class="min-h-[44px] flex items-center" tabindex="0">Catálogo</a>
+      <a href="#como-pedir" class="min-h-[44px] flex items-center" tabindex="0">Cómo pedir</a>
+      <a href="#contacto" class="min-h-[44px] flex items-center" tabindex="0">Contacto</a>
     </div>
   </nav>
 
@@ -92,5 +113,9 @@ const description = org?.description ?? SITE.tagline;
     </div>
   </div>
 </header>
+
+<script>
+  import "~/scripts/mobile-nav.js";
+</script>
 
 <div class="ornament-divider" aria-hidden="true"></div>

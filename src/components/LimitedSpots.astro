@@ -2,7 +2,7 @@
 import { SITE, whatsappLink } from "~/lib/config";
 ---
 
-<section class="py-20 sm:py-28 bg-horno-cream relative overflow-hidden">
+<section class="animate-on-scroll py-20 sm:py-28 bg-horno-cream relative overflow-hidden">
   <div aria-hidden="true" class="absolute top-0 right-0 w-96 h-96 bg-horno-orange/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
   <div aria-hidden="true" class="absolute bottom-0 left-0 w-72 h-72 bg-horno-magenta/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
@@ -20,7 +20,8 @@ import { SITE, whatsappLink } from "~/lib/config";
       <div class="inline-flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-card mb-10">
         <span class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></span>
         <span class="font-display text-horno-magentaDeep">
-          Cupos de esta semana: <span class="text-emerald-600">Abiertos</span>
+          Cupos de esta semana:
+          <span data-target="15" class="counter text-emerald-600">0</span>
         </span>
       </div>
 
@@ -37,5 +38,9 @@ import { SITE, whatsappLink } from "~/lib/config";
     </div>
   </div>
 </section>
+
+<script>
+  import "~/scripts/counter-animation.js";
+</script>
 
 <div class="ornament-divider" aria-hidden="true"></div>
