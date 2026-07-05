@@ -162,6 +162,22 @@ test.describe("Visual Refresh — Interactions", () => {
     });
   });
 
+  test.describe("Business positioning", () => {
+    test("communicates business use cases above the fold", async ({ page }) => {
+      await page.goto("/");
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(/empresas|colegios|cafeterías/i);
+      await expect(page.getByText(/empresas, colegios y cafeterías/i)).toBeVisible();
+    });
+
+    test("shows a dedicated business use cases section", async ({ page }) => {
+      await page.goto("/");
+      await expect(page.getByRole("heading", { name: /postres para tu negocio/i })).toBeVisible();
+      await expect(page.getByText(/Reuniones y eventos/i)).toBeVisible();
+      await expect(page.getByText(/Colegios/i)).toBeVisible();
+      await expect(page.getByText(/Cafeterías/i)).toBeVisible();
+    });
+  });
+
   test.describe("Responsive & Accessibility", () => {
     test("no horizontal scroll at 320px viewport", async ({ page }) => {
       await page.setViewportSize({ width: 320, height: 800 });
@@ -193,6 +209,22 @@ test.describe("Visual Refresh — Interactions", () => {
       const minWidth = await hamburger.evaluate((el) => parseFloat(getComputedStyle(el).minWidth));
       expect(minHeight).toBeGreaterThanOrEqual(44);
       expect(minWidth).toBeGreaterThanOrEqual(44);
+    });
+
+    test("sticky WhatsApp CTA does not cover product order action on mobile", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/#catalogo");
+      const orderAction = page.getByRole("link", { name: /pedir/i }).first();
+      const stickyCta = page.getByRole("link", { name: /hacer pedido por whatsapp/i });
+
+      await orderAction.scrollIntoViewIfNeeded();
+      const orderBox = await orderAction.boundingBox();
+      const stickyBox = await stickyCta.boundingBox();
+
+      expect(orderBox).not.toBeNull();
+      expect(stickyBox).not.toBeNull();
+      const overlaps = orderBox!.bottom > stickyBox!.top && orderBox!.top < stickyBox!.bottom;
+      expect(overlaps).toBe(false);
     });
 
     test("FAQ summary has min 44px height on mobile", async ({ page }) => {

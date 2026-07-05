@@ -7,7 +7,7 @@ interface Props {
 }
 
 const name = SITE.name;
-const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesanal. ¿Me ayudan con sabores, tamaño y fecha?`;
+const orderMessage = `Hola ${name}! Vi su web y quiero cotizar postres para una empresa, colegio o cafetería. ¿Me ayudan con opciones, cantidad, fecha y entrega?`;
 ---
 
 <header class="hero-shell animate-on-scroll relative overflow-hidden pt-6 pb-20 sm:pb-28">
@@ -27,12 +27,12 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesan
 
     <div class="hidden items-center gap-7 rounded-full border border-white/70 bg-white/60 px-5 py-3 text-sm font-medium text-horno-magentaDeep/80 shadow-card backdrop-blur sm:flex">
       <a href="#catalogo" class="transition hover:text-horno-magenta">Catálogo</a>
-      <a href="#como-pedir" class="transition hover:text-horno-magenta">Cómo pedir</a>
+      <a href="#business-heading" class="transition hover:text-horno-magenta">Para negocios</a>
       <a href="#contacto" class="transition hover:text-horno-magenta">Contacto</a>
     </div>
 
     <a href={whatsappLink(orderMessage)} target="_blank" rel="noopener" class="hidden rounded-full bg-horno-magenta px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep md:inline-flex">
-      Cotizar ahora
+      Cotizar para empresa
     </a>
 
     <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-lg p-3 -mr-3 focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 sm:hidden" aria-label="Abrir menú" type="button">
@@ -43,7 +43,7 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesan
 
     <div id="mobile-nav" data-mobile-nav>
       <a href="#catalogo" class="flex min-h-[44px] items-center" tabindex="0">Catálogo</a>
-      <a href="#como-pedir" class="flex min-h-[44px] items-center" tabindex="0">Cómo pedir</a>
+      <a href="#business-heading" class="flex min-h-[44px] items-center" tabindex="0">Para negocios</a>
       <a href="#contacto" class="flex min-h-[44px] items-center" tabindex="0">Contacto</a>
     </div>
   </nav>
@@ -52,10 +52,10 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesan
     <div class="max-w-2xl">
       <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Postres artesanales en Loja</span>
       <h1 class="mt-4 mb-6 text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
-        Postres artesanales para <span class="text-horno-magenta">regalar, celebrar y sorprender</span>.
+        Postres artesanales para <span class="text-horno-magenta">empresas, colegios y cafeterías</span>.
       </h1>
       <p class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">
-        Postres artesanales con buena presentación, sabor consistente y atención cercana. Coordinamos tu pedido por WhatsApp con anticipación y cupos limitados para cuidar cada detalle.
+        Presentación cuidada, sabor consistente y coordinación clara para reuniones, eventos, vitrinas y ocasiones especiales. Cotizamos por WhatsApp según cantidad, fecha y entrega en Loja.
       </p>
 
       <div class="hero-actions">
@@ -72,9 +72,9 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesan
       </div>
 
       <dl class="mt-10 grid max-w-xl grid-cols-3 gap-3 text-sm">
-        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Loja</dt><dd class="mt-1 text-horno-magentaDeep/65">entregas locales</dd></div>
-        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Reserva</dt><dd class="mt-1 text-horno-magentaDeep/65">con anticipación</dd></div>
-        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Cupos</dt><dd class="mt-1 text-horno-magentaDeep/65">limitados</dd></div>
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Loja</dt><dd class="mt-1 text-horno-magentaDeep/65">entrega local</dd></div>
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Eventos</dt><dd class="mt-1 text-horno-magentaDeep/65">empresas y colegios</dd></div>
+        <div class="rounded-3xl bg-white/70 p-4 shadow-card ring-1 ring-white/70 backdrop-blur"><dt class="font-display text-xl text-horno-magenta">Pedidos</dt><dd class="mt-1 text-horno-magentaDeep/65">con anticipación</dd></div>
       </dl>
     </div>
 
@@ -82,8 +82,8 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar un postre artesan
       <div class="hero-card" aria-hidden="true">
         <div class="hero-card-grid"></div>
         <div class="penguin-sprite" aria-hidden="true"></div>
-        <div class="order-ticket order-ticket-top">Hecho para sorprender</div>
-        <div class="order-ticket order-ticket-bottom">Pedido con anticipación</div>
+        <div class="order-ticket order-ticket-top">Presentación cuidada</div>
+        <div class="order-ticket order-ticket-bottom">Pedido coordinado</div>
       </div>
     </div>
   </div>

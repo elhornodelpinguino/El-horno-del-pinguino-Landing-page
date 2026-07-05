@@ -26,7 +26,7 @@ const orderLink = whatsappLink(
       alt={productName}
       loading="lazy"
       class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
-      onerror={`this.src='${fallbackPhoto}'`}
+      onerror={`this.src=${JSON.stringify(fallbackPhoto)}`}
     />
     <div class="product-card-sheen" aria-hidden="true"></div>
 

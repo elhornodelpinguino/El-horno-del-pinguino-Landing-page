@@ -1,0 +1,47 @@
+---
+const useCases = [
+  {
+    title: "Empresas",
+    description:
+      "Postres para reuniones, cumpleaños internos, lanzamientos y fechas especiales con presentación lista para compartir.",
+  },
+  {
+    title: "Colegios",
+    description:
+      "Pedidos coordinados con anticipación para actividades, celebraciones y entregas por porciones o unidades.",
+  },
+  {
+    title: "Cafeterías",
+    description:
+      "Opciones artesanales para complementar vitrina, probar sabores de temporada o trabajar pedidos recurrentes.",
+  },
+];
+---
+
+<section class="business-section animate-on-scroll relative overflow-hidden py-16 sm:py-24" aria-labelledby="business-heading">
+  <div class="section relative z-10">
+    <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+      <div>
+        <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedidos para negocios</span>
+        <h2 id="business-heading" class="mt-4 text-3xl leading-tight sm:text-5xl">
+          Postres para tu negocio, evento o institución.
+        </h2>
+      </div>
+      <p class="rounded-3xl bg-white/70 p-5 leading-relaxed text-horno-magentaDeep/72 shadow-card backdrop-blur">
+        Si necesitás algo rico, presentable y fácil de coordinar, trabajamos pedidos por WhatsApp con fecha, cantidad, entrega y presentación claras desde el inicio.
+      </p>
+    </div>
+
+    <div class="animate-group mt-10 grid gap-5 md:grid-cols-3">
+      {useCases.map((item, index) => (
+        <article class="business-card animate-item" style={`--i: ${index}`}>
+          <span class="business-card-number">0{index + 1}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<div class="ornament-divider" aria-hidden="true"></div>

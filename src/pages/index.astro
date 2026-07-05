@@ -4,6 +4,7 @@ export const prerender = false;
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import Hero from "~/components/Hero.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
+import BusinessUseCases from "~/components/BusinessUseCases.astro";
 import HowToOrder from "~/components/HowToOrder.astro";
 
 import Trust from "~/components/Trust.astro";
@@ -69,7 +70,7 @@ if (products.length > 0) {
 }
 ---
 <BaseLayout
-  title={`${SITE.name} — Postres artesanales hechos para sorprender`}
+  title={`${SITE.name} — Postres artesanales para empresas y ocasiones especiales`}
   description={SITE.description}
   canonicalUrl="https://el-horno-del-pinguino-landing-page.onrender.com"
   jsonLd={jsonLd}
@@ -81,6 +82,7 @@ if (products.length > 0) {
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />
     </ErrorBoundary>
+    <BusinessUseCases />
     <HowToOrder />
     <Trust />
     <FAQ />

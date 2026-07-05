@@ -1,8 +1,8 @@
 export const SITE = {
   name: "El Horno del Pingüino",
-  tagline: "Postres artesanales con buena presentación, sabor consistente y atención cercana.",
+  tagline: "Postres artesanales con buena presentación, sabor consistente y coordinación cercana.",
   description:
-    "Creamos postres artesanales hechos para sorprender. Calidad, creatividad y cercanía en cada pedido.",
+    "Postres artesanales en Loja para empresas, colegios, cafeterías y ocasiones especiales. Coordinación clara por WhatsApp.",
   whatsapp:
     (import.meta.env.PUBLIC_WHATSAPP_NUMBER as string | undefined) ??
     "593994808252",
