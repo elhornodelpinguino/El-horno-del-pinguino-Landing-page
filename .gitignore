@@ -33,4 +33,5 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+.atl/.skill-registry.cache.json
 .vercel/
