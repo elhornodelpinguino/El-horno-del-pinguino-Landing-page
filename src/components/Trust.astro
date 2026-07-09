@@ -1,14 +1,14 @@
-<section class="trust-section animate-on-scroll relative overflow-hidden py-20 sm:py-28">
+<section class="trust-section relative overflow-hidden py-20 sm:py-28">
   <div class="section relative z-10">
     <div class="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
       <div>
-        <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Proceso claro</span>
-        <h2 class="mt-4 text-3xl leading-tight sm:text-4xl">
+        <span data-trust-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Proceso claro</span>
+        <h2 data-trust-anim="heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
           Confianza es saber qué se entrega, cuándo y cómo
         </h2>
       </div>
 
-      <div class="trust-receipt">
+      <div data-trust-anim="receipt" class="trust-receipt">
         <div class="pixel-scene pixel-scene-generated" aria-hidden="true"><div class="penguin-action-sprite penguin-trust-action"></div></div>
         <ul class="mt-4 space-y-3 text-sm text-horno-magentaDeep/74">
           <li><span>✓</span> Producto, porciones y cantidad</li>
@@ -19,25 +19,29 @@
       </div>
     </div>
 
-    <div class="animate-group mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <article class="trust-card animate-item" style="--i: 0">
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <article data-trust-anim="card" class="trust-card" style="--i: 0">
         <h3 class="text-lg">Chat directo</h3>
         <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Hablas con quien hornea, sin intermediarios ni formularios.</p>
       </article>
-      <article class="trust-card animate-item" style="--i: 1">
+      <article data-trust-anim="card" class="trust-card" style="--i: 1">
         <h3 class="text-lg">Presentación cuidada</h3>
         <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Empaque y decoración listos para servir o exhibir.</p>
       </article>
-      <article class="trust-card animate-item" style="--i: 2">
+      <article data-trust-anim="card" class="trust-card" style="--i: 2">
         <h3 class="text-lg">Entrega local</h3>
         <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Coordinamos día, hora y dirección dentro de Loja.</p>
       </article>
-      <article class="trust-card animate-item" style="--i: 3">
+      <article data-trust-anim="card" class="trust-card" style="--i: 3">
         <h3 class="text-lg">Pedidos recurrentes</h3>
         <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Reposición periódica para vitrinas, cafeterías y oficinas.</p>
       </article>
     </div>
   </div>
 </section>
+
+<script>
+  import "~/scripts/trust-animation.js";
+</script>
 
 <div class="ornament-divider" aria-hidden="true"></div>

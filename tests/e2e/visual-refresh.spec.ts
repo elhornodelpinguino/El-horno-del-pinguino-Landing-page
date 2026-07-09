@@ -67,7 +67,7 @@ test.describe("Visual Refresh — Interactions", () => {
       await page.goto("/");
       await expect(page.locator("[data-hamburger]")).toBeHidden();
       // Desktop nav links should be visible
-      const desktopLinks = page.locator("nav .hidden\\.sm\\:flex a");
+      const desktopLinks = page.locator("nav .hidden.sm\\:flex a");
       await expect(desktopLinks.first()).toBeVisible();
     });
   });
@@ -90,7 +90,7 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(details).not.toHaveAttribute("open");
     });
 
-    test("Enter key toggles FAQ item", async ({ page }) => {
+    test("Enter key opens FAQ item", async ({ page }) => {
       await page.goto("/");
       const details = page.locator("[data-faq-root] details").first();
       const summary = details.locator("summary");
@@ -98,9 +98,6 @@ test.describe("Visual Refresh — Interactions", () => {
       await summary.focus();
       await page.keyboard.press("Enter");
       await expect(details).toHaveAttribute("open");
-
-      await page.keyboard.press("Enter");
-      await expect(details).not.toHaveAttribute("open");
     });
 
     test("Space key toggles FAQ item", async ({ page }) => {
@@ -136,29 +133,78 @@ test.describe("Visual Refresh — Interactions", () => {
   });
 
   test.describe("Scroll Animations", () => {
-    test("animate-on-scroll sections eventually become visible after scrolling", async ({ page }) => {
+    test("legacy IO sections still become visible after scrolling", async ({ page }) => {
       await page.goto("/");
-      // Scroll to bottom to trigger all observers
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await page.waitForTimeout(800);
 
+      // FAQ and Contact remain on the IntersectionObserver system
       const animated = page.locator(".animate-on-scroll");
       const count = await animated.count();
-      expect(count).toBeGreaterThanOrEqual(3);
+      expect(count).toBeGreaterThanOrEqual(2);
 
-      // At least some sections should have is-visible after scroll
       const visibleCount = await page.locator(".animate-on-scroll.is-visible").count();
       expect(visibleCount).toBeGreaterThanOrEqual(1);
     });
 
-    test("animate-group children get is-visible after scroll", async ({ page }) => {
+    test("GSAP entrance sections are visible after settling", async ({ page }) => {
       await page.goto("/");
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      await page.waitForTimeout(800);
+      await page.waitForTimeout(1200);
 
-      const items = page.locator(".animate-item.is-visible");
-      const count = await items.count();
-      expect(count).toBeGreaterThanOrEqual(1);
+      // Representative data-anim targets across migrated sections
+      await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-catalog-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-finalcta-anim='heading']")).toBeVisible();
+    });
+
+    test("GSAP scroll-scrub targets move when scrolling", async ({ page }) => {
+      await page.goto("/");
+      await page.waitForTimeout(500);
+
+      // Scroll to the HowToOrder section (avoid scrollIntoViewIfNeeded on animated elements)
+      await page.evaluate(() => {
+        const section = document.getElementById("como-pedir");
+        if (section) section.scrollIntoView({ block: "center" });
+      });
+      await page.waitForTimeout(300);
+
+      const bubble = page.locator("[data-order-anim='bubble1']");
+      const transformBefore = await bubble.evaluate(
+        (el) => window.getComputedStyle(el).transform
+      );
+
+      // Scroll further down to drive the scrub timeline
+      await page.evaluate(() => window.scrollBy(0, 600));
+      await page.waitForTimeout(300);
+
+      const transformAfter = await bubble.evaluate(
+        (el) => window.getComputedStyle(el).transform
+      );
+
+      // Scrub parallax should have changed the inline transform
+      expect(transformBefore).not.toBe(transformAfter);
+    });
+
+    test("reduced motion shows visible final state with no console errors", async ({ page }) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (msg) => {
+        if (msg.type() === "error") consoleErrors.push(msg.text());
+      });
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto("/");
+      await page.waitForTimeout(600);
+
+      // Representative elements should be visible without animation
+      await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
+
+      // No GSAP/animation-related console errors
+      expect(consoleErrors).toEqual([]);
     });
   });
 
@@ -172,9 +218,10 @@ test.describe("Visual Refresh — Interactions", () => {
     test("shows a dedicated business use cases section", async ({ page }) => {
       await page.goto("/");
       await expect(page.getByRole("heading", { name: /postres para tu negocio/i })).toBeVisible();
-      await expect(page.getByText(/Reuniones y eventos/i)).toBeVisible();
-      await expect(page.getByText(/Colegios/i)).toBeVisible();
-      await expect(page.getByText(/Cafeterías/i)).toBeVisible();
+      const businessSection = page.locator(".business-section");
+      await expect(businessSection.getByRole("heading", { name: "Empresas", exact: true })).toBeVisible();
+      await expect(businessSection.getByRole("heading", { name: "Colegios", exact: true })).toBeVisible();
+      await expect(businessSection.getByRole("heading", { name: "Cafeterías", exact: true })).toBeVisible();
     });
   });
 

@@ -9,41 +9,41 @@ interface Props {
 const { products } = Astro.props;
 ---
 
-<section id="catalogo" class="catalog-section animate-on-scroll relative overflow-hidden py-20 sm:py-28">
+<section id="catalogo" class="catalog-section relative overflow-hidden py-20 sm:py-28">
   <div class="catalog-orb catalog-orb-left" aria-hidden="true"></div>
   <div class="catalog-orb catalog-orb-right" aria-hidden="true"></div>
 
   <div class="section relative z-10">
     <div class="mb-12 grid items-end gap-6 lg:grid-cols-[0.95fr_1.05fr]">
       <div>
-        <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Nuestro catálogo</span>
-        <h2 class="mt-4 text-3xl leading-tight sm:text-4xl">
+        <span data-catalog-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Nuestro catálogo</span>
+        <h2 data-catalog-anim="heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
           Dulces con pinta de <span class="text-horno-magenta">detalle profesional</span>, no de producto genérico.
         </h2>
       </div>
       <div class="max-w-xl text-horno-magentaDeep/75">
-        <p class="leading-relaxed">
+        <p data-catalog-anim="copy" class="leading-relaxed">
           Cada pedido se coordina directo por WhatsApp para ajustar tamaño, fecha, cantidad, decoración y presentación. La idea es simple: que llegue rico, lindo y a tiempo.
         </p>
         <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-horno-magenta/75">
-          <span class="rounded-full bg-horno-cream px-3 py-2">Por encargo</span>
-          <span class="rounded-full bg-horno-cream px-3 py-2">Presentación cuidada</span>
-          <span class="rounded-full bg-horno-cream px-3 py-2">Pedidos para negocios</span>
+          <span data-catalog-anim="tag" class="rounded-full bg-horno-cream px-3 py-2">Por encargo</span>
+          <span data-catalog-anim="tag" class="rounded-full bg-horno-cream px-3 py-2">Presentación cuidada</span>
+          <span data-catalog-anim="tag" class="rounded-full bg-horno-cream px-3 py-2">Pedidos para negocios</span>
         </div>
       </div>
     </div>
 
     {
       products.length === 0 ? (
-        <div class="animate-on-scroll rounded-[2rem] bg-white/70 py-20 text-center shadow-card backdrop-blur">
+        <div data-catalog-anim="empty" class="rounded-[2rem] bg-white/70 py-20 text-center shadow-card backdrop-blur">
           <div class="mx-auto mb-4 h-12 w-12 rounded-2xl bg-horno-cream shadow-card" aria-hidden="true"></div>
           <p class="font-display text-xl text-horno-magentaDeep">Estamos preparando nuevas creaciones</p>
           <p class="mx-auto mt-2 max-w-md text-horno-magentaDeep/60">Vuelve pronto o escríbenos por WhatsApp para encargos personalizados.</p>
         </div>
       ) : (
-        <div class="animate-group grid gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product, i) => (
-            <div class="animate-item" style={`--i: ${i}`}>
+            <div data-catalog-anim="card" style={`--i: ${i}`}>
               <ProductCard product={product} index={i} />
             </div>
           ))}
@@ -52,5 +52,9 @@ const { products } = Astro.props;
     }
   </div>
 </section>
+
+<script>
+  import "~/scripts/catalog-animation.js";
+</script>
 
 <div class="ornament-divider" aria-hidden="true"></div>

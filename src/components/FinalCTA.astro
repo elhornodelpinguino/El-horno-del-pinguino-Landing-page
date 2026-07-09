@@ -4,23 +4,23 @@ import { SITE, whatsappLink } from "~/lib/config";
 const orderLink = whatsappLink(`¡Hola ${SITE.name}! Quiero cotizar postres para una empresa, colegio o cafetería. ¿Me ayudan con opciones y cantidades?`);
 ---
 
-<section class="final-cta animate-on-scroll relative overflow-hidden py-20 sm:py-28">
+<section class="final-cta relative overflow-hidden py-20 sm:py-28">
   <div class="final-cta-orb final-cta-orb-left" aria-hidden="true"></div>
   <div class="final-cta-orb final-cta-orb-right" aria-hidden="true"></div>
 
   <div class="section relative z-10 grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
     <div class="text-white">
-      <span class="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
+      <span data-finalcta-anim="label" class="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
         Cotización directa
       </span>
-      <h2 class="mt-5 max-w-2xl text-3xl leading-tight text-white sm:text-5xl">
+      <h2 data-finalcta-anim="heading" class="mt-5 max-w-2xl text-3xl leading-tight text-white sm:text-5xl">
         Convertí tu reunión, evento o vitrina en un pedido claro y presentable.
       </h2>
-      <p class="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
+      <p data-finalcta-anim="copy" class="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
         Escríbenos por WhatsApp, cuéntanos si es para empresa, colegio, cafetería o una ocasión especial, y te guiamos con sabores, cantidad, presentación y entrega.
       </p>
 
-      <div class="mt-8 flex flex-wrap gap-3">
+      <div data-finalcta-anim="actions" class="mt-8 flex flex-wrap gap-3">
         <a
           href={orderLink}
           target="_blank"
@@ -39,7 +39,7 @@ const orderLink = whatsappLink(`¡Hola ${SITE.name}! Quiero cotizar postres para
       </div>
     </div>
 
-    <div class="final-cta-card">
+    <div data-finalcta-anim="card" class="final-cta-card">
       <div class="final-cta-card-header">
         <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
         Atención directa por WhatsApp
@@ -65,3 +65,7 @@ const orderLink = whatsappLink(`¡Hola ${SITE.name}! Quiero cotizar postres para
     </div>
   </div>
 </section>
+
+<script>
+  import "~/scripts/final-cta-animation.js";
+</script>

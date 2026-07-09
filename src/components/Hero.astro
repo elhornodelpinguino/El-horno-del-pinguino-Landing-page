@@ -10,7 +10,7 @@ const name = SITE.name;
 const orderMessage = `Hola ${name}! Vi su web y quiero cotizar postres para una empresa, colegio o cafetería. ¿Me ayudan con opciones, cantidad, fecha y entrega?`;
 ---
 
-<header class="hero-shell animate-on-scroll relative overflow-hidden pt-6 pb-20 sm:pb-28">
+<header class="hero-shell relative overflow-hidden pt-6 pb-20 sm:pb-28">
   <div class="hero-glow hero-glow-left" aria-hidden="true"></div>
   <div class="hero-glow hero-glow-right" aria-hidden="true"></div>
   <div class="ios-bubble hero-bubble hero-bubble-1" aria-hidden="true"></div>
@@ -50,15 +50,15 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar postres para una 
 
   <div class="section relative z-10 mt-14 grid items-center gap-12 lg:mt-16 lg:grid-cols-[1.03fr_0.97fr]">
     <div class="max-w-2xl">
-      <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Hechos a mano en Loja, Ecuador</span>
-      <h1 class="mt-4 mb-6 text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
+      <span data-hero-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Hechos a mano en Loja, Ecuador</span>
+      <h1 data-hero-anim="heading" class="mt-4 mb-6 text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
         Postres artesanales para <span class="text-horno-magenta">empresas, colegios y cafeterías</span>.
       </h1>
-      <p class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">
+      <p data-hero-anim="copy" class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">
         Presentación cuidada, sabor consistente y coordinación clara para reuniones, eventos, vitrinas y ocasiones especiales. Cotizamos por WhatsApp según cantidad, fecha y entrega en Loja.
       </p>
 
-      <div class="hero-actions">
+      <div data-hero-anim="actions" class="hero-actions">
         <div class="hero-actions-main">
           <a href={whatsappLink(orderMessage)} target="_blank" rel="noopener" class="btn-primary">
             <svg viewBox="0 0 32 32" class="h-6 w-6" aria-hidden="true">
@@ -72,15 +72,15 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar postres para una 
       </div>
 
       <ul class="mt-10 flex max-w-xl flex-col gap-3 text-sm font-medium text-horno-magentaDeep/75 sm:flex-row sm:flex-wrap sm:gap-x-6">
-        <li class="flex items-center gap-2">
+        <li data-hero-anim="badge" class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
           Entrega coordinada en Loja
         </li>
-        <li class="flex items-center gap-2">
+        <li data-hero-anim="badge" class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
           Pedidos para empresas y colegios
         </li>
-        <li class="flex items-center gap-2">
+        <li data-hero-anim="badge" class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
           Atención directa por WhatsApp
         </li>
@@ -100,6 +100,7 @@ const orderMessage = `Hola ${name}! Vi su web y quiero cotizar postres para una 
 
 <script>
   import "~/scripts/mobile-nav.js";
+  import "~/scripts/hero-animation.js";
 </script>
 
 <div class="ornament-divider" aria-hidden="true"></div>

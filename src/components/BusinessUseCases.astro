@@ -18,23 +18,23 @@ const useCases = [
 ];
 ---
 
-<section class="business-section animate-on-scroll relative overflow-hidden py-16 sm:py-24" aria-labelledby="business-heading">
+<section class="business-section relative overflow-hidden py-16 sm:py-24" aria-labelledby="business-heading">
   <div class="section relative z-10">
     <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
       <div>
-        <span class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedidos para negocios</span>
-        <h2 id="business-heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
+        <span data-business-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedidos para negocios</span>
+        <h2 data-business-anim="heading" id="business-heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
           Postres para tu negocio, evento o institución.
         </h2>
       </div>
-      <p class="max-w-2xl leading-relaxed text-horno-magentaDeep/75">
+      <p data-business-anim="copy" class="max-w-2xl leading-relaxed text-horno-magentaDeep/75">
         Si necesitás algo rico, presentable y fácil de coordinar, trabajamos pedidos por WhatsApp con fecha, cantidad, entrega y presentación claras desde el inicio.
       </p>
     </div>
 
-    <div class="animate-group mt-10 grid gap-5 md:grid-cols-3">
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
       {useCases.map((item, index) => (
-        <article class="business-card animate-item" style={`--i: ${index}`}>
+        <article data-business-anim="card" class="business-card" style={`--i: ${index}`}>
           <span class="business-card-number">0{index + 1}</span>
           <h3>{item.title}</h3>
           <p>{item.description}</p>
@@ -43,5 +43,9 @@ const useCases = [
     </div>
   </div>
 </section>
+
+<script>
+  import "~/scripts/business-animation.js";
+</script>
 
 <div class="ornament-divider" aria-hidden="true"></div>
