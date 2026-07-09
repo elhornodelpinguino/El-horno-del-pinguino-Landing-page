@@ -104,35 +104,6 @@
 }
 
 /* ============================================
-   Scroll-Triggered Animations
-   ============================================ */
-
-@layer utilities {
-  /* Hidden start state — elements wait off-screen */
-  .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 400ms ease-out, transform 400ms ease-out;
-  }
-
-  /* Revealed state — IO adds this class */
-  .animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Group container — children stagger */
-  .animate-group .animate-item {
-    transition-delay: calc(var(--i, 0) * 100ms);
-  }
-
-  /* Cap stagger at 5 items so the last ones don't wait forever */
-  .animate-group .animate-item:nth-child(n + 6) {
-    transition-delay: 500ms;
-  }
-}
-
-/* ============================================
    Hero Visual System
    ============================================ */
 
@@ -283,16 +254,6 @@
 
 /* Respect reduced motion — skip all animations */
 @media (prefers-reduced-motion: reduce) {
-  .animate-on-scroll {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .animate-group .animate-item {
-    transition-delay: 0ms !important;
-  }
-
   .penguin-sprite {
     animation: penguin-mix 1.45s steps(4, end) infinite;
     animation-play-state: paused;

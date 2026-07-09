@@ -2,10 +2,10 @@
 import { SITE, whatsappLink, instagramLink } from "~/lib/config";
 ---
 
-<footer id="contacto" class="animate-on-scroll bg-horno-magentaDeep text-horno-cream">
+<footer id="contacto" class="bg-horno-magentaDeep text-horno-cream">
   <div class="section py-12">
     <div class="grid gap-8 sm:grid-cols-3">
-      <div>
+      <div data-contact-anim="column">
         <div class="flex items-center gap-3 mb-4">
           <img src="/isotipo.png" alt="Isotipo" class="h-10 w-10 object-contain brightness-0 invert" />
           <span class="font-display text-lg text-white">{SITE.name}</span>
@@ -15,7 +15,7 @@ import { SITE, whatsappLink, instagramLink } from "~/lib/config";
         </p>
       </div>
 
-      <div>
+      <div data-contact-anim="column">
         <h4 class="font-display text-white text-sm uppercase tracking-widest mb-4">Contacto</h4>
         <ul class="space-y-3 text-sm text-horno-cream/70">
           <li>
@@ -33,7 +33,7 @@ import { SITE, whatsappLink, instagramLink } from "~/lib/config";
         </ul>
       </div>
 
-      <div>
+      <div data-contact-anim="column">
         <h4 class="font-display text-white text-sm uppercase tracking-widest mb-4">Dirección</h4>
         <p class="text-sm text-horno-cream/70 leading-relaxed">
           {SITE.location}<br />
@@ -42,8 +42,12 @@ import { SITE, whatsappLink, instagramLink } from "~/lib/config";
       </div>
     </div>
 
-    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-horno-cream/50">
+    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-horno-cream/50" data-contact-anim="bar">
       <p>© {new Date().getFullYear()} {SITE.name} · Hecho en Loja, Ecuador</p>
     </div>
   </div>
 </footer>
+
+<script>
+  import "~/scripts/contact-animation.js";
+</script>

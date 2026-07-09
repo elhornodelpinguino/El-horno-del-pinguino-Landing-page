@@ -1,10 +1,6 @@
-# scroll-animations Specification
+# Delta for scroll-animations
 
-## Purpose
-
-Add entrance animations triggered by scroll position using GSAP ScrollTrigger, enhancing visual hierarchy without introducing heavy JS frameworks.
-
-## Requirements
+## ADDED Requirements
 
 ### Requirement: ScrollTrigger-Gated Section Entrances
 
@@ -55,9 +51,13 @@ Entrance-animated content MUST NOT be hidden via CSS before JavaScript runs. Hid
 - WHEN the page renders
 - THEN the section's content remains visible because no CSS pre-hid it
 
+## MODIFIED Requirements
+
 ### Requirement: prefers-reduced-motion Support
 
 The system MUST check `window.matchMedia('(prefers-reduced-motion: reduce)')` at the start of every section's GSAP script, before creating any timeline or `ScrollTrigger`. If it matches, the script MUST call `gsap.set(targets, { clearProps: "all" })` on that section's targets and MUST skip the timeline and `ScrollTrigger` entirely.
+
+(Previously: reduced-motion handling only covered the legacy IntersectionObserver system, toggling `.animate-on-scroll` elements to `opacity: 1` immediately.)
 
 #### Scenario: Reduced motion preference detected
 
@@ -71,3 +71,25 @@ The system MUST check `window.matchMedia('(prefers-reduced-motion: reduce)')` at
 - GIVEN `prefers-reduced-motion: reduce` is set
 - WHEN the full page loads, including Hero, catalog, business, order, trust, final-cta, FAQ, and contact
 - THEN every section's content is fully visible immediately with no entrance animation
+
+## REMOVED Requirements
+
+### Requirement: IntersectionObserver Class Toggling
+
+(Reason: replaced by per-section GSAP `ScrollTrigger` entrances, collapsing two parallel animation stacks into one.)
+(Migration: `src/scripts/scroll-animations.js` is deleted; its `index.astro` import is removed; per-section GSAP scripts provide equivalent behavior.)
+
+### Requirement: CSS Transition States
+
+(Reason: superseded by GSAP-only hiding via `.from()` tweens; CSS pre-hiding is now disallowed.)
+(Migration: legacy `.animate-on-scroll` / `is-visible` CSS rules are removed from `src/styles/global.css`.)
+
+### Requirement: Staggered Animation for Grouped Elements
+
+(Reason: per-element stagger is now expressed via relative position offsets in each section's GSAP timeline, not a generic `.animate-group` / `.animate-item` CSS stagger.)
+(Migration: `.animate-group` / `.animate-item` classes and `--i` stagger styles are stripped from all components, including unused `LimitedSpots.astro` and `SpecialEditions.astro`.)
+
+### Requirement: Performance — No Layout Shift
+
+(Reason: GSAP `.from()` tweens animate only opacity/transform and never remove elements from layout, so the standalone `min-height` reservation rule is no longer needed.)
+(Migration: None — no `min-height` reservation required.)

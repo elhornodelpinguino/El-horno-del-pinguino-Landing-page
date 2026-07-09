@@ -133,18 +133,14 @@ test.describe("Visual Refresh — Interactions", () => {
   });
 
   test.describe("Scroll Animations", () => {
-    test("legacy IO sections still become visible after scrolling", async ({ page }) => {
+    test("no legacy IntersectionObserver reveal classes remain in the DOM", async ({ page }) => {
       await page.goto("/");
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await page.waitForTimeout(800);
 
-      // FAQ and Contact remain on the IntersectionObserver system
-      const animated = page.locator(".animate-on-scroll");
-      const count = await animated.count();
-      expect(count).toBeGreaterThanOrEqual(2);
-
-      const visibleCount = await page.locator(".animate-on-scroll.is-visible").count();
-      expect(visibleCount).toBeGreaterThanOrEqual(1);
+      // The legacy .animate-on-scroll IO system has been fully retired
+      const legacyCount = await page.locator(".animate-on-scroll").count();
+      expect(legacyCount).toBe(0);
     });
 
     test("GSAP entrance sections are visible after settling", async ({ page }) => {
@@ -158,6 +154,8 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-finalcta-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
+      await expect(page.locator("[data-contact-anim='column']").first()).toBeVisible();
     });
 
     test("GSAP scroll-scrub targets move when scrolling", async ({ page }) => {
@@ -188,6 +186,78 @@ test.describe("Visual Refresh — Interactions", () => {
       expect(transformBefore).not.toBe(transformAfter);
     });
 
+    test("GSAP entrance targets are hidden before scroll and revealed after scrolling (computed style)", async ({ page }) => {
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const catalogHeading = page.locator("[data-catalog-anim='heading']");
+      const faqIntro = page.locator("[data-faq-anim='intro']");
+      const contactColumn = page.locator("[data-contact-anim='column']").first();
+      const targets = [catalogHeading, faqIntro, contactColumn];
+
+      // Pre-scroll: below-fold entrance targets must NOT already be revealed —
+      // toBeVisible() ignores opacity/transform, so this proves via computed
+      // style that the reveal is scroll-gated, not fired on load (spec.md:9-14).
+      const preScrollOpacities = await Promise.all(
+        targets.map((locator) => locator.evaluate((el) => window.getComputedStyle(el).opacity))
+      );
+      for (const opacity of preScrollOpacities) {
+        expect(opacity).not.toBe("1");
+      }
+
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(1200);
+
+      // Post-scroll: same targets must now be fully revealed — proves the
+      // ScrollTrigger actually fired the entrance, not just that it settled
+      // into some non-zero value.
+      const postScrollOpacities = await Promise.all(
+        targets.map((locator) => locator.evaluate((el) => window.getComputedStyle(el).opacity))
+      );
+      for (const opacity of postScrollOpacities) {
+        expect(opacity).toBe("1");
+      }
+    });
+
+    test("section content remains visible when its animation script fails to execute (GSAP-only hiding contract)", async ({ page }) => {
+      // Block the FAQ entrance script (dev server) and the bundled hoisted
+      // script (production build, where all section scripts merge into one
+      // chunk) so the .from() tween that sets opacity:0 on load never runs.
+      // This proves content is never CSS pre-hidden — hiding comes exclusively
+      // from GSAP, so a script failure leaves content visible (spec.md:44-52).
+      await page.route(
+        (url) => url.pathname.includes("faq-animation") || url.pathname.includes("hoisted"),
+        (route) => route.abort()
+      );
+
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const faqItem = page.locator("[data-faq-anim='item']").first();
+      await faqItem.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(300);
+
+      // No CSS pre-hides this element and the animation script never ran,
+      // so its natural computed opacity must be the unanimated default (1).
+      const opacity = await faqItem.evaluate((el) => window.getComputedStyle(el).opacity);
+      expect(opacity).toBe("1");
+    });
+
+    test("Contact section reveals on a tall viewport (regression: no dead zone at max scroll)", async ({ page }) => {
+      // Regression guard for the R4-001 dead-zone bug: on a tall viewport, a
+      // footer shorter than 15% of the viewport height never crosses a
+      // "top 85%" trigger at max scroll, permanently stranding it at
+      // opacity:0. Proves the fix fires regardless of viewport/footer size.
+      await page.setViewportSize({ width: 1440, height: 2000 });
+      await page.goto("/");
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(1200);
+
+      const contactColumn = page.locator("[data-contact-anim='column']").first();
+      const opacity = await contactColumn.evaluate((el) => window.getComputedStyle(el).opacity);
+      expect(opacity).toBe("1");
+    });
+
     test("reduced motion shows visible final state with no console errors", async ({ page }) => {
       const consoleErrors: string[] = [];
       page.on("console", (msg) => {
@@ -202,6 +272,8 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
+      await expect(page.locator("[data-contact-anim='column']").first()).toBeVisible();
 
       // No GSAP/animation-related console errors
       expect(consoleErrors).toEqual([]);

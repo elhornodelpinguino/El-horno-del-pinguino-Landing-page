@@ -19,7 +19,10 @@ if (section) {
   if (motionQuery.matches) {
     gsap.set(entranceTargets, { clearProps: "all" });
   } else {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.7 } });
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out", duration: 0.7 },
+      scrollTrigger: { trigger: section, start: "top 78%" },
+    });
 
     if (eyebrow) tl.from(eyebrow, { y: 14, opacity: 0, duration: 0.5 });
     if (heading) tl.from(heading, { y: 24, opacity: 0 }, "-=0.35");
