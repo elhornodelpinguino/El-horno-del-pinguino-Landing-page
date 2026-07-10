@@ -14,6 +14,7 @@ if (shell) {
   const actions = shell.querySelector("[data-hero-anim='actions']");
   const badges = shell.querySelectorAll("[data-hero-anim='badge']");
   const card = shell.querySelector(".hero-card");
+  const penguin = shell.querySelector(".penguin-sprite");
   const tickets = shell.querySelectorAll(".order-ticket");
 
   const entranceTargets = [nav, eyebrow, heading, copy, actions, card, ...badges, ...tickets].filter(Boolean);
@@ -47,6 +48,16 @@ if (shell) {
         end: "bottom top",
         scrub: true,
         animation: gsap.to(card, { yPercent: 12, ease: "none" }),
+      });
+    }
+
+    if (penguin) {
+      ScrollTrigger.create({
+        trigger: shell,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        animation: gsap.to(penguin, { yPercent: -18, ease: "none" }),
       });
     }
   }

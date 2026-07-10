@@ -519,6 +519,86 @@ test.describe("Visual Refresh — Interactions", () => {
     });
   });
 
+  test.describe("StickyWhatsApp scroll-gated reveal", () => {
+    test("is hidden at page top and reveals after scrolling past Hero", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const cta = page.getByRole("link", { name: /hacer pedido por whatsapp/i });
+      await expect(cta).toBeHidden();
+
+      await page.evaluate(() => {
+        const shell = document.querySelector(".hero-shell");
+        if (shell) {
+          const bottom = shell.getBoundingClientRect().bottom + window.scrollY;
+          window.scrollTo(0, bottom + 50);
+        }
+      });
+      await page.waitForTimeout(300);
+
+      await expect(cta).toBeVisible();
+    });
+
+    test("re-hides when scrolling back up past Hero", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const cta = page.getByRole("link", { name: /hacer pedido por whatsapp/i });
+
+      await page.evaluate(() => {
+        const shell = document.querySelector(".hero-shell");
+        if (shell) {
+          const bottom = shell.getBoundingClientRect().bottom + window.scrollY;
+          window.scrollTo(0, bottom + 50);
+        }
+      });
+      await page.waitForTimeout(300);
+      await expect(cta).toBeVisible();
+
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(300);
+      await expect(cta).toBeHidden();
+    });
+
+    test("is immediately visible under reduced motion", async ({ page }) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const cta = page.getByRole("link", { name: /hacer pedido por whatsapp/i });
+      await expect(cta).toBeVisible();
+
+      expect(consoleErrors).toEqual([]);
+    });
+
+    test("button remains visible when its animation script fails to execute (GSAP-only hiding contract)", async ({ page }) => {
+      // Block the StickyWhatsApp reveal script (dev server) and the bundled
+      // hoisted script (production build, where all section scripts merge
+      // into one chunk) so the ScrollTrigger toggle that would otherwise
+      // gate visibility never registers. This proves the button is never
+      // CSS pre-hidden — hiding comes exclusively from the GSAP
+      // ScrollTrigger, so a script failure leaves it visible/accessible
+      // (spec.md: "StickyWhatsApp script fails to load").
+      await page.route(
+        (url) => url.pathname.includes("sticky-whatsapp-animation") || url.pathname.includes("hoisted"),
+        (route) => route.abort()
+      );
+
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const cta = page.getByRole("link", { name: /hacer pedido por whatsapp/i });
+      await expect(cta).toBeVisible();
+    });
+  });
+
   test.describe("Business positioning", () => {
     test("communicates business use cases above the fold", async ({ page }) => {
       await page.goto("/");
