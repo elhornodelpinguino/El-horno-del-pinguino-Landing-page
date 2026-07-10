@@ -22,5 +22,13 @@ export default defineConfig({
       },
     },
   ],
-  webServer: { command: "npm run preview", port: 4321, reuseExistingServer: !process.env.CI },
+  webServer: {
+    command: "npm run preview",
+    port: 4321,
+    reuseExistingServer: !process.env.CI,
+    // Explicit opt-in so `src/pages/e2e-fixtures/*` routes serve real
+    // content only for this test-driven server — never in the production
+    // deploy, which never sets this var (see render.yaml).
+    env: { ...process.env, ENABLE_E2E_FIXTURES: "true" },
+  },
 });

@@ -1,0 +1,63 @@
+---
+// E2E test fixture ONLY — not linked from any real page.
+//
+// Why this exists: ProductGrid's product count comes from an SSR fetch in
+// src/pages/index.astro (getProducts() / loadFallback()), which runs on the
+// server before the browser ever sees a request. Playwright's page.route()
+// only intercepts *browser* network calls, so it cannot control the SSR
+// product count on the real "/" route. This fixture renders the same
+// ProductGrid component (with the same catalog-animation.js wiring) against
+// a deterministic, query-param-controlled product count so the
+// ScrollTrigger.batch() reveal contract can be tested for N=0/1/3+ without
+// depending on the live product-admin backend.
+export const prerender = false;
+
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import ProductGrid from "~/components/ProductGrid.astro";
+import type { Product } from "~/lib/api";
+
+// Hard access guard: `robots.txt` Disallow is advisory only (a well-behaved
+// crawler convention, not an access control) — this route is still
+// reachable by direct URL otherwise. `ENABLE_E2E_FIXTURES` is only ever set
+// by `playwright.config.ts`'s `webServer.env` (see that file) so this route
+// 404s unless the server was explicitly started for E2E testing. The
+// production deploy (render.yaml) never sets this var. Note:
+// `import.meta.env.PROD` is NOT a valid guard here — Astro inlines it at
+// build time, and the E2E suite runs `npm run build` + `npm run preview`
+// (a production build) in CI, so PROD is `true` in both the real deploy
+// and the E2E run; only this explicit runtime env var tells them apart.
+if (process.env.ENABLE_E2E_FIXTURES !== "true") {
+  return new Response(null, { status: 404 });
+}
+
+const countParam = Astro.url.searchParams.get("count");
+const parsedCount = Number.parseInt(countParam ?? "0", 10);
+const count = Number.isFinite(parsedCount) ? Math.max(0, parsedCount) : 0;
+
+function makeFixtureProduct(i: number): Product {
+  return {
+    id: i,
+    external_id: `fixture-${i}`,
+    org_id: 1,
+    name: `Producto de prueba ${i}`,
+    description: "Producto sintético usado solo por tests E2E.",
+    sku: `FIX-${i}`,
+    price: 9.99,
+    cost: 3,
+    stock: 0,
+    on_demand: true,
+    perecedero: true,
+    photo_url: "",
+    is_active: true,
+    attributes: {},
+    created_at: "2025-01-01T00:00:00.000Z",
+    updated_at: "2025-01-01T00:00:00.000Z",
+  };
+}
+
+const products: Product[] = Array.from({ length: count }, (_, i) => makeFixtureProduct(i + 1));
+---
+
+<BaseLayout title="QA fixture — catalog batch">
+  <ProductGrid products={products} />
+</BaseLayout>

@@ -35,3 +35,6 @@ coverage/
 *.temp
 .atl/.skill-registry.cache.json
 .vercel/
+# Local Pi runtime state
+.atl/
+.pi/subagents-debug.log

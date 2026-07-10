@@ -31,10 +31,41 @@ if (section) {
     if (copy) tl.from(copy, { y: 18, opacity: 0, duration: 0.6 }, "-=0.4");
     if (tags.length) tl.from(tags, { y: 12, opacity: 0, duration: 0.45, stagger: 0.08 }, "-=0.3");
 
-    if (cards.length) {
-      tl.from(cards, { y: 28, opacity: 0, duration: 0.65, stagger: 0.12 }, "-=0.25");
-    } else if (empty) {
+    if (!cards.length && empty) {
       tl.from(empty, { y: 28, opacity: 0, duration: 0.65 }, "-=0.25");
+    }
+
+    if (cards.length) {
+      // ScrollTrigger.batch() instead of a single container-level `.from()`
+      // stagger, so entrances scale correctly for any product count (1 to
+      // N) — each row reveals only once it individually crosses the
+      // viewport threshold, instead of all cards firing together the
+      // moment the section's own trigger fires.
+      //
+      // Wrapped in try/catch: `gsap.set` hides the cards, then
+      // `ScrollTrigger.batch()` is what makes them reappear on scroll. If
+      // anything throws between those two steps, catch restores full
+      // visibility via `clearProps` instead of leaving every card stuck at
+      // `opacity: 0` forever.
+      try {
+        gsap.set(cards, { opacity: 0, y: 28 });
+
+        ScrollTrigger.batch(cards, {
+          start: "top 85%",
+          interval: 0.1,
+          batchMax: 3,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              y: 0,
+              opacity: 1,
+              duration: 0.65,
+              stagger: 0.12,
+              overwrite: true,
+            }),
+        });
+      } catch {
+        gsap.set(cards, { clearProps: "all" });
+      }
     }
 
     if (orbLeft) {

@@ -4,27 +4,36 @@ context: |
   Tech stack: Astro 4.16, TypeScript strict, Tailwind CSS 3.4, npm, Node 20
   Architecture: SSR with @astrojs/node (standalone), Docker multi-stage
   Testing: Vitest 2.1 (unit), Playwright 1.52 (E2E smoke), GitHub Actions CI
+  SDD mode: OpenSpec artifact store, strict_tdd enabled, 400 changed-line review budget
+  Current backend coupling: public product/admin data is fetched from an external product-admin API with local fallback data
   Style: Rioplatense Spanish UI copy, brand magenta #a81452 / crema #fbebde / naranja #f49d50
 
 rules:
   proposal:
-    - Include rollback plan for risky changes
+    guidelines:
+      - Include rollback plan for risky changes
   specs:
-    - Use Given/When/Then for scenarios
-    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    guidelines:
+      - Use Given/When/Then for scenarios
+      - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
   design:
-    - Include sequence diagrams for complex flows
-    - Document architecture decisions with rationale
+    guidelines:
+      - Include sequence diagrams for complex flows
+      - Document architecture decisions with rationale
   tasks:
-    - Group by phase, use hierarchical numbering
-    - Keep tasks completable in one session
+    guidelines:
+      - Group by phase, use hierarchical numbering
+      - Keep tasks completable in one session
   apply:
-    - Follow existing Astro component patterns
-    tdd: false
+    guidelines:
+      - Follow existing Astro component patterns
+    tdd: true
+    strict_tdd: true
     test_command: "npm run test"
   verify:
-    test_command: "npm run test && npx playwright test"
+    test_command: "npm run test && npm run build && npm run test:e2e"
     build_command: "npm run build"
     coverage_threshold: 0
   archive:
-    - Warn before merging destructive deltas
+    guidelines:
+      - Warn before merging destructive deltas

@@ -1,49 +1,6 @@
-# scroll-animations Specification
+# Delta for scroll-animations
 
-## Purpose
-
-Add entrance animations triggered by scroll position using GSAP ScrollTrigger, enhancing visual hierarchy without introducing heavy JS frameworks.
-
-## Requirements
-
-### Requirement: ScrollTrigger-Gated Section Entrances
-
-Below-fold section entrance timelines (catalog, business, order, trust, final-cta, FAQ, contact) MUST be wired to a `ScrollTrigger` on their section root so the timeline plays on viewport entry, not on page load. The Hero entrance MUST remain load-triggered and MUST NOT use a `ScrollTrigger`.
-
-#### Scenario: Below-fold section enters viewport
-
-- GIVEN a below-fold section (e.g. catalog) is outside the viewport on load
-- WHEN the user scrolls past its `ScrollTrigger` start position
-- THEN the section's GSAP entrance timeline plays
-- AND it does not play before that position is crossed
-
-#### Scenario: Hero entrance plays on load
-
-- GIVEN the page has just loaded
-- WHEN the Hero component mounts
-- THEN the Hero entrance timeline plays immediately, not on scroll
-
-#### Scenario: Page-bottom section reaches its trigger
-
-- GIVEN a section sits near the page bottom (e.g. final-cta) where a `top 78%` trigger may never be crossed
-- WHEN the user scrolls toward that section
-- THEN its `ScrollTrigger` start is set later (e.g. `top 85%`) so the entrance fires before page end
-
-### Requirement: FAQ and Contact GSAP Entrances
-
-FAQ and Contact sections MUST use dedicated GSAP entrance scripts (`faq-animation.js`, `contact-animation.js`) with `data-faq-anim` / `data-contact-anim` targets and a `ScrollTrigger`, replacing their prior IntersectionObserver reveal.
-
-#### Scenario: FAQ section reveals via GSAP on scroll
-
-- GIVEN the user scrolls the FAQ section into view
-- WHEN the section's `ScrollTrigger` start position is crossed
-- THEN the `data-faq-anim` targets animate in via the GSAP timeline
-
-#### Scenario: Contact section reveals via GSAP on scroll
-
-- GIVEN the user scrolls the Contact section into view
-- WHEN the section's `ScrollTrigger` start position is crossed
-- THEN the `data-contact-anim` targets animate in via the GSAP timeline
+## ADDED Requirements
 
 ### Requirement: Pinned Scrubbed Step Advancement (HowToOrder)
 
@@ -61,6 +18,16 @@ The `.order-section` MUST pin (`pin: true`) with a `scrub`-driven step timeline,
 - GIVEN the viewport is a mobile width
 - WHEN the user scrolls through the pinned order section
 - THEN scroll releases within a bounded distance, without requiring excessive scrolling
+
+### Requirement: Scrubbed Clip-Path Rise (FinalCTA)
+
+The FinalCTA card MUST scrub-animate its `clipPath` so it visually rises as the user scrolls the section's trigger range. Without JS, the full card MUST remain visible, never clipped or hidden.
+
+#### Scenario: Card rises on scroll
+
+- GIVEN the FinalCTA section's `ScrollTrigger` range is being crossed
+- WHEN the user scrolls through that range
+- THEN the card's `clipPath` interpolates, producing the rise effect tied to scroll position
 
 ### Requirement: Batch-Based Catalog Reveals
 
@@ -95,10 +62,12 @@ Trust checklist items MUST stagger in via GSAP; each item's check SVG MUST also 
 - THEN items stagger in sequence
 - AND each item's check icon animates its scale/rotate reveal alongside its item
 
+## MODIFIED Requirements
+
 ### Requirement: GSAP-Only Content Hiding
 
 Entrance-animated content MUST NOT be hidden via CSS before JavaScript runs. Hiding MUST come exclusively from the GSAP timeline's `.from()` tween (or scrub/pin/batch equivalent), so a script failure never leaves content permanently invisible.
-(Previously: covered only `.from()` entrance timelines; now also covers pin/scrub/batch mechanics.)
+(Previously: covered only `.from()` entrance timelines; now also covers pin/scrub/clip-path/batch mechanics.)
 
 #### Scenario: JavaScript fails to load
 

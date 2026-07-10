@@ -280,6 +280,245 @@ test.describe("Visual Refresh — Interactions", () => {
     });
   });
 
+  test.describe("Storytelling Components (Fase 2)", () => {
+    test("HowToOrder pins during scroll and releases with no leftover gap", async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const section = page.locator(".order-section");
+
+      // Align the section's top exactly with the viewport top so we cross
+      // the ScrollTrigger `start: "top top"` threshold deterministically.
+      await page.evaluate(() => {
+        const el = document.querySelector(".order-section");
+        if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+      });
+      await page.waitForTimeout(200);
+      const topAtEntry = await section.evaluate((el) => el.getBoundingClientRect().top);
+
+      // Scroll partway into the pinned range — the section must stay pinned
+      // (its viewport position does not move even though scrollY advances).
+      await page.evaluate(() => window.scrollBy(0, 250));
+      await page.waitForTimeout(200);
+      const topMidScroll = await section.evaluate((el) => el.getBoundingClientRect().top);
+      expect(Math.abs(topMidScroll - topAtEntry)).toBeLessThan(2);
+
+      // Scroll well past the pinned range's end — the section must unpin.
+      await page.evaluate(() => window.scrollBy(0, 3000));
+      await page.waitForTimeout(300);
+      const topAfterRelease = await section.evaluate((el) => el.getBoundingClientRect().top);
+      expect(topAfterRelease).toBeLessThan(topMidScroll - 100);
+
+      // No leftover pin-spacing gap: the following section must be
+      // reachable without an oversized empty dead zone.
+      const trust = page.locator(".trust-section");
+      await trust.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      await expect(trust).toBeVisible();
+    });
+
+    test("HowToOrder pin does not trap scroll on mobile", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 800 });
+      await page.goto("/");
+      await page.waitForTimeout(300);
+
+      const section = page.locator(".order-section");
+      await page.evaluate(() => {
+        const el = document.querySelector(".order-section");
+        if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+      });
+      await page.waitForTimeout(200);
+      const topAtEntry = await section.evaluate((el) => el.getBoundingClientRect().top);
+
+      // On mobile the section must NOT pin — a bounded scroll (roughly one
+      // viewport height) must be enough to move it away from the top.
+      await page.evaluate(() => window.scrollBy(0, 800));
+      await page.waitForTimeout(200);
+      const topAfterBoundedScroll = await section.evaluate((el) => el.getBoundingClientRect().top);
+      expect(topAfterBoundedScroll).toBeLessThan(topAtEntry - 400);
+    });
+
+    test("HowToOrder pinned timeline failure fails open — steps stay visible even if pin setup throws", async ({ page }) => {
+      // Forces the exact failure window flagged in review: an exception
+      // thrown between `gsap.set(steps, {opacity:.4})` and the
+      // pinned/scrubbed timeline construction must not leave steps dimmed
+      // indefinitely (see order-animation.js's try/catch).
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.addInitScript(() => {
+        const original = window.getComputedStyle;
+        let armed = true;
+        window.getComputedStyle = function (this: Window, el: Element, ...rest: unknown[]) {
+          if (armed && el?.classList?.contains("order-section")) {
+            armed = false;
+            throw new Error("SIMULATED_PIN_SETUP_FAILURE");
+          }
+          // @ts-expect-error — forwarding the native signature
+          return original.call(window, el, ...rest);
+        };
+      });
+
+      await page.goto("/");
+      await expect(page.locator("[data-order-anim='step']").first()).toHaveCSS("opacity", "1");
+    });
+
+    test("FinalCTA card stays rectangular (no clip-path) and reveals on scroll", async ({ page }) => {
+      await page.goto("/");
+      const card = page.locator(".final-cta-card");
+      await card.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(900);
+      await expect(card).toHaveCSS("opacity", "1");
+      await expect(card).toHaveCSS("clip-path", "none");
+    });
+
+    test.describe("Catalog batch reveal (fixture-controlled product count)", () => {
+      test("zero products renders empty state with no console errors and no card nodes", async ({ page }) => {
+        const consoleErrors: string[] = [];
+        page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
+
+        await page.goto("/e2e-fixtures/catalog-batch?count=0");
+        await page.waitForTimeout(500);
+
+        await expect(page.locator("[data-catalog-anim='card']")).toHaveCount(0);
+        await expect(page.locator("[data-catalog-anim='empty']")).toBeVisible();
+        expect(consoleErrors).toEqual([]);
+      });
+
+      test("single product reveals via batch with no console errors", async ({ page }) => {
+        const consoleErrors: string[] = [];
+        page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
+
+        await page.goto("/e2e-fixtures/catalog-batch?count=1");
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await page.waitForTimeout(800);
+
+        const cards = page.locator("[data-catalog-anim='card']");
+        await expect(cards).toHaveCount(1);
+        await expect(cards.first()).toBeVisible();
+        expect(consoleErrors).toEqual([]);
+      });
+
+      test("multiple products (N > batchMax) reveal row-by-row as each batch scrolls into view", async ({ page }) => {
+        // Proves ScrollTrigger.batch() gates each row independently — with a
+        // single container-level `.from()` timeline, ALL cards would flip to
+        // opacity:1 the moment the container's trigger fires, even rows
+        // still below the fold. With batch(), a row not yet on screen must
+        // stay hidden until it individually crosses the batch start point.
+        await page.setViewportSize({ width: 1280, height: 800 });
+        // lg:grid-cols-3 → visually 2 rows of 3. batchMax:3 caps how many
+        // elements share one triggered `onEnter` callback based on
+        // scroll-entry timing/`interval`, NOT on this grid's row layout —
+        // it only happens to line up with one row here, chosen for a
+        // readable test, not because batch() groups by DOM rows.
+        await page.goto("/e2e-fixtures/catalog-batch?count=6");
+        await page.waitForTimeout(300);
+
+        // Scroll so only the first row is near/inside the viewport; the
+        // second row (starting at card index 3) remains below the fold.
+        await page.evaluate(() => {
+          const section = document.querySelector(".catalog-section");
+          if (section) window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY + 40);
+        });
+
+        const cards = page.locator("[data-catalog-anim='card']");
+        await expect(cards).toHaveCount(6);
+
+        // First row settles to full opacity — auto-retrying assertion, no
+        // fixed sleep needed.
+        await expect(cards.nth(0)).toHaveCSS("opacity", "1");
+
+        // Snapshot check: the second row must still be hidden at this exact
+        // scroll position, before scrolling further. This is a genuine
+        // mid-scrub read (not a "wait until" condition), so a short settle
+        // delay plus a single computed-style read is correct here.
+        await page.waitForTimeout(300);
+        const secondRowOpacityBefore = await cards.nth(3).evaluate((el) => window.getComputedStyle(el).opacity);
+        expect(secondRowOpacityBefore).not.toBe("1");
+
+        // Scroll further so the second row's batch start point is crossed.
+        await page.evaluate(() => window.scrollBy(0, 500));
+        await expect(cards.nth(3)).toHaveCSS("opacity", "1");
+      });
+
+      test("catalog batch failure fails open — cards stay visible even if ScrollTrigger.batch throws", async ({ page }) => {
+        // Forces the exact failure window flagged in review: an exception
+        // thrown between `gsap.set(cards, {opacity:0})` and
+        // `ScrollTrigger.batch()` construction must not leave cards
+        // permanently invisible (see catalog-animation.js's try/catch).
+        await page.addInitScript(() => {
+          const proto = Element.prototype;
+          const original = proto.getBoundingClientRect;
+          let armed = true;
+          proto.getBoundingClientRect = function (this: Element) {
+            if (armed && this.matches?.("[data-catalog-anim='card']")) {
+              armed = false;
+              throw new Error("SIMULATED_BATCH_FAILURE");
+            }
+            return original.call(this);
+          };
+        });
+
+        await page.goto("/e2e-fixtures/catalog-batch?count=1");
+        await expect(page.locator("[data-catalog-anim='card']").first()).toHaveCSS("opacity", "1");
+      });
+    });
+
+    test("Trust checklist items and check icons are visible after settle", async ({ page }) => {
+      await page.goto("/");
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(1200);
+
+      const items = page.locator("[data-trust-anim='item']");
+      await expect(items).toHaveCount(4);
+
+      const checks = page.locator("[data-trust-anim='check']");
+      await expect(checks).toHaveCount(4);
+      for (let i = 0; i < 4; i++) {
+        await expect(checks.nth(i)).toBeVisible();
+      }
+    });
+
+    test("reduced motion disables pin and batch across sections", async ({ page }) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto("/");
+      await page.waitForTimeout(500);
+
+      // HowToOrder: steps are visible immediately (the entrance timeline's
+      // own target, actually hidden/cleared by the reduced-motion branch —
+      // `sprite` is never touched by either timeline, so asserting on it
+      // wouldn't prove reduced-motion gating ran), no pin created — a
+      // normal scroll moves the section instead of pinning it.
+      await expect(page.locator("[data-order-anim='step']").first()).toBeVisible();
+      const orderSection = page.locator(".order-section");
+      await orderSection.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      const orderTopBefore = await orderSection.evaluate((el) => el.getBoundingClientRect().top);
+      await page.evaluate(() => window.scrollBy(0, 250));
+      await page.waitForTimeout(200);
+      const orderTopAfter = await orderSection.evaluate((el) => el.getBoundingClientRect().top);
+      expect(orderTopAfter).toBeLessThan(orderTopBefore - 100);
+
+      // FinalCTA: card is visible immediately, no clip-path applied.
+      const card = page.locator(".final-cta-card");
+      await card.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(200);
+      await expect(card).toHaveCSS("clip-path", "none");
+
+      // Catalog: cards (if any render on the real page) are visible without
+      // needing to scroll — no batch() gating under reduced motion.
+      const catalogCards = page.locator("[data-catalog-anim='card']");
+      const catalogCount = await catalogCards.count();
+      if (catalogCount > 0) {
+        await expect(catalogCards.first()).toBeVisible();
+      }
+
+      expect(consoleErrors).toEqual([]);
+    });
+  });
+
   test.describe("Business positioning", () => {
     test("communicates business use cases above the fold", async ({ page }) => {
       await page.goto("/");
