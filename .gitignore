@@ -37,4 +37,8 @@ coverage/
 .vercel/
 # Local Pi runtime state
 .atl/
-.pi/subagents-debug.log
+.pi/
+
+# Generated tool state
+.astro/
+.codegraph/
