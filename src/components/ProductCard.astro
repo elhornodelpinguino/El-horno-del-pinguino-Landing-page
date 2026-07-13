@@ -5,53 +5,36 @@ import { whatsappLink } from "~/lib/config";
 
 interface Props {
   product: Product;
-  index?: number;
 }
 
-const { product, index = 0 } = Astro.props;
+const { product } = Astro.props;
 const productName = displayProductName(product.name);
-const isFeatured = index === 0;
-const fallbackPhoto =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%23fff7f0'/><circle cx='200' cy='190' r='116' fill='%23fbebde'/><path d='M122 246c28 34 129 34 157 0' fill='none' stroke='%23a81452' stroke-width='8' stroke-linecap='round' opacity='0.28'/><rect x='118' y='132' width='164' height='118' rx='26' fill='%23ffffff' stroke='%23a81452' stroke-width='5' opacity='0.55'/><circle cx='160' cy='182' r='13' fill='%23f49d50'/><circle cx='202' cy='174' r='10' fill='%23a81452' opacity='0.75'/><circle cx='240' cy='190' r='12' fill='%23f49d50' opacity='0.8'/><text x='200' y='313' font-size='16' text-anchor='middle' fill='%23a81452' font-family='sans-serif' font-weight='700' letter-spacing='3'>ARTESANAL</text></svg>";
 
 const orderLink = whatsappLink(
   `Hola! Quiero pedir información sobre: ${productName} (${formatPrice(product.price)}). ¿Está disponible?`,
 );
 ---
 
-<article class:list={["product-card group", isFeatured && "product-card-featured"]}>
+<article class="product-card">
   <div class="product-card-media">
-    <img
-      src={product.photo_url || fallbackPhoto}
-      alt={productName}
-      loading="lazy"
-      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-      onerror={`this.src=${JSON.stringify(fallbackPhoto)}`}
-    />
-    <div class="product-card-sheen" aria-hidden="true"></div>
-
-    <div class="absolute left-3 top-3 flex flex-wrap gap-2">
-      {isFeatured && <span class="product-badge product-badge-warm">Favorito</span>}
-      {product.on_demand && <span class="product-badge">Por pedido</span>}
-    </div>
+    {
+      product.photo_url ? (
+        <img src={product.photo_url} alt={productName} loading="lazy" class="h-full w-full object-cover" />
+      ) : (
+        <div class="h-full w-full bg-horno-creamDark" aria-hidden="true"></div>
+      )
+    }
   </div>
 
-  <div class="flex flex-1 flex-col p-5 sm:p-6">
-    <h3 class="mb-3 font-display text-xl leading-snug text-horno-magentaDeep">
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="font-display text-xl leading-snug text-horno-magentaDeep">
       {productName}
     </h3>
 
-    <p class="mb-5 line-clamp-3 flex-1 text-sm leading-relaxed text-horno-magentaDeep/70">
-      {product.description}
-    </p>
-
-    <div class="mt-auto flex items-center justify-between gap-3 border-t border-horno-creamDark/70 pt-5">
-      <div>
-        <span class="block text-xs text-horno-magentaDeep/50">Desde</span>
-        <span class="text-2xl font-semibold text-horno-magenta">
-          {formatPrice(product.price)}
-        </span>
-      </div>
+    <div class="mt-auto flex items-center justify-between gap-3 pt-4">
+      <span class="text-2xl font-bold text-horno-magenta">
+        {formatPrice(product.price)}
+      </span>
       <a
         href={orderLink}
         target="_blank"

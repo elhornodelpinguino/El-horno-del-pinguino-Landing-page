@@ -10,6 +10,7 @@ if (shell) {
   const nav = shell.querySelector("nav");
   const eyebrow = shell.querySelector("[data-hero-anim='eyebrow']");
   const heading = shell.querySelector("[data-hero-anim='heading']");
+  const accent = shell.querySelector("[data-hero-anim='accent']");
   const copy = shell.querySelector("[data-hero-anim='copy']");
   const actions = shell.querySelector("[data-hero-anim='actions']");
   const badges = shell.querySelectorAll("[data-hero-anim='badge']");
@@ -17,7 +18,7 @@ if (shell) {
   const penguin = shell.querySelector(".penguin-sprite");
   const tickets = shell.querySelectorAll(".order-ticket");
 
-  const entranceTargets = [nav, eyebrow, heading, copy, actions, card, ...badges, ...tickets].filter(Boolean);
+  const entranceTargets = [nav, eyebrow, heading, accent, copy, actions, card, ...badges, ...tickets].filter(Boolean);
 
   if (motionQuery.matches) {
     gsap.set(entranceTargets, { clearProps: "all" });
@@ -27,6 +28,7 @@ if (shell) {
     tl.from(nav, { y: -16, opacity: 0 })
       .from(eyebrow, { y: 14, opacity: 0, duration: 0.5 }, "-=0.35")
       .from(heading, { y: 28, opacity: 0 }, "-=0.3")
+      .from(accent, { scaleX: 0, opacity: 0, duration: 0.5, transformOrigin: "left center" }, "-=0.35")
       .from(copy, { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
       .from(actions, { y: 16, opacity: 0, duration: 0.55, ease: "back.out(1.7)" }, "-=0.3")
       .from(badges, { y: 12, opacity: 0, duration: 0.45, stagger: 0.1 }, "-=0.25")
@@ -59,6 +61,15 @@ if (shell) {
         scrub: true,
         animation: gsap.to(penguin, { yPercent: -18, ease: "none" }),
       });
+
+      // Gentle infinite bobbing loop on the penguin sprite. Uses `y` while
+      // the parallax scrub above uses `yPercent`, so the two transforms
+      // compose instead of fighting over the same channel.
+      gsap.fromTo(
+        penguin,
+        { y: -6 },
+        { y: 6, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: -1 }
+      );
     }
   }
 }

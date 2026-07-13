@@ -1,0 +1,45 @@
+---
+const tags = ["POR ENCARGO", "PRESENTACIÓN CUIDADA", "PEDIDOS B2B"];
+
+// Pixel divider — 7 squares alternating brand tones at varying opacity
+const squares = [
+  "bg-horno-orange",
+  "bg-horno-cream opacity-70",
+  "bg-horno-magentaLight opacity-80",
+  "bg-horno-orange opacity-60",
+  "bg-horno-magentaLight opacity-80",
+  "bg-horno-cream opacity-70",
+  "bg-horno-orange",
+];
+---
+
+<section class="statement-section bg-horno-magentaDeep py-24 sm:py-32">
+  <div class="section flex flex-col items-center text-center">
+    <span data-statement-anim="eyebrow" class="text-sm font-semibold uppercase tracking-[0.3em] text-horno-orange">
+      Repostería artesanal para negocios
+    </span>
+
+    <h2 class="mt-8 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
+      <span data-statement-anim="line" class="block text-horno-cream">Sabor que se recuerda.</span>
+      <span data-statement-anim="line" class="mt-2 block text-horno-orange">Presentación que vende.</span>
+    </h2>
+
+    <div class="mt-10 flex items-center gap-3" aria-hidden="true">
+      {squares.map((tone) => (
+        <span data-statement-anim="square" class:list={["h-3 w-3 rounded-sm", tone]}></span>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-3">
+      {tags.map((tag) => (
+        <span data-statement-anim="tag" class="rounded-full border border-horno-orange px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-horno-cream">
+          {tag}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import "~/scripts/statement-animation.js";
+</script>

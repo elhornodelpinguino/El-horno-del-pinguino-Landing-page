@@ -1,41 +1,24 @@
-<section class="trust-section relative overflow-hidden py-20 sm:py-28">
-  <div class="section relative z-10">
-    <div class="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-      <div>
-        <span data-trust-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Proceso claro</span>
-        <h2 data-trust-anim="heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
-          Confianza es saber qué se entrega, cuándo y cómo
-        </h2>
-      </div>
+---
+const stats = [
+  { value: 120, prefix: "+", suffix: "", caption: "pedidos entregados" },
+  { value: 5, prefix: "", suffix: " años", caption: "horneando en Loja" },
+  { value: 100, prefix: "", suffix: "%", caption: "artesanal, sin atajos" },
+];
+---
 
-      <div data-trust-anim="receipt" class="trust-receipt">
-        <div class="pixel-scene pixel-scene-generated" aria-hidden="true"><div class="penguin-action-sprite penguin-trust-action"></div></div>
-        <ul class="mt-4 space-y-3 text-sm text-horno-magentaDeep/74">
-          <li data-trust-anim="item"><span data-trust-anim="check">✓</span> Producto, porciones y cantidad</li>
-          <li data-trust-anim="item"><span data-trust-anim="check">✓</span> Fecha, hora y dirección</li>
-          <li data-trust-anim="item"><span data-trust-anim="check">✓</span> Presentación o dedicatoria</li>
-          <li data-trust-anim="item"><span data-trust-anim="check">✓</span> Pago, entrega y coordinación</li>
-        </ul>
-      </div>
-    </div>
+<section class="trust-section relative overflow-hidden py-20 sm:py-28" aria-label="Resultados de la pastelería">
+  <div class="section relative z-10 grid items-center gap-12 lg:grid-cols-[auto_1fr]">
+    <div data-trust-anim="penguin" class="penguin-trust mx-auto lg:mx-0" aria-hidden="true"></div>
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <article data-trust-anim="card" class="trust-card" style="--i: 0">
-        <h3 class="text-lg">Chat directo</h3>
-        <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Hablas con quien hornea, sin intermediarios ni formularios.</p>
-      </article>
-      <article data-trust-anim="card" class="trust-card" style="--i: 1">
-        <h3 class="text-lg">Presentación cuidada</h3>
-        <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Empaque y decoración listos para servir o exhibir.</p>
-      </article>
-      <article data-trust-anim="card" class="trust-card" style="--i: 2">
-        <h3 class="text-lg">Entrega local</h3>
-        <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Coordinamos día, hora y dirección dentro de Loja.</p>
-      </article>
-      <article data-trust-anim="card" class="trust-card" style="--i: 3">
-        <h3 class="text-lg">Pedidos recurrentes</h3>
-        <p class="mt-2 text-sm leading-relaxed text-horno-magentaDeep/70">Reposición periódica para vitrinas, cafeterías y oficinas.</p>
-      </article>
+    <div class="grid gap-10 text-center sm:grid-cols-3 sm:text-left">
+      {stats.map((stat) => (
+        <div data-trust-anim="stat">
+          <p class="font-display text-5xl font-bold leading-none text-horno-orange sm:text-6xl">
+            {stat.prefix}<span data-trust-count data-count-to={stat.value}>{stat.value}</span>{stat.suffix}
+          </p>
+          <p class="mt-3 text-sm uppercase tracking-[0.18em] text-horno-cream/80">{stat.caption}</p>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -43,5 +26,3 @@
 <script>
   import "~/scripts/trust-animation.js";
 </script>
-
-<div class="ornament-divider" aria-hidden="true"></div>

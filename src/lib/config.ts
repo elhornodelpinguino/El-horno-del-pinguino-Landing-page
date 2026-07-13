@@ -9,6 +9,9 @@ export const SITE = {
   instagram:
     (import.meta.env.PUBLIC_INSTAGRAM_HANDLE as string | undefined) ??
     "elhornodelpinguino",
+  tiktok:
+    (import.meta.env.PUBLIC_TIKTOK_HANDLE as string | undefined) ??
+    "elhornodelpinguino",
   location: "Loja, Ecuador",
 };
 
@@ -20,4 +23,8 @@ export function whatsappLink(message: string): string {
 
 export function instagramLink(): string {
   return `https://www.instagram.com/${SITE.instagram}/`;
+}
+
+export function tiktokLink(): string {
+  return `https://www.tiktok.com/@${SITE.tiktok}`;
 }

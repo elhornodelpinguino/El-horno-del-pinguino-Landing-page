@@ -13,8 +13,6 @@ if (section) {
   const tags = section.querySelectorAll("[data-catalog-anim='tag']");
   const cards = section.querySelectorAll("[data-catalog-anim='card']");
   const empty = section.querySelector("[data-catalog-anim='empty']");
-  const orbLeft = section.querySelector(".catalog-orb-left");
-  const orbRight = section.querySelector(".catalog-orb-right");
 
   const entranceTargets = [eyebrow, heading, copy, ...tags, ...cards, empty].filter(Boolean);
 
@@ -66,25 +64,6 @@ if (section) {
       } catch {
         gsap.set(cards, { clearProps: "all" });
       }
-    }
-
-    if (orbLeft) {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        animation: gsap.to(orbLeft, { yPercent: -10, ease: "none" }),
-      });
-    }
-    if (orbRight) {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        animation: gsap.to(orbRight, { yPercent: 8, ease: "none" }),
-      });
     }
   }
 }

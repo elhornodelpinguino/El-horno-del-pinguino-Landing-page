@@ -1,43 +1,80 @@
 ---
+import { whatsappLink } from "~/lib/config";
+
 const useCases = [
   {
     title: "Empresas",
-    description:
-      "Postres para reuniones, cumpleaños internos, lanzamientos y fechas especiales con presentación lista para compartir.",
+    copy: "Postres listos para compartir en la oficina.",
+    bullets: ["Reuniones y lanzamientos", "Facturación disponible"],
+    penguinClass: "business-penguin-empresa",
+    message:
+      "Hola! Quiero cotizar postres para una empresa. ¿Me ayudan con opciones, cantidad y entrega?",
+    inverted: false,
   },
   {
     title: "Colegios",
-    description:
-      "Pedidos coordinados con anticipación para actividades, celebraciones y entregas por porciones o unidades.",
+    copy: "Pedidos coordinados para actividades y celebraciones.",
+    bullets: ["Porciones consistentes", "Entregas programadas"],
+    penguinClass: "business-penguin-colegio",
+    message:
+      "Hola! Quiero cotizar postres para un colegio. ¿Me ayudan con porciones, fecha y entrega?",
+    inverted: true,
   },
   {
     title: "Cafeterías",
-    description:
-      "Opciones artesanales para complementar vitrina, probar sabores de temporada o trabajar pedidos recurrentes.",
+    copy: "Vitrina surtida con repostería artesanal.",
+    bullets: ["Reposición por rotación", "Sabores de temporada"],
+    penguinClass: "business-penguin-cafeteria",
+    message:
+      "Hola! Quiero cotizar postres para una cafetería. ¿Me ayudan con opciones para vitrina y reposición?",
+    inverted: false,
   },
 ];
 ---
 
 <section class="business-section relative overflow-hidden py-16 sm:py-24" aria-labelledby="business-heading">
   <div class="section relative z-10">
-    <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-      <div>
-        <span data-business-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedidos para negocios</span>
-        <h2 data-business-anim="heading" id="business-heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
-          Postres para tu negocio, evento o institución.
-        </h2>
-      </div>
-      <p data-business-anim="copy" class="max-w-2xl leading-relaxed text-horno-magentaDeep/75">
-        Si necesitás algo rico, presentable y fácil de coordinar, trabajamos pedidos por WhatsApp con fecha, cantidad, entrega y presentación claras desde el inicio.
+    <div class="max-w-2xl">
+      <h2 data-business-anim="heading" id="business-heading" class="text-3xl leading-tight sm:text-4xl">
+        <span class="text-horno-magentaDeep">Hecho para</span>
+        <span class="text-horno-orange">tu negocio.</span>
+      </h2>
+      <p data-business-anim="copy" class="mt-4 leading-relaxed text-horno-magentaDeep/75">
+        Cotizamos por cantidad, fecha y entrega en Loja. Respuesta el mismo día.
       </p>
     </div>
 
     <div class="mt-10 grid gap-5 md:grid-cols-3">
       {useCases.map((item, index) => (
-        <article data-business-anim="card" class="business-card" style={`--i: ${index}`}>
-          <span class="business-card-number">0{index + 1}</span>
+        <article
+          data-business-anim="card"
+          class:list={["business-card", item.inverted && "business-card-inverted"]}
+          style={`--i: ${index}`}
+        >
+          <div class:list={["business-card-penguin", item.penguinClass]} aria-hidden="true"></div>
           <h3>{item.title}</h3>
-          <p>{item.description}</p>
+          <p class:list={["mt-2 text-sm leading-relaxed", item.inverted ? "text-horno-cream/85" : "text-horno-ink/70"]}>
+            {item.copy}
+          </p>
+          <ul class:list={["mt-4 space-y-2", item.inverted ? "text-horno-cream/90" : "text-horno-ink/80"]}>
+            {item.bullets.map((bullet) => (
+              <li class="business-bullet">{bullet}</li>
+            ))}
+          </ul>
+          <a
+            href={whatsappLink(item.message)}
+            target="_blank"
+            rel="noopener"
+            class:list={[
+              "mt-6 w-fit text-sm font-semibold",
+              item.inverted ? "btn-secondary" : "btn-primary",
+            ]}
+          >
+            Cotizar
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
         </article>
       ))}
     </div>
@@ -47,5 +84,3 @@ const useCases = [
 <script>
   import "~/scripts/business-animation.js";
 </script>
-
-<div class="ornament-divider" aria-hidden="true"></div>

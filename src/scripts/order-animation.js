@@ -12,8 +12,6 @@ if (section) {
   const heading = section.querySelector("[data-order-anim='heading']");
   const steps = section.querySelectorAll("[data-order-anim='step']");
   const cta = section.querySelector("[data-order-anim='cta']");
-  const bubble1 = section.querySelector("[data-order-anim='bubble1']");
-  const bubble2 = section.querySelector("[data-order-anim='bubble2']");
 
   const entranceTargets = [eyebrow, heading, ...steps, cta].filter(Boolean);
 
@@ -82,27 +80,6 @@ if (section) {
       } catch {
         gsap.set(steps, { clearProps: "all" });
       }
-    }
-  }
-
-  if (!motionQuery.matches) {
-    if (bubble1) {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        animation: gsap.to(bubble1, { yPercent: -12, ease: "none" }),
-      });
-    }
-    if (bubble2) {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        animation: gsap.to(bubble2, { yPercent: 10, ease: "none" }),
-      });
     }
   }
 }

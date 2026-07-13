@@ -1,0 +1,26 @@
+---
+const items = [
+  "POSTRES ARTESANALES",
+  "HECHOS EN LOJA",
+  "EMPRESAS",
+  "COLEGIOS",
+  "CAFETERÍAS",
+];
+// Each run must be wider than any viewport so the two-run -50% wrap never
+// exposes a gap; three repetitions (~3300px) covers large desktop screens.
+const run = Array.from({ length: 3 }, () => items)
+  .flat()
+  .map((item) => `${item} · `)
+  .join("");
+---
+
+<div class="marquee-band flex h-16 items-center" role="presentation">
+  <div class="marquee-track" data-marquee-track>
+    <span class="marquee-run font-display text-[22px] font-bold tracking-wide text-horno-magentaDeep">{run}</span>
+    <span class="marquee-run font-display text-[22px] font-bold tracking-wide text-horno-magentaDeep" aria-hidden="true">{run}</span>
+  </div>
+</div>
+
+<script>
+  import "~/scripts/marquee-animation.js";
+</script>

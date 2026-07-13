@@ -7,16 +7,14 @@ const section = document.querySelector(".trust-section");
 if (section) {
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const eyebrow = section.querySelector("[data-trust-anim='eyebrow']");
-  const heading = section.querySelector("[data-trust-anim='heading']");
-  const receipt = section.querySelector("[data-trust-anim='receipt']");
-  const cards = section.querySelectorAll("[data-trust-anim='card']");
-  const items = section.querySelectorAll("[data-trust-anim='item']");
-  const checks = section.querySelectorAll("[data-trust-anim='check']");
+  const penguin = section.querySelector("[data-trust-anim='penguin']");
+  const stats = section.querySelectorAll("[data-trust-anim='stat']");
+  const counters = section.querySelectorAll("[data-trust-count]");
 
-  const entranceTargets = [eyebrow, heading, receipt, ...cards, ...items, ...checks].filter(Boolean);
+  const entranceTargets = [penguin, ...stats].filter(Boolean);
 
   if (motionQuery.matches) {
+    // Static band — the server-rendered final values stay untouched.
     gsap.set(entranceTargets, { clearProps: "all" });
   } else {
     const tl = gsap.timeline({
@@ -24,17 +22,18 @@ if (section) {
       scrollTrigger: { trigger: section, start: "top 78%" },
     });
 
-    if (eyebrow) tl.from(eyebrow, { y: 14, opacity: 0, duration: 0.5 });
-    if (heading) tl.from(heading, { y: 24, opacity: 0 }, "-=0.35");
-    if (receipt) tl.from(receipt, { y: 20, opacity: 0, duration: 0.6 }, "-=0.4");
-    if (cards.length) tl.from(cards, { y: 24, opacity: 0, duration: 0.55, stagger: 0.1 }, "-=0.3");
-    if (items.length) tl.from(items, { x: -12, opacity: 0, stagger: 0.08 }, "-=0.3");
-    if (checks.length) {
+    if (penguin) tl.from(penguin, { y: 20, opacity: 0, duration: 0.6 });
+    if (stats.length) tl.from(stats, { y: 24, opacity: 0, duration: 0.6, stagger: 0.12 }, "-=0.35");
+
+    // Count each number up from 0 to its server-rendered value. `.from()`
+    // tweens textContent starting at 0 and snaps to whole numbers, so the
+    // markup keeps the real value if this script never runs.
+    counters.forEach((counter) => {
       tl.from(
-        checks,
-        { scale: 0, rotate: -45, opacity: 0, stagger: 0.1, ease: "back.out(2)" },
-        "-=0.3"
+        counter,
+        { textContent: 0, duration: 1.4, ease: "power1.out", snap: { textContent: 1 } },
+        "<"
       );
-    }
+    });
   }
 }

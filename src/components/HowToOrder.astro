@@ -1,37 +1,30 @@
 ---
 import { SITE, whatsappLink } from "~/lib/config";
+
+const steps = [
+  { number: "01", title: "Contás la ocasión y cantidad", penguinClass: "penguin-step-1" },
+  { number: "02", title: "Definimos sabor y presentación", penguinClass: "penguin-step-2" },
+  { number: "03", title: "Coordinamos pago y entrega", penguinClass: "penguin-step-3" },
+];
 ---
 
 <section id="como-pedir" class="order-section relative overflow-hidden py-20 sm:py-28">
-  <div data-order-anim="bubble1" class="ios-bubble order-bubble order-bubble-1" aria-hidden="true"></div>
-  <div data-order-anim="bubble2" class="ios-bubble order-bubble order-bubble-2" aria-hidden="true"></div>
-
   <div class="section relative z-10">
     <div class="mx-auto mb-12 max-w-2xl text-center">
-      <span data-order-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card backdrop-blur">Pedido guiado</span>
-      <h2 data-order-anim="heading" class="mt-4 text-3xl leading-tight sm:text-4xl">
-        Tres pasos para cotizar sin vueltas
+      <span data-order-anim="eyebrow" class="eyebrow">Pedido guiado</span>
+      <h2 data-order-anim="heading" class="mt-2 text-3xl leading-tight sm:text-4xl">
+        Tres pasos, cero vueltas
       </h2>
     </div>
 
     <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
-      <article data-order-anim="step" class="order-step-card" style="--i: 0">
-        <div data-order-anim="sprite" class="pixel-scene pixel-scene-generated" aria-hidden="true"><div class="penguin-action-sprite penguin-phone-action"></div></div>
-        <span class="order-step-number">01</span>
-        <h3>Contás la ocasión y cantidad</h3>
-      </article>
-
-      <article data-order-anim="step" class="order-step-card order-step-card-featured" style="--i: 1">
-        <div data-order-anim="sprite" class="pixel-scene pixel-scene-generated" aria-hidden="true"><div class="penguin-action-sprite penguin-baking-action"></div></div>
-        <span class="order-step-number">02</span>
-        <h3>Definimos sabor y presentación</h3>
-      </article>
-
-      <article data-order-anim="step" class="order-step-card" style="--i: 2">
-        <div data-order-anim="sprite" class="pixel-scene pixel-scene-generated" aria-hidden="true"><div class="penguin-action-sprite penguin-delivery-action"></div></div>
-        <span class="order-step-number">03</span>
-        <h3>Coordinamos pago y entrega</h3>
-      </article>
+      {steps.map((step, index) => (
+        <article data-order-anim="step" class="order-step-card" style={`--i: ${index}`}>
+          <div data-order-anim="sprite" class:list={["penguin-step", step.penguinClass]} aria-hidden="true"></div>
+          <span class="order-step-number">{step.number}</span>
+          <h3>{step.title}</h3>
+        </article>
+      ))}
     </div>
 
     <div data-order-anim="cta" class="mt-10 text-center">
@@ -45,5 +38,3 @@ import { SITE, whatsappLink } from "~/lib/config";
 <script>
   import "~/scripts/order-animation.js";
 </script>
-
-<div class="ornament-divider" aria-hidden="true"></div>

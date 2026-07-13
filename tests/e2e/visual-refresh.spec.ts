@@ -152,7 +152,7 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-catalog-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
-      await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-trust-anim='stat']").first()).toBeVisible();
       await expect(page.locator("[data-finalcta-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
       await expect(page.locator("[data-contact-anim='column']").first()).toBeVisible();
@@ -162,23 +162,18 @@ test.describe("Visual Refresh — Interactions", () => {
       await page.goto("/");
       await page.waitForTimeout(500);
 
-      // Scroll to the HowToOrder section (avoid scrollIntoViewIfNeeded on animated elements)
-      await page.evaluate(() => {
-        const section = document.getElementById("como-pedir");
-        if (section) section.scrollIntoView({ block: "center" });
-      });
-      await page.waitForTimeout(300);
-
-      const bubble = page.locator("[data-order-anim='bubble1']");
-      const transformBefore = await bubble.evaluate(
+      // The hero card parallax scrubs across the .hero-shell range
+      // (top top -> bottom top), so scrolling from page top drives it.
+      const card = page.locator(".hero-card");
+      const transformBefore = await card.evaluate(
         (el) => window.getComputedStyle(el).transform
       );
 
-      // Scroll further down to drive the scrub timeline
+      // Scroll down to drive the scrub timeline
       await page.evaluate(() => window.scrollBy(0, 600));
       await page.waitForTimeout(300);
 
-      const transformAfter = await bubble.evaluate(
+      const transformAfter = await card.evaluate(
         (el) => window.getComputedStyle(el).transform
       );
 
@@ -271,7 +266,7 @@ test.describe("Visual Refresh — Interactions", () => {
       // Representative elements should be visible without animation
       await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
-      await expect(page.locator("[data-trust-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-trust-anim='stat']").first()).toBeVisible();
       await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
       await expect(page.locator("[data-contact-anim='column']").first()).toBeVisible();
 
@@ -362,13 +357,13 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-order-anim='step']").first()).toHaveCSS("opacity", "1");
     });
 
-    test("FinalCTA card stays rectangular (no clip-path) and reveals on scroll", async ({ page }) => {
+    test("FinalCTA actions stay rectangular (no clip-path) and reveal on scroll", async ({ page }) => {
       await page.goto("/");
-      const card = page.locator(".final-cta-card");
-      await card.scrollIntoViewIfNeeded();
+      const actions = page.locator("[data-finalcta-anim='actions']");
+      await actions.scrollIntoViewIfNeeded();
       await page.waitForTimeout(900);
-      await expect(card).toHaveCSS("opacity", "1");
-      await expect(card).toHaveCSS("clip-path", "none");
+      await expect(actions).toHaveCSS("opacity", "1");
+      await expect(actions).toHaveCSS("clip-path", "none");
     });
 
     test.describe("Catalog batch reveal (fixture-controlled product count)", () => {
@@ -463,19 +458,20 @@ test.describe("Visual Refresh — Interactions", () => {
       });
     });
 
-    test("Trust checklist items and check icons are visible after settle", async ({ page }) => {
+    test("Trust stats settle at their final counted values", async ({ page }) => {
       await page.goto("/");
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      await page.waitForTimeout(1200);
+      await page.waitForTimeout(2000);
 
-      const items = page.locator("[data-trust-anim='item']");
-      await expect(items).toHaveCount(4);
+      const stats = page.locator("[data-trust-anim='stat']");
+      await expect(stats).toHaveCount(3);
 
-      const checks = page.locator("[data-trust-anim='check']");
-      await expect(checks).toHaveCount(4);
-      for (let i = 0; i < 4; i++) {
-        await expect(checks.nth(i)).toBeVisible();
-      }
+      // Count-up must land exactly on the server-rendered targets
+      const counters = page.locator("[data-trust-count]");
+      await expect(counters).toHaveCount(3);
+      await expect(counters.nth(0)).toHaveText("120");
+      await expect(counters.nth(1)).toHaveText("5");
+      await expect(counters.nth(2)).toHaveText("100");
     });
 
     test("reduced motion disables pin and batch across sections", async ({ page }) => {
@@ -501,11 +497,11 @@ test.describe("Visual Refresh — Interactions", () => {
       const orderTopAfter = await orderSection.evaluate((el) => el.getBoundingClientRect().top);
       expect(orderTopAfter).toBeLessThan(orderTopBefore - 100);
 
-      // FinalCTA: card is visible immediately, no clip-path applied.
-      const card = page.locator(".final-cta-card");
-      await card.scrollIntoViewIfNeeded();
+      // FinalCTA: actions are visible immediately, no clip-path applied.
+      const actions = page.locator("[data-finalcta-anim='actions']");
+      await actions.scrollIntoViewIfNeeded();
       await page.waitForTimeout(200);
-      await expect(card).toHaveCSS("clip-path", "none");
+      await expect(actions).toHaveCSS("clip-path", "none");
 
       // Catalog: cards (if any render on the real page) are visible without
       // needing to scroll — no batch() gating under reduced motion.
@@ -603,12 +599,13 @@ test.describe("Visual Refresh — Interactions", () => {
     test("communicates business use cases above the fold", async ({ page }) => {
       await page.goto("/");
       await expect(page.getByRole("heading", { level: 1 })).toContainText(/empresas|colegios|cafeterías/i);
-      await expect(page.getByText(/empresas, colegios y cafeterías/i)).toBeVisible();
+      // .first() — the phrase also appears in the footer brand copy
+      await expect(page.getByText(/empresas, colegios y cafeterías/i).first()).toBeVisible();
     });
 
     test("shows a dedicated business use cases section", async ({ page }) => {
       await page.goto("/");
-      await expect(page.getByRole("heading", { name: /postres para tu negocio/i })).toBeVisible();
+      await expect(page.getByRole("heading", { name: /hecho para tu negocio/i })).toBeVisible();
       const businessSection = page.locator(".business-section");
       await expect(businessSection.getByRole("heading", { name: "Empresas", exact: true })).toBeVisible();
       await expect(businessSection.getByRole("heading", { name: "Colegios", exact: true })).toBeVisible();
@@ -661,7 +658,10 @@ test.describe("Visual Refresh — Interactions", () => {
 
       expect(orderBox).not.toBeNull();
       expect(stickyBox).not.toBeNull();
-      const overlaps = orderBox!.bottom > stickyBox!.top && orderBox!.top < stickyBox!.bottom;
+      // boundingBox() only exposes x/y/width/height — derive the edges
+      const orderBottom = orderBox!.y + orderBox!.height;
+      const stickyBottom = stickyBox!.y + stickyBox!.height;
+      const overlaps = orderBottom > stickyBox!.y && orderBox!.y < stickyBottom;
       expect(overlaps).toBe(false);
     });
 

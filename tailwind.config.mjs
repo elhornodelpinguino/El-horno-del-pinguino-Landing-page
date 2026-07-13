@@ -16,7 +16,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ["'Poppins'", "sans-serif"],
+        display: ["'Fraunces'", "serif"],
         body: ["'Poppins'", "sans-serif"],
       },
       boxShadow: {

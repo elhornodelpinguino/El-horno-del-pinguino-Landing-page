@@ -313,7 +313,7 @@ export const FRAMES = [buildFrame1(), buildFrame2(), buildFrame3(), buildFrame4(
 
 /**
  * Convert a 2D character grid to RGBA buffer
- * @param {string[][]} frames - array of frames (each is FRAME_SIZE × FRAME_SIZE chars)
+ * @param {string[][][]} frames - array of frames (each is FRAME_SIZE × FRAME_SIZE rows of chars)
  * @returns {{ data: ArrayBuffer, width: number, height: number }}
  */
 export function compositeSprite(frames) {
