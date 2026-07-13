@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": 9001,
+      "external_id": "local-torta-mariposas",
+      "org_id": 1,
+      "name": "Torta de Cumpleaños Mariposas",
+      "description": "Torta personalizada con crema texturizada, mariposas comestibles, perlas doradas y topper. Sabores y tamaño a elección.",
+      "sku": "LOC-001",
+      "price": 28.0,
+      "cost": 0,
+      "stock": 0,
+      "on_demand": true,
+      "perecedero": true,
+      "photo_url": "/producto-torta-mariposas.jpg",
+      "is_active": true,
+      "attributes": {},
+      "created_at": "2026-07-12T00:00:00.000Z",
+      "updated_at": "2026-07-12T00:00:00.000Z"
+    },
+    {
+      "id": 9002,
+      "external_id": "local-mini-donas",
+      "org_id": 1,
+      "name": "Caja de Mini Donas Personalizadas",
+      "description": "Mini donas bañadas en chocolate con letras y detalles personalizados para fechas especiales. Caja de 12 unidades.",
+      "sku": "LOC-002",
+      "price": 12.0,
+      "cost": 0,
+      "stock": 0,
+      "on_demand": true,
+      "perecedero": true,
+      "photo_url": "/producto-mini-donas.jpg",
+      "is_active": true,
+      "attributes": {},
+      "created_at": "2026-07-12T00:00:00.000Z",
+      "updated_at": "2026-07-12T00:00:00.000Z"
+    }
+  ]
+}

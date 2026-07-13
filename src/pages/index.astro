@@ -3,7 +3,9 @@ export const prerender = false;
 
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import Hero from "~/components/Hero.astro";
+import Marquee from "~/components/Marquee.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
+import Statement from "~/components/Statement.astro";
 import BusinessUseCases from "~/components/BusinessUseCases.astro";
 import HowToOrder from "~/components/HowToOrder.astro";
 
@@ -16,6 +18,11 @@ import ErrorBoundary from "~/components/ErrorBoundary.astro";
 import { getOrganization, getProducts, loadFallback } from "~/lib/api";
 import type { Organization, Product } from "~/lib/api";
 import { SITE } from "~/lib/config";
+import localProductsRaw from "~/data/local-products.json";
+
+// Temporary catalog entries served from /public until the owned backend
+// replaces the current product API. Remove once real products have photos.
+const localProducts = localProductsRaw.products as Product[];
 
 let org: Organization | null = null;
 let products: Product[] = [];
@@ -52,6 +59,15 @@ if (!hasHeroError) {
   }
 }
 
+const existingIds = new Set(products.map((p) => p.external_id));
+products = [
+  ...products,
+  ...localProducts.filter((p) => !existingIds.has(p.external_id)),
+];
+if (products.length > 0) {
+  hasProductsError = false;
+}
+
 const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -79,9 +95,11 @@ if (products.length > 0) {
     <ErrorBoundary hasError={hasHeroError} message="No pudimos cargar la información de la pastelería. Escríbenos por WhatsApp.">
       <Hero org={org} />
     </ErrorBoundary>
+    <Marquee />
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />
     </ErrorBoundary>
+    <Statement />
     <BusinessUseCases />
     <HowToOrder />
     <Trust />
