@@ -94,6 +94,9 @@ export function loadFallback(): Product[] {
 
 export async function getProducts(): Promise<Product[]> {
   const data = await request<CatalogResponse>(buildProductsUrl(BASE_URL));
+  if (!data || !Array.isArray(data.items)) {
+    throw new Error("Malformed catalog response: expected an `items` array");
+  }
   if (data.totalPages > 1) {
     console.warn(
       `Catalog truncated: showing page ${data.page} of ${data.totalPages} (limit ${data.limit}, total ${data.total}). Auto-pagination is not implemented.`,

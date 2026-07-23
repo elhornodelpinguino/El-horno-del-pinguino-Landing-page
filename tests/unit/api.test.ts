@@ -101,6 +101,16 @@ describe("getProducts", () => {
     expect(warnSpy).toHaveBeenCalled();
     warnSpy.mockRestore();
   });
+
+  it("throws (does not silently return an empty/undefined result) on a 200 response with a malformed envelope", async () => {
+    global.fetch = vi
+      .fn()
+      .mockResolvedValue(
+        mockJsonResponse({ unexpected: "shape" }),
+      ) as unknown as typeof fetch;
+
+    await expect(getProducts()).rejects.toThrow();
+  });
 });
 
 describe("buildProductsUrl", () => {
