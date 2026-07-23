@@ -1,22 +1,3 @@
-export interface Organization {
-  id: number;
-  external_id: string;
-  name: string;
-  legal_name: string;
-  email: string;
-  description: string;
-  primary_color: string;
-  secondary_color: string;
-  tertiary_color: string;
-  logo_url: string;
-  address: string | null;
-  telephone: string;
-  org_type: string;
-  is_active: boolean;
-  extra_data: Record<string, string>;
-  created_at: string;
-}
-
 export interface Product {
   id: string;
   name: string;
@@ -34,23 +15,9 @@ export interface CatalogResponse {
   totalPages: number;
 }
 
-interface ProductsResponse {
-  products: Product[];
-  count: number;
-  page: number;
-  page_size: number;
-}
-
-interface OrganizationsResponse {
-  organizations: Organization[];
-  count: number;
-}
-
 const BASE_URL =
   import.meta.env.PUBLIC_API_BASE_URL ??
   "https://product-admin-backend-vfyy.onrender.com";
-const ORG_ID =
-  import.meta.env.PUBLIC_ORG_EXTERNAL_ID ?? "horno-del-pinguino-92f9";
 
 /**
  * Builds the fully-qualified public products endpoint URL from a host-root
@@ -125,13 +92,6 @@ export function loadFallback(): Product[] {
   return (fallbackRaw as FallbackData).items;
 }
 
-export async function getOrganization(): Promise<Organization | null> {
-  const data = await request<OrganizationsResponse>(
-    `${BASE_URL.replace(/\/$/, "")}/public/organizations`,
-  );
-  return data.organizations.find((o) => o.external_id === ORG_ID) ?? null;
-}
-
 export async function getProducts(): Promise<Product[]> {
   const data = await request<CatalogResponse>(buildProductsUrl(BASE_URL));
   if (data.totalPages > 1) {
@@ -148,12 +108,4 @@ export function formatPrice(cents: number): string {
     currency: "USD",
     minimumFractionDigits: 2,
   }).format(cents / 100);
-}
-
-/**
- * Normaliza nombres de producto que vienen con typo del backend.
- * El backend tiene "Chesscake" en vez de "Cheesecake".
- */
-export function displayProductName(raw: string): string {
-  return raw.replace(/Chesscake/gi, "Cheesecake");
 }
