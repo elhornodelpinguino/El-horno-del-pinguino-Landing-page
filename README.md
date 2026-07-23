@@ -7,11 +7,14 @@ Landing page estática para Horno del Pingüino — postres artesanales.
 ## Variables de Entorno
 
 ```bash
-PUBLIC_API_BASE_URL=https://product-admin-backend-vfyy.onrender.com/api
-PUBLIC_ORG_EXTERNAL_ID=horno-del-pinguino-92f9
+PUBLIC_API_BASE_URL=https://product-admin-backend-vfyy.onrender.com
 PUBLIC_WHATSAPP_NUMBER=593XXXXXXXXX
 PUBLIC_INSTAGRAM_HANDLE=hornodlpinguino
 ```
+
+`PUBLIC_API_BASE_URL` MUST be the backend's HOST ROOT (no `/api` suffix) —
+the client appends `/api/public/products` itself. A trailing slash on the
+value is normalized automatically.
 
 ## Desarrollo
 
@@ -28,12 +31,8 @@ npm run test:e2e   # e2e tests (requires `npm run preview` running)
 Si el backend cambia, regenerá `src/data/fallback.json`:
 
 ```bash
-curl -s "https://product-admin-backend-vfyy.onrender.com/api/public/organizations" | \
-  jq '.organizations[] | select(.external_id == "horno-del-pinguino-92f9")' > /tmp/org.json
-curl -s "https://product-admin-backend-vfyy.onrender.com/api/public/organizations/horno-del-pinguino-92f9/products" | \
-  jq '.products' > /tmp/products.json
-jq -n --argfile org /tmp/org.json --argfile products /tmp/products.json \
-  '{org: $org, products: $products}' > src/data/fallback.json
+curl -s "https://product-admin-backend-vfyy.onrender.com/api/public/products?page=1&limit=100" | \
+  jq '{items: .items}' > src/data/fallback.json
 ```
 
 ## Estructura

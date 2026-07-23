@@ -15,73 +15,39 @@ import FinalCTA from "~/components/FinalCTA.astro";
 import Contact from "~/components/Contact.astro";
 import StickyWhatsApp from "~/components/StickyWhatsApp.astro";
 import ErrorBoundary from "~/components/ErrorBoundary.astro";
-import { getOrganization, getProducts, loadFallback } from "~/lib/api";
-import type { Organization, Product } from "~/lib/api";
+import { getProducts, loadFallback } from "~/lib/api";
+import type { Product } from "~/lib/api";
 import { SITE } from "~/lib/config";
-import localProductsRaw from "~/data/local-products.json";
 
-// Temporary catalog entries served from /public until the owned backend
-// replaces the current product API. Remove once real products have photos.
-const localProducts = localProductsRaw.products as Product[];
-
-let org: Organization | null = null;
 let products: Product[] = [];
-let hasHeroError = false;
 let hasProductsError = false;
 
 try {
-  org = await getOrganization();
+  products = await getProducts();
 } catch (err) {
-  hasHeroError = true;
-  console.error("Error fetching organization:", err);
+  console.error("Error fetching products:", err);
   try {
-    const fallback = loadFallback();
-    org = fallback.org;
-    products = fallback.products;
+    products = loadFallback();
   } catch (fbErr) {
     console.error("Fallback also failed:", fbErr);
   }
-}
-
-if (!hasHeroError) {
-  try {
-    products = await getProducts();
-  } catch (err) {
-    hasProductsError = true;
-    console.error("Error fetching products:", err);
-    if (products.length === 0) {
-      try { products = loadFallback().products; }
-      catch (fbErr) { console.error("Fallback failed:", fbErr); }
-    }
-    if (products.length > 0) {
-      hasProductsError = false;
-    }
-  }
-}
-
-const existingIds = new Set(products.map((p) => p.external_id));
-products = [
-  ...products,
-  ...localProducts.filter((p) => !existingIds.has(p.external_id)),
-];
-if (products.length > 0) {
-  hasProductsError = false;
+  hasProductsError = products.length === 0;
 }
 
 const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: org?.name ?? SITE.name,
+  name: SITE.name,
   url: "https://el-horno-del-pinguino-landing-page.onrender.com",
-  logo: org?.logo_url || "https://el-horno-del-pinguino-landing-page.onrender.com/logo.png",
-  description: org?.description ?? SITE.description,
+  logo: "https://el-horno-del-pinguino-landing-page.onrender.com/logo.png",
+  description: SITE.description,
   address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
 };
 if (products.length > 0) {
   jsonLd.offers = products.slice(0, 3).map((p) => ({
     "@type": "Offer", name: p.name, description: p.description,
-    price: p.price, priceCurrency: "USD",
-    availability: p.on_demand ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+    price: p.price / 100, priceCurrency: p.currency,
+    availability: "https://schema.org/InStock",
   }));
 }
 ---
@@ -92,9 +58,7 @@ if (products.length > 0) {
   jsonLd={jsonLd}
 >
   <main>
-    <ErrorBoundary hasError={hasHeroError} message="No pudimos cargar la información de la pastelería. Escríbenos por WhatsApp.">
-      <Hero org={org} />
-    </ErrorBoundary>
+    <Hero />
     <Marquee />
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />

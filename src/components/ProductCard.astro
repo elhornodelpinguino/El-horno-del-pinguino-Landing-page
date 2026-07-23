@@ -1,6 +1,6 @@
 ---
 import type { Product } from "~/lib/api";
-import { formatPrice, displayProductName } from "~/lib/api";
+import { formatPrice } from "~/lib/api";
 import { whatsappLink } from "~/lib/config";
 
 interface Props {
@@ -8,18 +8,17 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const productName = displayProductName(product.name);
 
 const orderLink = whatsappLink(
-  `Hola! Quiero pedir información sobre: ${productName} (${formatPrice(product.price)}). ¿Está disponible?`,
+  `Hola! Quiero pedir información sobre: ${product.name} (${formatPrice(product.price)}). ¿Está disponible?`,
 );
 ---
 
 <article class="product-card">
   <div class="product-card-media">
     {
-      product.photo_url ? (
-        <img src={product.photo_url} alt={productName} loading="lazy" class="h-full w-full object-cover" />
+      product.imageUrl ? (
+        <img src={product.imageUrl} alt={product.name} loading="lazy" class="h-full w-full object-cover" />
       ) : (
         <div class="h-full w-full bg-horno-creamDark" aria-hidden="true"></div>
       )
@@ -28,7 +27,7 @@ const orderLink = whatsappLink(
 
   <div class="flex flex-1 flex-col p-5">
     <h3 class="font-display text-xl leading-snug text-horno-magentaDeep">
-      {productName}
+      {product.name}
     </h3>
 
     <div class="mt-auto flex items-center justify-between gap-3 pt-4">
