@@ -1,58 +1,31 @@
-export interface Organization {
-  id: number;
-  external_id: string;
-  name: string;
-  legal_name: string;
-  email: string;
-  description: string;
-  primary_color: string;
-  secondary_color: string;
-  tertiary_color: string;
-  logo_url: string;
-  address: string | null;
-  telephone: string;
-  org_type: string;
-  is_active: boolean;
-  extra_data: Record<string, string>;
-  created_at: string;
-}
-
 export interface Product {
-  id: number;
-  external_id: string;
-  org_id: number;
+  id: string;
   name: string;
   description: string;
-  sku: string;
   price: number;
-  cost: number;
-  stock: number;
-  on_demand: boolean;
-  perecedero: boolean;
-  photo_url: string;
-  is_active: boolean;
-  attributes: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
+  currency: string;
+  imageUrl: string;
 }
 
-interface ProductsResponse {
-  products: Product[];
-  count: number;
+export interface CatalogResponse {
+  items: Product[];
   page: number;
-  page_size: number;
-}
-
-interface OrganizationsResponse {
-  organizations: Organization[];
-  count: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }
 
 const BASE_URL =
   import.meta.env.PUBLIC_API_BASE_URL ??
-  "https://product-admin-backend-vfyy.onrender.com/api";
-const ORG_ID =
-  import.meta.env.PUBLIC_ORG_EXTERNAL_ID ?? "horno-del-pinguino-92f9";
+  "https://product-admin-backend-vfyy.onrender.com";
+
+/**
+ * Builds the fully-qualified public products endpoint URL from a host-root
+ * base, normalizing any trailing slash so the join never double-slashes.
+ */
+export function buildProductsUrl(base: string): string {
+  return `${base.replace(/\/$/, "")}/api/public/products?page=1&limit=100`;
+}
 
 export class ApiError extends Error {
   retries: number;
@@ -93,15 +66,15 @@ export async function withRetry<T>(
   );
 }
 
-async function request<T>(path: string): Promise<T> {
+async function request<T>(url: string): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json" };
 
   return withRetry(async () => {
-    const res = await fetch(`${BASE_URL}${path}`, { headers });
+    const res = await fetch(url, { headers });
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       throw new Error(
-        `API ${res.status} ${res.statusText} en ${path} :: ${body.slice(0, 200)}`,
+        `API ${res.status} ${res.statusText} en ${url} :: ${body.slice(0, 200)}`,
       );
     }
     return (await res.json()) as T;
@@ -111,39 +84,31 @@ async function request<T>(path: string): Promise<T> {
 import fallbackRaw from "../data/fallback.json";
 
 interface FallbackData {
-  org: Organization;
-  products: Product[];
+  items: Product[];
 }
 
-export function loadFallback(): FallbackData {
+export function loadFallback(): Product[] {
   console.warn("Using fallback data — backend unreachable");
-  return fallbackRaw as FallbackData;
-}
-
-export async function getOrganization(): Promise<Organization | null> {
-  const data = await request<OrganizationsResponse>("/public/organizations");
-  return data.organizations.find((o) => o.external_id === ORG_ID) ?? null;
+  return (fallbackRaw as FallbackData).items;
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const data = await request<ProductsResponse>(
-    `/public/organizations/${ORG_ID}/products`,
-  );
-  return data.products.filter((p) => p.is_active);
+  const data = await request<CatalogResponse>(buildProductsUrl(BASE_URL));
+  if (!data || !Array.isArray(data.items)) {
+    throw new Error("Malformed catalog response: expected an `items` array");
+  }
+  if (data.totalPages > 1) {
+    console.warn(
+      `Catalog truncated: showing page ${data.page} of ${data.totalPages} (limit ${data.limit}, total ${data.total}). Auto-pagination is not implemented.`,
+    );
+  }
+  return data.items;
 }
 
-export function formatPrice(value: number): string {
+export function formatPrice(cents: number): string {
   return new Intl.NumberFormat("es-EC", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
-  }).format(value);
-}
-
-/**
- * Normaliza nombres de producto que vienen con typo del backend.
- * El backend tiene "Chesscake" en vez de "Cheesecake".
- */
-export function displayProductName(raw: string): string {
-  return raw.replace(/Chesscake/gi, "Cheesecake");
+  }).format(cents / 100);
 }
