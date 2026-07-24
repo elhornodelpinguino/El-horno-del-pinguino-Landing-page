@@ -761,6 +761,139 @@
   aspect-ratio: 16 / 9;
 }
 
+/* ---------------------------------------------------------------------------
+   /negocios type scale.
+   The page previously set H1, H2 and body within about one octave of each
+   other, so every line carried the same weight and the page read flat. The
+   scale below is deliberately wide: a display tier, a huge numeral tier for
+   the proof figures, and an eyebrow tier small enough that the contrast
+   between them is the composition.
+   --------------------------------------------------------------------------- */
+.n-eyebrow {
+  display: inline-block;
+  font-family: theme("fontFamily.body");
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.n-display {
+  font-family: theme("fontFamily.display");
+  font-size: clamp(2.5rem, 6.4vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.n-h2 {
+  font-family: theme("fontFamily.display");
+  font-size: clamp(1.75rem, 3.6vw, 2.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.n-stat-figure {
+  display: block;
+  font-family: theme("fontFamily.display");
+  font-size: clamp(3.25rem, 11vw, 6.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: theme("colors.horno.orange");
+}
+
+/* No text-transform here on purpose. innerText applies CSS casing, so
+   uppercasing the label made the page read "+120 PEDIDOS ENTREGADOS" and broke
+   the sanctioned-proof assertion, which looks for the exact phrase. The wide
+   tracking carries the same small-label feel without rewriting the copy. */
+.n-stat-label {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  color: rgba(251, 235, 222, 0.78);
+}
+
+/* Full-bleed colour bands. Five of the six sections used to sit on the same
+   cream, which is why the brand magenta only ever showed up as ink. Making it
+   a surface is the whole point. */
+.n-band-magenta {
+  background: theme("colors.horno.magenta");
+  color: theme("colors.horno.cream");
+}
+
+.n-band-deep {
+  background: theme("colors.horno.magentaDeep");
+  color: theme("colors.horno.cream");
+}
+
+.n-stat-grid {
+  display: grid;
+  gap: 3rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .n-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .n-stat-grid > div + div {
+    padding-left: 2.5rem;
+    border-left: 1px solid rgba(251, 235, 222, 0.22);
+  }
+}
+
+/* The primary action was a magenta pill on cream, the same treatment as every
+   secondary link. Orange on magenta is the highest-contrast pairing the brand
+   owns, so the one action that matters now looks like nothing else. */
+.n-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1.125rem 2.25rem;
+  border-radius: 999px;
+  background: theme("colors.horno.orange");
+  color: theme("colors.horno.ink");
+  font-family: theme("fontFamily.body");
+  font-weight: 600;
+  font-size: 1.0625rem;
+  box-shadow: 0 10px 30px -12px rgba(45, 26, 26, 0.5);
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.n-cta:hover {
+  transform: translateY(-2px);
+  background: theme("colors.horno.orangeLight");
+}
+
+.n-cta:focus-visible {
+  outline: 3px solid theme("colors.horno.ink");
+  outline-offset: 3px;
+}
+
+.n-cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.n-cta:hover .n-cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .n-cta,
+  .n-cta-arrow {
+    transition: none;
+  }
+
+  .n-cta:hover {
+    transform: none;
+  }
+}
+
 .negocios-product-item {
   display: grid;
   gap: 0.25rem;
@@ -793,6 +926,28 @@
 .negocios-flavours strong {
   font-weight: 600;
   color: theme("colors.horno.magentaDeep");
+}
+
+/* Same ledger structure, read on the deep band. Only the ink changes. */
+.negocios-product-list--inverted .negocios-product-item {
+  border-top-color: rgba(251, 235, 222, 0.22);
+}
+
+.negocios-product-list--inverted .negocios-product-item:last-child {
+  border-bottom-color: rgba(251, 235, 222, 0.22);
+}
+
+.negocios-product-list--inverted .negocios-product-item dt {
+  color: theme("colors.horno.orange");
+}
+
+.negocios-product-list--inverted .negocios-product-item dd,
+.negocios-product-list--inverted .negocios-flavours {
+  color: rgba(251, 235, 222, 0.82);
+}
+
+.negocios-product-list--inverted .negocios-flavours strong {
+  color: theme("colors.horno.cream");
 }
 
 @media (min-width: 640px) {

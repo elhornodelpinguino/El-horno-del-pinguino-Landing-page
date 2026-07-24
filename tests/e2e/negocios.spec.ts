@@ -119,11 +119,44 @@ test.describe("/negocios — B2B outbound collateral page", () => {
     expect(errors).toEqual([]);
   });
 
-  test("standard motion: hero entrance settles with nothing stuck at opacity 0", async ({ page }) => {
+  // Motion is two-tier: the hero runs an entrance timeline on load, everything
+  // below the fold reveals on scroll. So "nothing stuck" is asserted twice —
+  // above the fold without scrolling, and everywhere else after scrolling
+  // through. Both matter: a visitor who never scrolls must still see the hero,
+  // and a visitor who does must never hit an invisible section.
+  test("standard motion: hero entrance settles without scrolling", async ({ page }) => {
     await page.goto("/negocios");
     await page.waitForTimeout(2200);
 
-    const targets = page.locator("[data-negocios-anim]");
+    const heroTargets = page.locator(".negocios-hero [data-negocios-anim]");
+    const count = await heroTargets.count();
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const opacity = await heroTargets.nth(i).evaluate((el) => window.getComputedStyle(el).opacity);
+      expect(opacity).toBe("1");
+    }
+  });
+
+  test("standard motion: every scroll reveal settles with nothing stuck at opacity 0", async ({
+    page,
+  }) => {
+    await page.goto("/negocios");
+
+    // Walk down in steps so each trigger passes its start position, the way a
+    // reader scrolls — a single jump to the bottom can skip triggers.
+    const steps = 8;
+    for (let i = 1; i <= steps; i++) {
+      await page.evaluate(
+        ([step, total]) =>
+          window.scrollTo(0, (document.body.scrollHeight / total) * step),
+        [i, steps],
+      );
+      await page.waitForTimeout(250);
+    }
+    await page.waitForTimeout(1500);
+
+    const targets = page.locator("[data-negocios-anim], [data-negocios-segment]");
     const count = await targets.count();
     expect(count).toBeGreaterThan(0);
 

@@ -53,45 +53,61 @@ const steps = [
           height="40"
           loading="eager"
         />
-        <span data-negocios-anim="eyebrow" class="eyebrow mt-8 block">
+        <span data-negocios-anim="eyebrow" class="n-eyebrow mt-8 text-horno-magenta">
           Para negocios en Loja
         </span>
-        <h1
-          data-negocios-anim="heading"
-          class="mt-4 text-3xl leading-[1.12] tracking-[-0.02em] text-horno-magentaDeep sm:text-[2.75rem] lg:text-5xl"
-        >
+        <h1 data-negocios-anim="heading" class="n-display mt-5 text-horno-magentaDeep">
           Postres artesanales para tu vitrina, tu evento y tu equipo.
         </h1>
         <div data-negocios-anim="rule" class="negocios-rule mx-auto my-8" aria-hidden="true"></div>
-        <p data-negocios-anim="lead" class="mx-auto max-w-[58ch] text-lg leading-relaxed text-horno-ink/75">
+        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/75">
           Ya nos conocimos. Aquí tienes el detalle de cómo trabajamos con cada tipo de negocio,
           para que decidas con calma y confirmes por WhatsApp cuando quieras.
         </p>
-        <p data-negocios-anim="proof" data-stat="proof" class="negocios-proof mt-10">
-          <span class="negocios-proof-figure">+120</span> pedidos entregados
-          <span class="negocios-proof-sep" aria-hidden="true">·</span>
-          <span class="negocios-proof-figure">3</span> años horneando en Loja
-        </p>
         <div data-negocios-anim="cta" class="mt-10">
-          <a href={introLink} target="_blank" rel="noopener" class="btn-primary inline-flex">
+          <a href={introLink} target="_blank" rel="noopener" class="n-cta">
             Cuéntanos qué necesitas
+            <svg class="n-cta-arrow h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
           </a>
         </div>
       </div>
     </header>
 
+    {/* §2 Proof band. The two sanctioned figures were 14px inline text — the
+        strongest commercial asset on the page, set smaller than the body copy.
+        Full-bleed magenta with oversized orange numerals makes them the first
+        thing a buyer registers after the headline. The string "+120 pedidos
+        entregados" stays contiguous in the text flow so the copy guard and the
+        proof e2e assertion still read it as one phrase. */}
+    <section class="n-band-magenta py-14 sm:py-20" aria-label="Nuestros números">
+      <div class="section">
+        <div data-stat="proof" class="n-stat-grid mx-auto max-w-4xl">
+          <div data-negocios-anim="stat">
+            <span class="n-stat-figure">+120</span>
+            <span class="n-stat-label">pedidos entregados</span>
+          </div>
+          <div data-negocios-anim="stat">
+            <span class="n-stat-figure">3</span>
+            <span class="n-stat-label">años horneando en Loja</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- §3 How we work — the only orange on this page lives in the step numerals -->
-    <section aria-labelledby="negocios-how-heading" class="py-14 sm:py-[4.5rem]">
-      <div class="section mx-auto max-w-3xl text-center">
-        <span class="eyebrow block">Cómo trabajamos</span>
-        <h2 id="negocios-how-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
+    <section aria-labelledby="negocios-how-heading" class="py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-magenta">Cómo trabajamos</span>
+        <h2 id="negocios-how-heading" class="n-h2 mt-3 max-w-[18ch] text-horno-magentaDeep">
           Del pedido a tu entrega, en 4 pasos
         </h2>
       </div>
-      <ol class="section mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <ol class="section mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {
           steps.map((step, index) => (
-            <li class="text-center">
+            <li data-negocios-anim="step" class="border-t border-horno-magenta/15 pt-5">
               <span class="negocios-step-number" aria-hidden="true">{index + 1}</span>
               <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
               <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
@@ -102,10 +118,10 @@ const steps = [
     </section>
 
     <!-- §4 Segment ledger — the signature element: one continuous ruled table -->
-    <section aria-labelledby="negocios-ledger-heading" class="py-14 sm:py-[4.5rem]">
-      <div class="section mx-auto max-w-3xl text-center">
-        <span class="eyebrow block">Elige tu tipo de negocio</span>
-        <h2 id="negocios-ledger-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
+    <section aria-labelledby="negocios-ledger-heading" class="py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-magenta">Elige tu tipo de negocio</span>
+        <h2 id="negocios-ledger-heading" class="n-h2 mt-3 max-w-[16ch] text-horno-magentaDeep">
           Un plan por tipo de negocio
         </h2>
       </div>
@@ -115,10 +131,10 @@ const steps = [
     </section>
 
     <!-- §5 Product line — existing photography, no invented context -->
-    <section aria-labelledby="negocios-product-heading" class="py-14 sm:py-[4.5rem]">
-      <div class="section mx-auto max-w-3xl text-center">
-        <span class="eyebrow block">Lo que horneamos</span>
-        <h2 id="negocios-product-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
+    <section aria-labelledby="negocios-product-heading" class="n-band-deep py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-orange">Lo que horneamos</span>
+        <h2 id="negocios-product-heading" class="n-h2 mt-3 max-w-[20ch] text-horno-cream">
           Minitortas y minidonas, hechas a mano
         </h2>
       </div>
@@ -127,32 +143,40 @@ const steps = [
           showed a cheesecake under a heading that names minitortas and
           minidonas. Naming the formats and flavours is also information a
           buyer actually needs and the page did not state anywhere. */}
-      <div class="section negocios-product-list mt-12 mx-auto max-w-3xl">
-        <dl>
-          <div class="negocios-product-item">
-            <dt>Minitortas</dt>
-            <dd>Capas, relleno y cobertura en porción individual.</dd>
-          </div>
-          <div class="negocios-product-item">
-            <dt>Minidonas</dt>
-            <dd>Suaves, glaseadas y del tamaño de un bocado.</dd>
-          </div>
-        </dl>
-        <p class="negocios-flavours">
-          Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
-          Si necesitas otro para tu vitrina, lo conversamos.
-        </p>
+      {/* The list sits inside its own .section wrapper rather than carrying the
+          class itself: .section is `max-w-6xl mx-auto`, so combining it with
+          max-w-3xl centred the list inside the 6xl track and pushed it 160px
+          out of alignment with its own heading. */}
+      <div class="section">
+        <div class="negocios-product-list negocios-product-list--inverted mt-12 max-w-3xl">
+          <dl>
+            <div class="negocios-product-item">
+              <dt>Minitortas</dt>
+              <dd>Capas, relleno y cobertura en porción individual.</dd>
+            </div>
+            <div class="negocios-product-item">
+              <dt>Minidonas</dt>
+              <dd>Suaves, glaseadas y del tamaño de un bocado.</dd>
+            </div>
+          </dl>
+          <p class="negocios-flavours">
+            Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
+            Si necesitas otro para tu vitrina, lo conversamos.
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- §6 Volume framing — price scales with volume/frequency, zero figures -->
-    <section aria-labelledby="negocios-volume-heading" class="py-14 sm:py-[4.5rem]">
-      <div class="section mx-auto max-w-3xl text-center">
-        <span class="eyebrow block">Sobre el precio</span>
-        <h2 id="negocios-volume-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
-          El precio se ajusta a tu volumen
-        </h2>
-        <p class="mt-4 leading-relaxed text-horno-ink/75">
+    <section aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
+      <div class="section grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-end">
+        <div>
+          <span class="n-eyebrow text-horno-magenta">Sobre el precio</span>
+          <h2 id="negocios-volume-heading" class="n-h2 mt-3 text-horno-magentaDeep">
+            El precio se ajusta a tu volumen
+          </h2>
+        </div>
+        <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/75">
           El precio por unidad mejora según el volumen y la frecuencia. Lo conversamos con tu
           cantidad y tus fechas.
         </p>
@@ -160,14 +184,19 @@ const steps = [
     </section>
 
     <!-- §7 Closing CTA -->
-    <section class="negocios-closing py-16 sm:py-24">
-      <div class="section mx-auto max-w-2xl text-center">
-        <h2 class="font-display text-2xl text-white sm:text-3xl">
+    <section class="negocios-closing py-20 sm:py-28">
+      <div class="section mx-auto max-w-3xl text-center">
+        <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">
           Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
         </h2>
-        <a href={closingLink} target="_blank" rel="noopener" class="btn-primary negocios-closing-cta mt-8 inline-flex">
-          Escribir por WhatsApp
-        </a>
+        <div data-negocios-anim="closing" class="mt-10">
+          <a href={closingLink} target="_blank" rel="noopener" class="n-cta">
+            Escribir por WhatsApp
+            <svg class="n-cta-arrow h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
   </main>
