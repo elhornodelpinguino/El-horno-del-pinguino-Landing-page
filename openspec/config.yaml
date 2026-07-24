@@ -6,7 +6,9 @@ context: |
   Testing: Vitest 2.1 (unit), Playwright 1.52 (E2E smoke), GitHub Actions CI
   SDD mode: OpenSpec artifact store, strict_tdd enabled, 400 changed-line review budget
   Current backend coupling: public product/admin data is fetched from an external product-admin API with local fallback data
-  Style: Rioplatense Spanish UI copy, brand magenta #a81452 / crema #fbebde / naranja #f49d50
+  Style: Ecuadorian Spanish UI copy — tuteo only, never Rioplatense voseo ("cuéntanos", not "contás"). The business operates in Loja, Ecuador.
+  Brand: magenta #a81452 / crema #fbebde / naranja #f49d50. Canonical brand assets and guidelines live outside this repo at ~/Documents/Negocio/el-horno-del-pinguino-branding
+  Audience: the home page (/) targets consumers aged 16-30; business copy is a separate outbound-support surface
 
 rules:
   proposal:
