@@ -22,7 +22,16 @@ jobs:
       - name: Security audit
         run: npm audit --audit-level moderate
       - run: npm test
-      - run: npm run build
+      - name: Build (production config — fixtures disabled)
+        run: npm run build
+      - name: Assert production build has no e2e-fixtures output
+        run: |
+          if [ -d "dist/e2e-fixtures" ]; then
+            echo "dist/e2e-fixtures/catalog-batch was emitted by a production-config build (ENABLE_E2E_FIXTURES unset)." >&2
+            echo "This must never ship to Cloudflare Pages — fixture-gate.ts's getStaticPaths gate is broken." >&2
+            find dist/e2e-fixtures -type f >&2
+            exit 1
+          fi
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
       - name: Run E2E tests
