@@ -1,0 +1,26 @@
+name: Daily catalog rebuild
+
+# Fallback safety net for the on-demand deploy hook fired by the
+# product-admin backend after catalog mutations (see
+# docs/deploy-cloudflare.md). Runs once a day in case an on-demand hook was
+# ever missed, and can also be triggered manually.
+on:
+  schedule:
+    - cron: "0 6 * * *" # 06:00 UTC ≈ 01:00 America/Guayaquil (low traffic)
+  workflow_dispatch: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          CF_DEPLOY_HOOK_URL: ${{ secrets.CF_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$CF_DEPLOY_HOOK_URL" ]; then
+            echo "CF_DEPLOY_HOOK_URL secret is not set — skipping rebuild trigger."
+            echo "See docs/deploy-cloudflare.md for setup instructions."
+            exit 0
+          fi
+          curl -fsS -X POST "$CF_DEPLOY_HOOK_URL"
