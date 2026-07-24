@@ -60,6 +60,44 @@ describe("getProducts", () => {
     expect(products).toEqual(envelope.items);
   });
 
+  it("targets the first-party backend host when PUBLIC_API_BASE_URL is not set", async () => {
+    // Regression guard: the default host once pointed at the retired legacy
+    // backend and production builds silently baked fallback data.
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        mockJsonResponse({ items: [], page: 1, limit: 100, total: 0, totalPages: 0 }),
+      );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    await getProducts();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://horno-product-admin.onrender.com/api/public/products?page=1&limit=100",
+      expect.anything(),
+    );
+  });
+
+  it("falls back to the first-party backend when PUBLIC_API_BASE_URL is an empty string", async () => {
+    vi.stubEnv("PUBLIC_API_BASE_URL", "");
+    vi.resetModules();
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        mockJsonResponse({ items: [], page: 1, limit: 100, total: 0, totalPages: 0 }),
+      );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { getProducts: freshGetProducts } = await import("../../src/lib/api");
+    await freshGetProducts();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://horno-product-admin.onrender.com/api/public/products?page=1&limit=100",
+      expect.anything(),
+    );
+    vi.unstubAllEnvs();
+  });
+
   it("rejects with ApiError after 3 attempts when the API returns 500 on every attempt", async () => {
     const fetchMock = vi
       .fn()
