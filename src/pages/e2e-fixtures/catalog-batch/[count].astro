@@ -7,30 +7,30 @@
 // only intercepts *browser* network calls, so it cannot control the SSR
 // product count on the real "/" route. This fixture renders the same
 // ProductGrid component (with the same catalog-animation.js wiring) against
-// a deterministic, query-param-controlled product count so the
-// ScrollTrigger.batch() reveal contract can be tested for N=0/1/3+ without
+// a deterministic, path-param-controlled product count so the
+// ScrollTrigger.batch() reveal contract can be tested for N=0/1/6 without
 // depending on the live product-admin backend.
-export const prerender = false;
+//
+// Static-build access guard: this route is prerendered at BUILD time (this
+// project's static output has no server runtime), so the only gate
+// available is which paths `getStaticPaths()` emits. `fixturePathsFor()`
+// (see `~/utils/fixture-gate`) reads `ENABLE_E2E_FIXTURES`, which is only
+// ever set to `"true"` by `playwright.config.ts`'s `webServer.env` at BUILD
+// time. When unset (the production build Cloudflare Pages runs), this
+// function returns `[]` and the build emits NO paths under this route —
+// requests to it 404 in production, the same guarantee the previous
+// runtime check provided.
+import { fixturePathsFor } from "~/utils/fixture-gate";
+
+export function getStaticPaths() {
+  return fixturePathsFor(process.env.ENABLE_E2E_FIXTURES);
+}
 
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
 import type { Product } from "~/lib/api";
 
-// Hard access guard: `robots.txt` Disallow is advisory only (a well-behaved
-// crawler convention, not an access control) — this route is still
-// reachable by direct URL otherwise. `ENABLE_E2E_FIXTURES` is only ever set
-// by `playwright.config.ts`'s `webServer.env` (see that file) so this route
-// 404s unless the server was explicitly started for E2E testing. The
-// production deploy (render.yaml) never sets this var. Note:
-// `import.meta.env.PROD` is NOT a valid guard here — Astro inlines it at
-// build time, and the E2E suite runs `npm run build` + `npm run preview`
-// (a production build) in CI, so PROD is `true` in both the real deploy
-// and the E2E run; only this explicit runtime env var tells them apart.
-if (process.env.ENABLE_E2E_FIXTURES !== "true") {
-  return new Response(null, { status: 404 });
-}
-
-const countParam = Astro.url.searchParams.get("count");
+const { count: countParam } = Astro.params;
 const parsedCount = Number.parseInt(countParam ?? "0", 10);
 const count = Number.isFinite(parsedCount) ? Math.max(0, parsedCount) : 0;
 

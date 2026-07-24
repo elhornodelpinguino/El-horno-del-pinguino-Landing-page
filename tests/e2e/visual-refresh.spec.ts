@@ -371,7 +371,7 @@ test.describe("Visual Refresh — Interactions", () => {
         const consoleErrors: string[] = [];
         page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
 
-        await page.goto("/e2e-fixtures/catalog-batch?count=0");
+        await page.goto("/e2e-fixtures/catalog-batch/0");
         await page.waitForTimeout(500);
 
         await expect(page.locator("[data-catalog-anim='card']")).toHaveCount(0);
@@ -383,7 +383,7 @@ test.describe("Visual Refresh — Interactions", () => {
         const consoleErrors: string[] = [];
         page.on("console", (msg) => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
 
-        await page.goto("/e2e-fixtures/catalog-batch?count=1");
+        await page.goto("/e2e-fixtures/catalog-batch/1");
         await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await page.waitForTimeout(800);
 
@@ -405,7 +405,7 @@ test.describe("Visual Refresh — Interactions", () => {
         // scroll-entry timing/`interval`, NOT on this grid's row layout —
         // it only happens to line up with one row here, chosen for a
         // readable test, not because batch() groups by DOM rows.
-        await page.goto("/e2e-fixtures/catalog-batch?count=6");
+        await page.goto("/e2e-fixtures/catalog-batch/6");
         await page.waitForTimeout(300);
 
         // Scroll so only the first row is near/inside the viewport; the
@@ -453,7 +453,7 @@ test.describe("Visual Refresh — Interactions", () => {
           };
         });
 
-        await page.goto("/e2e-fixtures/catalog-batch?count=1");
+        await page.goto("/e2e-fixtures/catalog-batch/1");
         await expect(page.locator("[data-catalog-anim='card']").first()).toHaveCSS("opacity", "1");
       });
     });

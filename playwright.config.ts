@@ -23,12 +23,16 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run preview",
+    // Static build: `ENABLE_E2E_FIXTURES` must be present at BUILD time
+    // (getStaticPaths reads it), so the build step runs here, not just
+    // preview. `npm run preview` then serves the resulting `dist/` output.
+    command: "npm run build && npm run preview",
     port: 4321,
     reuseExistingServer: !process.env.CI,
-    // Explicit opt-in so `src/pages/e2e-fixtures/*` routes serve real
-    // content only for this test-driven server — never in the production
-    // deploy, which never sets this var (see render.yaml).
+    // Explicit opt-in so `src/pages/e2e-fixtures/*` routes are emitted by
+    // the static build only for this test-driven build — never in the
+    // production deploy, which never sets this var (see
+    // docs/deploy-cloudflare.md).
     env: { ...process.env, ENABLE_E2E_FIXTURES: "true" },
   },
 });
