@@ -15,9 +15,11 @@ export interface CatalogResponse {
   totalPages: number;
 }
 
-const BASE_URL =
-  import.meta.env.PUBLIC_API_BASE_URL ??
-  "https://product-admin-backend-vfyy.onrender.com";
+// `||` (not `??`) so a dashboard-injected empty string also falls back —
+// the first-party backend host root is the only correct default.
+export const DEFAULT_API_BASE_URL = "https://horno-product-admin.onrender.com";
+
+const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL || DEFAULT_API_BASE_URL;
 
 /**
  * Builds the fully-qualified public products endpoint URL from a host-root
