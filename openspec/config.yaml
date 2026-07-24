@@ -2,7 +2,7 @@ schema: spec-driven
 
 context: |
   Tech stack: Astro 4.16, TypeScript strict, Tailwind CSS 3.4, npm, Node 20
-  Architecture: SSR with @astrojs/node (standalone), Docker multi-stage
+  Architecture: static output (`output: "static"` in astro.config.mjs), no server adapter installed
   Testing: Vitest 2.1 (unit), Playwright 1.52 (E2E smoke), GitHub Actions CI
   SDD mode: OpenSpec artifact store, strict_tdd enabled, 400 changed-line review budget
   Current backend coupling: public product/admin data is fetched from an external product-admin API with local fallback data
