@@ -14,7 +14,7 @@ Pages serves the prebuilt `dist/` directory.
    - Build output directory: `dist`
    - Root directory: `/` (repo root)
 4. **Environment variables** (Settings → Environment variables → Production):
-   - `NODE_VERSION` = `20`
+   - `NODE_VERSION` = `22` — Node 20's build image ships npm 10.7, older than the `npm >= 10.8.2` engine required by the `sitemap` dependency; Node 22 bundles npm 10.9+.
    - `PUBLIC_API_BASE_URL` = `https://horno-product-admin.onrender.com`
    - `PUBLIC_WHATSAPP_NUMBER` = `593994808252`
    - `PUBLIC_INSTAGRAM_HANDLE` = `elhornodelpinguino`
