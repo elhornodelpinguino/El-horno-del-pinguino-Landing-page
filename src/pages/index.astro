@@ -36,8 +36,8 @@ const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE.name,
-  url: "https://el-horno-del-pinguino-landing-page.onrender.com",
-  logo: "https://el-horno-del-pinguino-landing-page.onrender.com/logo.png",
+  url: "https://el-horno-del-pinguino-landing-page.pages.dev",
+  logo: "https://el-horno-del-pinguino-landing-page.pages.dev/logo.png",
   description: SITE.description,
   address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
 };
@@ -52,7 +52,7 @@ if (products.length > 0) {
 <BaseLayout
   title={`${SITE.name} — Postres artesanales para empresas y ocasiones especiales`}
   description={SITE.description}
-  canonicalUrl="https://el-horno-del-pinguino-landing-page.onrender.com"
+  canonicalUrl="https://el-horno-del-pinguino-landing-page.pages.dev"
   jsonLd={jsonLd}
 >
   <main>
