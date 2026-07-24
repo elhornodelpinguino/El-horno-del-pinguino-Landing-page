@@ -12,9 +12,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: PUBLIC_API_BASE_URL
-        value: https://product-admin-backend-vfyy.onrender.com/api
-      - key: PUBLIC_ORG_EXTERNAL_ID
-        value: horno-del-pinguino-92f9
+        value: https://horno-product-admin.onrender.com
       - key: PUBLIC_WHATSAPP_NUMBER
         value: "593994808252"
       - key: PUBLIC_INSTAGRAM_HANDLE
