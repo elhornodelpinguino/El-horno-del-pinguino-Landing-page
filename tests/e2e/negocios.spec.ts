@@ -162,4 +162,46 @@ test.describe("Homepage hand-off to /negocios", () => {
     const mobileNavLink = page.locator("[data-mobile-nav] a", { hasText: "Para negocios" });
     await expect(mobileNavLink).toHaveAttribute("href", "/negocios");
   });
+
+  // The unit guards in tests/unit/business-segments.test.ts only scan the data
+  // module. Everything written inline in negocios.astro — the H1, lead, proof
+  // line, steps, product list, volume paragraph and closing CTA — had no
+  // protection at all. These scan what the visitor actually receives, so both
+  // sources of copy plus the structured data are covered.
+  test.describe("rendered copy guards", () => {
+    const VOSEO_PATTERN = /contás|querés|tenés|podés|hacé|escribinos|\bvos\b/i;
+    // Currency can lead as well as trail the amount. Matching only the
+    // trailing form let "Desde USD 25 por unidad" through a mutation check,
+    // so both orders are covered here and in tests/unit/business-segments.test.ts.
+    const PRICE_PATTERN =
+      /\$\s?\d|\b\d+([.,]\d+)?\s?(usd|dólares|dolares|ctv\.?|centavos|\$)\b|\b(usd|dólares|dolares)\s?\d/i;
+
+    test("renders no Rioplatense voseo anywhere on the page", async ({ page }) => {
+      await page.goto("/negocios");
+      const visibleText = await page.locator("body").innerText();
+      expect(visibleText).not.toMatch(VOSEO_PATTERN);
+
+      // WhatsApp prefilled messages never reach innerText — they live in hrefs.
+      const waLinks = await page.locator('a[href*="wa.me"]').evaluateAll((els) =>
+        els.map((el) => decodeURIComponent((el as HTMLAnchorElement).href)),
+      );
+      expect(waLinks.length).toBeGreaterThan(0);
+      for (const href of waLinks) {
+        expect(href).not.toMatch(VOSEO_PATTERN);
+      }
+    });
+
+    test("renders no price figure on the page or in its structured data", async ({ page }) => {
+      await page.goto("/negocios");
+      const visibleText = await page.locator("body").innerText();
+      expect(visibleText).not.toMatch(PRICE_PATTERN);
+
+      const jsonLd = await page
+        .locator('script[type="application/ld+json"]')
+        .evaluateAll((els) => els.map((el) => el.textContent ?? "").join("\n"));
+      expect(jsonLd).not.toMatch(PRICE_PATTERN);
+      expect(jsonLd).not.toContain('"offers"');
+      expect(jsonLd).not.toContain('"price"');
+    });
+  });
 });

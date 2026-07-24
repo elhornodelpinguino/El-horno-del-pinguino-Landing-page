@@ -10,9 +10,11 @@ import {
 const VOSEO_PATTERN = /contás|querés|tenés|podés|hacé|escribinos|\bvos\b/i;
 
 // No price, currency amount, or numeric unit cost anywhere (spec: No Price
-// Figures).
+// Figures). Currency can lead as well as trail the amount: matching only the
+// trailing form let "Desde USD 25 por unidad" pass a mutation check of the
+// rendered page, so both orders are covered.
 const PRICE_PATTERN =
-  /\$\s?\d|\b\d+([.,]\d+)?\s?(usd|dólares|dolares|ctv\.?|centavos|\$)\b/i;
+  /\$\s?\d|\b\d+([.,]\d+)?\s?(usd|dólares|dolares|ctv\.?|centavos|\$)\b|\b(usd|dólares|dolares)\s?\d/i;
 
 // Each segment's own WhatsApp message must reference that segment by name
 // (spec: Per-Segment WhatsApp CTA).
