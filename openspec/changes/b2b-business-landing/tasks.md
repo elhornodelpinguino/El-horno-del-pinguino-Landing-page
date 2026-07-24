@@ -28,15 +28,15 @@ Local-only delivery: no `git push`, no PR, no deploy step. Commits land sequenti
 
 ## Phase 1a: Segment Data Module (RED → GREEN → REFACTOR)
 
-- [ ] 1a.1 RED: create `tests/unit/business-segments.test.ts` asserting exactly 4 segments with unique slugs in pitch order (spec: Segment Data Contract).
-- [ ] 1a.2 RED: extend test — every segment has non-empty `title`/`copy`(`lead`) and `bullets.length >= 2` (spec: Segment content completeness).
-- [ ] 1a.3 RED: extend test — `clubes` segment is valid with `media` absent, no placeholder asserted (spec: Media is optional).
-- [ ] 1a.4 RED: extend test — each `segmentWhatsappLink()` output matches `^https://wa\.me/` and decoded text includes that segment's name (spec: Per-Segment WhatsApp CTA).
-- [ ] 1a.5 RED: extend test — all copy strings (title, lead, bullets, ctaLabel, whatsappMessage) fail against voseo regex `contás|querés|tenés|podés|hacé|escribinos|\bvos\b` (spec: Ecuadorian Tuteo Copy Only).
-- [ ] 1a.6 RED: extend test — all copy strings fail against a currency/numeric-price pattern (spec: No Price Figures).
-- [ ] 1a.7 GREEN: create `src/lib/business-segments.ts` with `SegmentSlug`, `SegmentMedia`, `BusinessSegment` types, `BUSINESS_SEGMENTS` (4 entries, `clubes` third, no media), `segmentWhatsappLink()` wrapping `whatsappLink()` from `~/lib/config` only — no `~/lib/api` import (design: Interfaces/Contracts).
-- [ ] 1a.8 REFACTOR: confirm `npm run test` passes; verify no import of `src/lib/api.ts` anywhere in the module (spec: Route and Static Rendering; design: Data Flow).
-- [ ] 1a.9 Commit slice 1a locally: `feat(negocios): add typed business-segments data module`.
+- [x] 1a.1 RED: create `tests/unit/business-segments.test.ts` asserting exactly 4 segments with unique slugs in pitch order (spec: Segment Data Contract).
+- [x] 1a.2 RED: extend test — every segment has non-empty `title`/`copy`(`lead`) and `bullets.length >= 2` (spec: Segment content completeness).
+- [x] 1a.3 RED: extend test — `clubes` segment is valid with `media` absent, no placeholder asserted (spec: Media is optional).
+- [x] 1a.4 RED: extend test — each `segmentWhatsappLink()` output matches `^https://wa\.me/` and decoded text includes that segment's name (spec: Per-Segment WhatsApp CTA).
+- [x] 1a.5 RED: extend test — all copy strings (title, lead, bullets, ctaLabel, whatsappMessage) fail against voseo regex `contás|querés|tenés|podés|hacé|escribinos|\bvos\b` (spec: Ecuadorian Tuteo Copy Only).
+- [x] 1a.6 RED: extend test — all copy strings fail against a currency/numeric-price pattern (spec: No Price Figures).
+- [x] 1a.7 GREEN: create `src/lib/business-segments.ts` with `SegmentSlug`, `SegmentMedia`, `BusinessSegment` types, `BUSINESS_SEGMENTS` (4 entries, `clubes` third, no media), `segmentWhatsappLink()` wrapping `whatsappLink()` from `~/lib/config` only — no `~/lib/api` import (design: Interfaces/Contracts).
+- [x] 1a.8 REFACTOR: confirm `npm run test` passes; verify no import of `src/lib/api.ts` anywhere in the module (spec: Route and Static Rendering; design: Data Flow).
+- [x] 1a.9 Commit slice 1a locally: `feat(negocios): add typed business-segments data module`.
 
 ## Phase 1b: Page, Row Component, Motion, E2E
 
