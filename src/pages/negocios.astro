@@ -43,7 +43,7 @@ const steps = [
 >
   <main class="negocios">
     <!-- §1 Identity header + §2 Proof line: one shared entrance root -->
-    <header class="negocios-hero relative py-20 sm:py-28">
+    <header class="negocios-hero relative py-16 sm:py-24">
       <div class="section relative z-10 mx-auto max-w-3xl text-center">
         <img
           src="/logo-horizontal.svg"
@@ -81,7 +81,7 @@ const steps = [
     </header>
 
     <!-- §3 How we work — the only orange on this page lives in the step numerals -->
-    <section aria-labelledby="negocios-how-heading" class="py-20 sm:py-28">
+    <section aria-labelledby="negocios-how-heading" class="py-14 sm:py-[4.5rem]">
       <div class="section mx-auto max-w-3xl text-center">
         <span class="eyebrow block">Cómo trabajamos</span>
         <h2 id="negocios-how-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
@@ -102,7 +102,7 @@ const steps = [
     </section>
 
     <!-- §4 Segment ledger — the signature element: one continuous ruled table -->
-    <section aria-labelledby="negocios-ledger-heading" class="py-20 sm:py-28">
+    <section aria-labelledby="negocios-ledger-heading" class="py-14 sm:py-[4.5rem]">
       <div class="section mx-auto max-w-3xl text-center">
         <span class="eyebrow block">Elige tu tipo de negocio</span>
         <h2 id="negocios-ledger-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
@@ -115,28 +115,38 @@ const steps = [
     </section>
 
     <!-- §5 Product line — existing photography, no invented context -->
-    <section aria-labelledby="negocios-product-heading" class="py-20 sm:py-28">
+    <section aria-labelledby="negocios-product-heading" class="py-14 sm:py-[4.5rem]">
       <div class="section mx-auto max-w-3xl text-center">
         <span class="eyebrow block">Lo que horneamos</span>
         <h2 id="negocios-product-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
           Minitortas y minidonas, hechas a mano
         </h2>
       </div>
-      <div class="section mt-12 mx-auto max-w-3xl">
-        <figure class="negocios-row-figure negocios-row-figure--wide">
-          <img
-            src="/chesscake-hero.png"
-            alt="Cheesecake de frutos rojos en porción individual"
-            width={1672}
-            height={941}
-            loading="lazy"
-          />
-        </figure>
+      {/* Text-led on purpose. The three real product photos already appear in
+          the ledger above; repeating one here duplicated an image and, worse,
+          showed a cheesecake under a heading that names minitortas and
+          minidonas. Naming the formats and flavours is also information a
+          buyer actually needs and the page did not state anywhere. */}
+      <div class="section negocios-product-list mt-12 mx-auto max-w-3xl">
+        <dl>
+          <div class="negocios-product-item">
+            <dt>Minitortas</dt>
+            <dd>Capas, relleno y cobertura en porción individual.</dd>
+          </div>
+          <div class="negocios-product-item">
+            <dt>Minidonas</dt>
+            <dd>Suaves, glaseadas y del tamaño de un bocado.</dd>
+          </div>
+        </dl>
+        <p class="negocios-flavours">
+          Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
+          Si necesitas otro para tu vitrina, lo conversamos.
+        </p>
       </div>
     </section>
 
     <!-- §6 Volume framing — price scales with volume/frequency, zero figures -->
-    <section aria-labelledby="negocios-volume-heading" class="py-20 sm:py-28">
+    <section aria-labelledby="negocios-volume-heading" class="py-14 sm:py-[4.5rem]">
       <div class="section mx-auto max-w-3xl text-center">
         <span class="eyebrow block">Sobre el precio</span>
         <h2 id="negocios-volume-heading" class="mt-2 font-display text-2xl text-horno-magentaDeep sm:text-3xl">
@@ -150,7 +160,7 @@ const steps = [
     </section>
 
     <!-- §7 Closing CTA -->
-    <section class="negocios-closing py-20 sm:py-28">
+    <section class="negocios-closing py-16 sm:py-24">
       <div class="section mx-auto max-w-2xl text-center">
         <h2 class="font-display text-2xl text-white sm:text-3xl">
           Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
