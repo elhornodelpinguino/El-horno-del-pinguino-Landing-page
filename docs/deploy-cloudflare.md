@@ -23,6 +23,22 @@ Pages serves the prebuilt `dist/` directory.
    These `PUBLIC_*` vars are inlined at build time by Astro/Vite — they must
    be set before every build, not just once at runtime.
 
+## Backend warm-up before build
+
+The backend runs on Render's free tier, which puts the service to sleep after
+idle; a cold start takes 30-60s, far longer than the catalog fetch's ~1.5s
+retry window. Since most builds are triggered by the daily rebuild cron (when
+the backend is usually asleep), builds would routinely bake the fallback
+catalog instead of live data.
+
+To prevent this, the npm `prebuild` script (`scripts/warm-backend.mjs`, run
+automatically by `npm run build`) polls `PUBLIC_API_BASE_URL/api/health` every
+5s for up to 120s before `astro build` starts. Expect the Cloudflare Pages
+build log to show `[warm-backend]` progress lines waiting out the cold start.
+If `PUBLIC_API_BASE_URL` is unset (local/e2e builds) the warm-up is skipped
+instantly, and if the backend never wakes the script logs a warning and exits
+0 — the fallback path below remains the safety net either way.
+
 ## Build resilience
 
 The build fetches the product catalog from `PUBLIC_API_BASE_URL` while
