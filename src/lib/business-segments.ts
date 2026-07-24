@@ -34,10 +34,10 @@ export const BUSINESS_SEGMENTS = [
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu cafetería. Quiero coordinar los detalles.",
     media: {
-      src: "/destacada-catalogo.jpg",
-      alt: "Surtido de minitortas y minidonas artesanales",
-      width: 800,
-      height: 600,
+      src: "/chesscake-hero.png",
+      alt: "Cheesecake de frutos rojos en porción individual",
+      width: 1672,
+      height: 941,
     },
   },
   {
@@ -55,8 +55,8 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/producto-mini-donas.jpg",
       alt: "Minidonas artesanales en porción individual",
-      width: 800,
-      height: 600,
+      width: 960,
+      height: 1280,
     },
   },
   {
@@ -87,8 +87,8 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/producto-torta-mariposas.jpg",
       alt: "Torta decorada con mariposas artesanales",
-      width: 800,
-      height: 600,
+      width: 960,
+      height: 1280,
     },
   },
 ] as const satisfies readonly BusinessSegment[];

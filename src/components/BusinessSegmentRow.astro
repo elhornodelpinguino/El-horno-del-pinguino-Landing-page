@@ -1,0 +1,53 @@
+---
+import type { BusinessSegment } from "~/lib/business-segments";
+import { segmentWhatsappLink } from "~/lib/business-segments";
+
+interface Props {
+  segment: BusinessSegment;
+}
+
+const { segment } = Astro.props;
+const hasMedia = Boolean(segment.media);
+const ctaHref = segmentWhatsappLink(segment);
+---
+
+<div
+  data-negocios-segment={segment.slug}
+  class:list={[
+    "negocios-row",
+    hasMedia ? "negocios-row--media" : "negocios-row--text",
+  ]}
+>
+  <div class="negocios-row-copy">
+    <h3 class="font-display text-xl text-horno-magentaDeep sm:text-2xl">{segment.title}</h3>
+    <p class="mt-2 max-w-[42ch] leading-relaxed text-horno-ink/75">{segment.lead}</p>
+  </div>
+
+  <div class="negocios-row-details">
+    <ul class="negocios-bullet-list">
+      {segment.bullets.map((bullet) => <li class="negocios-bullet">{bullet}</li>)}
+    </ul>
+    <a
+      href={ctaHref}
+      target="_blank"
+      rel="noopener"
+      class="btn-primary negocios-row-cta"
+    >
+      {segment.ctaLabel}
+    </a>
+  </div>
+
+  {
+    hasMedia && segment.media && (
+      <figure class="negocios-row-figure">
+        <img
+          src={segment.media.src}
+          alt={segment.media.alt}
+          width={segment.media.width}
+          height={segment.media.height}
+          loading="lazy"
+        />
+      </figure>
+    )
+  }
+</div>

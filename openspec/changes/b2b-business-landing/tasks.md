@@ -40,20 +40,20 @@ Local-only delivery: no `git push`, no PR, no deploy step. Commits land sequenti
 
 ## Phase 1b: Page, Row Component, Motion, E2E
 
-- [ ] 1b.1 RED: create `tests/e2e/negocios.spec.ts` asserting `/negocios` returns 200 and a non-generic `<title>` (spec: SEO and Sharing Metadata) — expected to fail (no route yet).
-- [ ] 1b.2 RED: extend e2e spec — exactly 4 segment sections render, `clubes` renders with no empty media frame/placeholder (spec: All Four Segments Render; design: `clubes` no-asset composition).
-- [ ] 1b.3 RED: extend e2e spec — every segment CTA `href` matches `^https://wa\.me/` and decodes to include its segment name (spec: Per-Segment WhatsApp CTA).
-- [ ] 1b.4 RED: extend e2e spec — proof section contains "+120 pedidos entregados" and no other numeric claim/countdown/testimonial (spec: Sanctioned Proof Point Only).
-- [ ] 1b.5 RED: extend e2e spec — zero console error events on load (spec: No Console Errors on Load).
-- [ ] 1b.6 RED: extend e2e spec — `/sitemap-index.xml` returns 200 with XML content-type and includes `/negocios` (spec: SEO and Sharing Metadata).
-- [ ] 1b.7 RED: extend e2e spec — reduced-motion pass via `page.emulateMedia({ reducedMotion: "reduce" })` shows nothing stuck at `opacity: 0` (spec: Reduced-Motion-First Entrance Animation).
-- [ ] 1b.8 GREEN: create `src/components/BusinessSegmentRow.astro` — 12-col grid, media-vs-text-only variants (`.negocios-row--media` / `.negocios-row--text`), conditional `<figure>` (design: `clubes` no-asset composition).
-- [ ] 1b.9 GREEN: create `src/scripts/negocios-animation.js` — reduced-motion branch first, single header entrance timeline, no `ScrollTrigger` import (design: GSAP Entrance Plan).
-- [ ] 1b.10 GREEN: create `src/pages/negocios.astro` — `BaseLayout` (title/description/ogImage/canonicalUrl/jsonLd without `offers`), 7 inline sections, iterates `BUSINESS_SEGMENTS` through `BusinessSegmentRow`, volume-framing copy with no figures (spec: Route and Static Rendering, Volume Pricing Framing Without Figures; design: Component Tree).
-- [ ] 1b.11 GREEN: append `.negocios-*` block to `src/styles/global.css` — bullet markers, ledger grid, media frame, numeral typography only (design: Component Tree, Visual Design table).
-- [ ] 1b.12 GREEN: run `npm run test:e2e -- negocios` until all `tests/e2e/negocios.spec.ts` assertions pass.
-- [ ] 1b.13 REFACTOR: confirm zero `penguin-*` classes/refs, zero `shadow-*` (focus rings excepted), zero `data-magnetic` attributes in `negocios.astro` (design: Visual Design table).
-- [ ] 1b.14 Commit slice 1b locally: `feat(negocios): add /negocios page, segment row and entrance motion`.
+- [x] 1b.1 RED: create `tests/e2e/negocios.spec.ts` asserting `/negocios` returns 200 and a non-generic `<title>` (spec: SEO and Sharing Metadata) — expected to fail (no route yet).
+- [x] 1b.2 RED: extend e2e spec — exactly 4 segment sections render, `clubes` renders with no empty media frame/placeholder (spec: All Four Segments Render; design: `clubes` no-asset composition).
+- [x] 1b.3 RED: extend e2e spec — every segment CTA `href` matches `^https://wa\.me/` and decodes to include its segment name (spec: Per-Segment WhatsApp CTA).
+- [x] 1b.4 RED: extend e2e spec — proof section contains "+120 pedidos entregados" and no other numeric claim/countdown/testimonial (spec: Sanctioned Proof Point Only).
+- [x] 1b.5 RED: extend e2e spec — zero console error events on load (spec: No Console Errors on Load).
+- [x] 1b.6 RED: extend e2e spec — `/sitemap-index.xml` returns 200 with XML content-type and includes `/negocios` (spec: SEO and Sharing Metadata).
+- [x] 1b.7 RED: extend e2e spec — reduced-motion pass via `page.emulateMedia({ reducedMotion: "reduce" })` shows nothing stuck at `opacity: 0` (spec: Reduced-Motion-First Entrance Animation).
+- [x] 1b.8 GREEN: create `src/components/BusinessSegmentRow.astro` — 12-col grid, media-vs-text-only variants (`.negocios-row--media` / `.negocios-row--text`), conditional `<figure>` (design: `clubes` no-asset composition).
+- [x] 1b.9 GREEN: create `src/scripts/negocios-animation.js` — reduced-motion branch first, single header entrance timeline, no `ScrollTrigger` import (design: GSAP Entrance Plan).
+- [x] 1b.10 GREEN: create `src/pages/negocios.astro` — `BaseLayout` (title/description/ogImage/canonicalUrl/jsonLd without `offers`), 7 inline sections, iterates `BUSINESS_SEGMENTS` through `BusinessSegmentRow`, volume-framing copy with no figures (spec: Route and Static Rendering, Volume Pricing Framing Without Figures; design: Component Tree).
+- [x] 1b.11 GREEN: append `.negocios-*` block to `src/styles/global.css` — bullet markers, ledger grid, media frame, numeral typography only (design: Component Tree, Visual Design table).
+- [x] 1b.12 GREEN: run `npm run test:e2e -- negocios` until all `tests/e2e/negocios.spec.ts` assertions pass.
+- [x] 1b.13 REFACTOR: confirm zero `penguin-*` classes/refs, zero `shadow-*` (focus rings excepted), zero `data-magnetic` attributes in `negocios.astro` (design: Visual Design table).
+- [x] 1b.14 Commit slice 1b locally: `feat(negocios): add /negocios page, segment row and entrance motion`.
 
 ## Phase 2: Homepage Hand-off
 

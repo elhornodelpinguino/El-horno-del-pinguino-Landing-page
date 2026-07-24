@@ -612,3 +612,149 @@
     transition-property: color, background-color, border-color, box-shadow;
   }
 }
+
+/* ============================================
+   /negocios — B2B outbound collateral page
+   "A document, not a poster." Cream is the only surface: no shadows, no
+   card radius. Structure comes from hairlines. Only what Tailwind
+   utilities cannot express lives here: bullet markers, the ledger grid,
+   the media frame and numeral typography.
+   ============================================ */
+
+.negocios-rule {
+  width: 4rem;
+  height: 1px;
+  background: rgba(168, 20, 82, 0.3);
+}
+
+.negocios-proof-figure {
+  font-family: Fraunces, serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.5em;
+  color: theme("colors.horno.magentaDeep");
+}
+
+.negocios-proof-sep {
+  margin: 0 0.5rem;
+  color: rgba(45, 26, 26, 0.35);
+}
+
+/* The only orange on this page: the 4 "how we work" step numerals */
+.negocios-step-number {
+  display: block;
+  font-family: Fraunces, serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: theme("colors.horno.orange");
+}
+
+.negocios-ledger {
+  display: flex;
+  flex-direction: column;
+}
+
+.negocios-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem 2rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row:last-child {
+  border-bottom: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row--media .negocios-row-copy {
+  grid-column: span 12 / span 12;
+}
+
+.negocios-row--media .negocios-row-details {
+  grid-column: span 12 / span 12;
+}
+
+.negocios-row--media .negocios-row-figure {
+  grid-column: span 12 / span 12;
+}
+
+@media (min-width: 768px) {
+  .negocios-row--media .negocios-row-copy {
+    grid-column: span 4 / span 4;
+  }
+
+  .negocios-row--media .negocios-row-details {
+    grid-column: span 3 / span 3;
+  }
+
+  .negocios-row--media .negocios-row-figure {
+    grid-column: span 5 / span 5;
+  }
+
+  .negocios-row--text .negocios-row-copy {
+    grid-column: span 5 / span 5;
+  }
+
+  .negocios-row--text .negocios-row-details {
+    grid-column: span 7 / span 7;
+  }
+}
+
+.negocios-bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.negocios-bullet {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(45, 26, 26, 0.75);
+}
+
+.negocios-bullet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: rgba(168, 20, 82, 0.4);
+}
+
+.negocios-row-cta {
+  margin-top: 1.25rem;
+}
+
+.negocios-row-figure {
+  margin: 0;
+}
+
+.negocios-row-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row-figure--wide img {
+  aspect-ratio: 16 / 9;
+}
+
+.negocios-closing {
+  background: theme("colors.horno.magentaDeep");
+}
+
+.negocios-closing-cta {
+  background: #ffffff;
+  color: theme("colors.horno.magentaDeep");
+}
+
+.negocios-closing-cta:hover {
+  background: theme("colors.horno.cream");
+}
