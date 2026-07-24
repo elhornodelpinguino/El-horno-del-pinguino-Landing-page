@@ -1,8 +1,8 @@
 export const SITE = {
   name: "El Horno del Pingüino",
-  tagline: "Postres artesanales con buena presentación, sabor consistente y coordinación cercana.",
+  tagline: "Minitortas y minidonas hechas a mano en Loja.",
   description:
-    "Postres artesanales en Loja para empresas, colegios, cafeterías y ocasiones especiales. Coordinación clara por WhatsApp.",
+    "Minitortas y minidonas artesanales en Loja: frutos rojos, maracuyá y Oreo. Horneadas por encargo y pedidas por WhatsApp.",
   whatsapp:
     (import.meta.env.PUBLIC_WHATSAPP_NUMBER as string | undefined) ??
     "593994808252",
