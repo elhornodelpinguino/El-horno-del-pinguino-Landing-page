@@ -9,6 +9,7 @@
   "packageManager": "npm@10.9.4",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/warm-backend.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
