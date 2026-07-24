@@ -57,14 +57,14 @@ Local-only delivery: no `git push`, no PR, no deploy step. Commits land sequenti
 
 ## Phase 2: Homepage Hand-off
 
-- [ ] 2.1 RED: extend `tests/e2e/negocios.spec.ts` (or add a homepage nav test) asserting `BusinessBridge` primary CTA and both `Hero` nav anchors navigate to `/negocios`.
-- [ ] 2.2 GREEN: modify `src/components/BusinessBridge.astro` — primary CTA `href` → `/negocios`, demote existing `whatsappLink(...)` to secondary action.
-- [ ] 2.3 GREEN: modify `src/components/Hero.astro` at lines 17 and 34 — `#negocios` → `/negocios`.
-- [ ] 2.4 REFACTOR: confirm `npm run test:e2e` passes end-to-end for the updated navigation assertion.
-- [ ] 2.5 Commit slice 2 locally: `feat(negocios): wire homepage hand-off to /negocios`.
+- [x] 2.1 RED: extend `tests/e2e/negocios.spec.ts` (or add a homepage nav test) asserting `BusinessBridge` primary CTA and both `Hero` nav anchors navigate to `/negocios`.
+- [x] 2.2 GREEN: modify `src/components/BusinessBridge.astro` — primary CTA `href` → `/negocios`, demote existing `whatsappLink(...)` to secondary action.
+- [x] 2.3 GREEN: modify `src/components/Hero.astro` at lines 17 and 34 — `#negocios` → `/negocios`.
+- [x] 2.4 REFACTOR: confirm `npm run test:e2e` passes end-to-end for the updated navigation assertion.
+- [x] 2.5 Commit slice 2 locally: `feat(negocios): wire homepage hand-off to /negocios`.
 
 ## Phase 3: Final Verification
 
-- [ ] 3.1 Run `npm run test && npm run build && npm run test:e2e`; confirm all pass excluding the pre-existing, unrelated `tests/e2e/hero-penguin.spec.ts:32` failure.
-- [ ] 3.2 Manual check at 375px and 1280px: ledger balanced with `clubes` text-only, zero shadows, zero penguins, zero `data-magnetic` (design: Visual Design table).
-- [ ] 3.3 Confirm each committed slice's diff stays under the 400-line review budget individually.
+- [x] 3.1 Run `npm run test && npm run build && npm run test:e2e`; confirm all pass excluding the pre-existing, unrelated `tests/e2e/hero-penguin.spec.ts:32` failure.
+- [x] 3.2 Manual check at 375px and 1280px: ledger balanced with `clubes` text-only, zero shadows, zero penguins, zero `data-magnetic` (design: Visual Design table).
+- [x] 3.3 Confirm each committed slice's diff stays under the 400-line review budget individually. **Deviation**: slice 1b measured 552 insertions + 22 deletions (574 changed lines), over the 400-line budget — see apply-progress risks.

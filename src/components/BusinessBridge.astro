@@ -22,9 +22,14 @@ const quoteLink = whatsappLink(
         </p>
       </div>
 
-      <a href={quoteLink} target="_blank" rel="noopener" class="btn-primary flex-shrink-0">
-        Pedir cotización
-      </a>
+      <div class="flex flex-shrink-0 flex-col items-center gap-3 sm:items-end">
+        <a href="/negocios" class="btn-primary">
+          Ver para negocios
+        </a>
+        <a href={quoteLink} target="_blank" rel="noopener" class="text-sm font-medium text-horno-magentaDeep/70 underline-offset-4 hover:underline">
+          O pide cotización directo por WhatsApp
+        </a>
+      </div>
     </div>
   </div>
 </section>

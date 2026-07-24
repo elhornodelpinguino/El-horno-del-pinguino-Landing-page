@@ -133,3 +133,33 @@ test.describe("/negocios — B2B outbound collateral page", () => {
     }
   });
 });
+
+test.describe("Homepage hand-off to /negocios", () => {
+  test("BusinessBridge primary CTA links to /negocios", async ({ page }) => {
+    await page.goto("/");
+    const bridge = page.locator("#negocios");
+    const primaryCta = bridge.getByRole("link", { name: /para negocios|conoce|ver para negocios/i }).first();
+    await expect(primaryCta).toHaveAttribute("href", "/negocios");
+  });
+
+  test("BusinessBridge still offers a secondary WhatsApp action", async ({ page }) => {
+    await page.goto("/");
+    const bridge = page.locator("#negocios");
+    const secondaryCta = bridge.locator('a[href*="wa.me"]');
+    await expect(secondaryCta).toHaveCount(1);
+  });
+
+  test("Hero desktop nav anchor navigates to /negocios", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/");
+    const desktopNavLink = page.locator("nav .hidden.sm\\:flex a", { hasText: "Para negocios" });
+    await expect(desktopNavLink).toHaveAttribute("href", "/negocios");
+  });
+
+  test("Hero mobile nav anchor navigates to /negocios", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/");
+    const mobileNavLink = page.locator("[data-mobile-nav] a", { hasText: "Para negocios" });
+    await expect(mobileNavLink).toHaveAttribute("href", "/negocios");
+  });
+});
