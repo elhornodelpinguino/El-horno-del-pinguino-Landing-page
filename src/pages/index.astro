@@ -4,7 +4,9 @@ import Hero from "~/components/Hero.astro";
 import Marquee from "~/components/Marquee.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
 import Statement from "~/components/Statement.astro";
-import BusinessUseCases from "~/components/BusinessUseCases.astro";
+import MiniFormat from "~/components/MiniFormat.astro";
+import Flavours from "~/components/Flavours.astro";
+import BusinessBridge from "~/components/BusinessBridge.astro";
 import HowToOrder from "~/components/HowToOrder.astro";
 
 import Trust from "~/components/Trust.astro";
@@ -50,7 +52,7 @@ if (products.length > 0) {
 }
 ---
 <BaseLayout
-  title={`${SITE.name} — Postres artesanales para empresas y ocasiones especiales`}
+  title={`${SITE.name} — Minitortas y minidonas artesanales en Loja`}
   description={SITE.description}
   canonicalUrl="https://el-horno-del-pinguino-landing-page.pages.dev"
   jsonLd={jsonLd}
@@ -58,14 +60,16 @@ if (products.length > 0) {
   <main>
     <Hero />
     <Marquee />
+    <MiniFormat />
+    <Flavours />
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />
     </ErrorBoundary>
     <Statement />
-    <BusinessUseCases />
-    <HowToOrder />
     <Trust />
+    <HowToOrder />
     <FAQ />
+    <BusinessBridge />
     <FinalCTA />
     <Contact />
   </main>

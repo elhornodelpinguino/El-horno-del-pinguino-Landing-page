@@ -151,7 +151,7 @@ test.describe("Visual Refresh — Interactions", () => {
       // Representative data-anim targets across migrated sections
       await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-catalog-anim='heading']")).toBeVisible();
-      await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-order-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-trust-anim='stat']").first()).toBeVisible();
       await expect(page.locator("[data-finalcta-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
@@ -265,7 +265,7 @@ test.describe("Visual Refresh — Interactions", () => {
 
       // Representative elements should be visible without animation
       await expect(page.locator("[data-hero-anim='heading']")).toBeVisible();
-      await expect(page.locator("[data-business-anim='heading']")).toBeVisible();
+      await expect(page.locator("[data-order-anim='heading']")).toBeVisible();
       await expect(page.locator("[data-trust-anim='stat']").first()).toBeVisible();
       await expect(page.locator("[data-faq-anim='item']").first()).toBeVisible();
       await expect(page.locator("[data-contact-anim='column']").first()).toBeVisible();
@@ -470,7 +470,7 @@ test.describe("Visual Refresh — Interactions", () => {
       const counters = page.locator("[data-trust-count]");
       await expect(counters).toHaveCount(3);
       await expect(counters.nth(0)).toHaveText("120");
-      await expect(counters.nth(1)).toHaveText("5");
+      await expect(counters.nth(1)).toHaveText("3");
       await expect(counters.nth(2)).toHaveText("100");
     });
 
@@ -595,21 +595,30 @@ test.describe("Visual Refresh — Interactions", () => {
     });
   });
 
-  test.describe("Business positioning", () => {
-    test("communicates business use cases above the fold", async ({ page }) => {
+  test.describe("Consumer positioning", () => {
+    test("leads with the mini format above the fold", async ({ page }) => {
       await page.goto("/");
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(/empresas|colegios|cafeterías/i);
-      // .first() — the phrase also appears in the footer brand copy
-      await expect(page.getByText(/empresas, colegios y cafeterías/i).first()).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(/minitortas y minidonas/i);
     });
 
-    test("shows a dedicated business use cases section", async ({ page }) => {
+    test("names the signature flavours", async ({ page }) => {
       await page.goto("/");
-      await expect(page.getByRole("heading", { name: /hecho para tu negocio/i })).toBeVisible();
-      const businessSection = page.locator(".business-section");
-      await expect(businessSection.getByRole("heading", { name: "Empresas", exact: true })).toBeVisible();
-      await expect(businessSection.getByRole("heading", { name: "Colegios", exact: true })).toBeVisible();
-      await expect(businessSection.getByRole("heading", { name: "Cafeterías", exact: true })).toBeVisible();
+      const flavours = page.locator("#sabores");
+      await expect(flavours.getByRole("heading", { name: "Frutos rojos", exact: true })).toBeVisible();
+      await expect(flavours.getByRole("heading", { name: "Maracuyá", exact: true })).toBeVisible();
+      await expect(flavours.getByRole("heading", { name: "Oreo", exact: true })).toBeVisible();
+    });
+
+    test("explains what a mini dessert actually is", async ({ page }) => {
+      await page.goto("/");
+      await expect(page.getByRole("heading", { name: /mini, pero completo/i })).toBeVisible();
+    });
+
+    // B2B is outbound: the landing only bridges to it, it does not sell it.
+    test("bridges to the business offer without leading with it", async ({ page }) => {
+      await page.goto("/");
+      await expect(page.getByRole("heading", { name: /negocio, colegio o club/i })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).not.toContainText(/empresas|cafeterías/i);
     });
   });
 
