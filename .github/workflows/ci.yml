@@ -9,6 +9,24 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Kept in its own job on purpose. When the audit ran as a step inside
+  # build-and-test it short-circuited the job, so npm test, the build and the
+  # E2E suite never executed — three merges landed on main with no test signal
+  # at all. Separate jobs mean a failing audit and a failing test suite are
+  # always reported independently.
+  security-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Security audit
+        run: npm audit --audit-level moderate
+
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -19,8 +37,6 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Security audit
-        run: npm audit --audit-level moderate
       - run: npm test
       - name: Build (production config — fixtures disabled)
         run: npm run build
