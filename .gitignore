@@ -42,3 +42,8 @@ coverage/
 # Generated tool state
 .astro/
 .codegraph/
+
+# Impeccable design skill — third-party, reinstall with `npx impeccable install`.
+# Vendoring it would put 123 files of tooling into every diff.
+.claude/skills/impeccable/
+.claude/settings.local.json

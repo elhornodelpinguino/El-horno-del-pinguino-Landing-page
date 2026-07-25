@@ -7,6 +7,10 @@ import { SITE, whatsappLink } from "~/lib/config";
 const quoteLink = whatsappLink(
   `¡Hola ${SITE.name}! Represento a un negocio y quiero cotizar pedidos por volumen en Loja.`,
 );
+
+// The quote link is a standalone secondary action beside the primary button,
+// not a link inside a sentence, so WCAG 2.5.8's inline exception does not
+// cover it and it carries a full tap height.
 ---
 
 <section id="negocios" class="relative overflow-hidden py-14 sm:py-20">
@@ -22,9 +26,14 @@ const quoteLink = whatsappLink(
         </p>
       </div>
 
-      <a href={quoteLink} target="_blank" rel="noopener" class="btn-primary flex-shrink-0">
-        Pedir cotización
-      </a>
+      <div class="flex flex-shrink-0 flex-col items-center gap-3 sm:items-end">
+        <a href="/negocios" class="btn-primary">
+          Ver para negocios
+        </a>
+        <a href={quoteLink} target="_blank" rel="noopener" class="inline-flex min-h-[44px] items-center text-sm font-medium text-horno-magentaDeep/70 underline-offset-4 hover:underline">
+          O pide cotización directo por WhatsApp
+        </a>
+      </div>
     </div>
   </div>
 </section>

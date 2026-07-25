@@ -45,12 +45,22 @@ test.describe("Hero penguin animation", () => {
     // 'paused' or 'idle' are acceptable
     expect(animPlayState).toBe("paused");
 
-    // Background-position should be at frame 1 (0 0)
-    const bgPos = await sprite.evaluate((el) => {
+    // Background-position should be at frame 1 (0 0).
+    //
+    // Assert the resolved offsets, not the serialized string: global.css
+    // declares `background-position: 0 0` inside the reduced-motion block and
+    // Chromium serializes that as "0px 0px", while the spec-literal "0% 0%"
+    // only appears when the declaration itself uses percentages. Both mean the
+    // same frame, so pinning the string made this fail on a formatting detail
+    // rather than on behaviour.
+    const bgOffsets = await sprite.evaluate((el) => {
       const style = getComputedStyle(el);
-      return style.backgroundPosition;
+      return [style.backgroundPositionX, style.backgroundPositionY];
     });
-    expect(bgPos).toBe("0% 0%");
+
+    for (const offset of bgOffsets) {
+      expect(parseFloat(offset)).toBe(0);
+    }
   });
 
   // Kept as its own test (separate from "animation respects

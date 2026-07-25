@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   Type scale — the single source of truth
+
+   Components used to invent their own rem values, which is how the page
+   ended up rendering 18px next to 18.4px and 40px next to 41.6px. Every
+   fixed font-size in this sheet resolves through a step below. Fluid
+   display type (`clamp`) and parent-relative type (`em`) are the two
+   deliberate exceptions. Enforced by tests/unit/type-scale.test.ts.
+   ============================================ */
+
+:root {
+  --type-2xs: 0.6875rem; /* 11px — eyebrows, stat labels */
+  --type-xs: 0.8125rem; /* 13px — tickets, micro labels */
+  --type-sm: 0.875rem; /* 14px — bullets, secondary copy */
+  --type-base: 1rem; /* 16px — body */
+  --type-lg: 1.125rem; /* 18px — leads, card headings, CTA labels */
+  --type-xl: 1.375rem; /* 22px — card titles */
+  --type-2xl: 1.75rem; /* 28px */
+  --type-3xl: 2.5rem; /* 40px — step numerals */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -121,6 +142,22 @@
 }
 
 /* ============================================
+   Section rhythm
+
+   Every section carried symmetric padding, so two sections on the same
+   surface stacked into a ~192px void with no background change to justify
+   it. A boundary needs one interval, not two: a `.flow-section` following
+   another drops its own top padding and lets the previous section's bottom
+   be the single, deliberate gap. Sections that *do* change surface keep
+   both paddings, because there the space is visibly doing work.
+   Enforced by tests/e2e/vertical-rhythm.spec.ts.
+   ============================================ */
+
+.flow-section + .flow-section {
+  padding-top: 0;
+}
+
+/* ============================================
    Flat background system
    Sections alternate cream (#fbebde) and warm
    white (#fff8f2). No radial glows, no orbs.
@@ -163,7 +200,7 @@
   background: #ffffff;
   color: rgba(138, 15, 67, 0.86);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
-  font-size: 0.78rem;
+  font-size: var(--type-xs);
   font-weight: 700;
   padding: 0.7rem 1rem;
 }
@@ -346,7 +383,7 @@
 }
 
 .business-card h3 {
-  font-size: 1.35rem;
+  font-size: var(--type-xl);
 }
 
 .business-card-inverted h3 {
@@ -371,7 +408,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.88rem;
+  font-size: var(--type-sm);
 }
 
 .business-bullet::before {
@@ -491,14 +528,16 @@
   display: block;
   margin-bottom: 0.35rem;
   font-family: Fraunces, serif;
-  font-size: 2.5rem;
+  font-size: var(--type-3xl);
   font-weight: 700;
   line-height: 1;
-  color: #f49d50;
+  /* Ink orange, not fill orange: these numerals sit on a light card, where
+     #f49d50 scored 2.15:1. See tests/unit/brand-contrast.test.ts. */
+  color: #944d0e;
 }
 
 .order-step-card h3 {
-  font-size: 1.15rem;
+  font-size: var(--type-lg);
 }
 
 /* ============================================
@@ -583,7 +622,7 @@
 .faq-answer {
   padding: 0 1.15rem 1.15rem;
   color: rgba(45, 26, 26, 0.68);
-  font-size: 0.92rem;
+  font-size: var(--type-sm);
   line-height: 1.7;
 }
 
@@ -611,4 +650,365 @@
   [data-magnetic] {
     transition-property: color, background-color, border-color, box-shadow;
   }
+}
+
+/* ============================================
+   /negocios — B2B outbound collateral page
+   "A document, not a poster." Cream is the only surface: no shadows, no
+   card radius. Structure comes from hairlines. Only what Tailwind
+   utilities cannot express lives here: bullet markers, the ledger grid,
+   the media frame and numeral typography.
+   ============================================ */
+
+.negocios-rule {
+  width: 4rem;
+  height: 1px;
+  background: rgba(168, 20, 82, 0.3);
+}
+
+.negocios-proof-figure {
+  font-family: Fraunces, serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.5em;
+  color: theme("colors.horno.magentaDeep");
+}
+
+.negocios-proof-sep {
+  margin: 0 0.5rem;
+  color: rgba(45, 26, 26, 0.35);
+}
+
+/* The only orange on this page: the 4 "how we work" step numerals */
+.negocios-step-number {
+  display: block;
+  font-family: Fraunces, serif;
+  font-size: var(--type-3xl);
+  font-weight: 700;
+  line-height: 1;
+  color: theme("colors.horno.orange");
+}
+
+.negocios-ledger {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Single column below the ledger breakpoint. The 12-column track must NOT be
+   declared here: its eleven 2rem column gaps total 352px of fixed width, which
+   alone exceeds the 320px available inside .section's px-5 at 360px viewport,
+   so the row overflowed horizontally on phones no matter how far minmax(0,1fr)
+   let the columns themselves collapse. */
+.negocios-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row:last-child {
+  border-bottom: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row--media .negocios-row-copy {
+  grid-column: span 12 / span 12;
+}
+
+.negocios-row--media .negocios-row-details {
+  grid-column: span 12 / span 12;
+}
+
+.negocios-row--media .negocios-row-figure {
+  grid-column: span 12 / span 12;
+}
+
+@media (min-width: 768px) {
+  .negocios-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+  }
+
+  /* 4/4/4 rather than 4/3/5: at span 3 the details column measured 248px, and
+     the CTA label needs ~205px of text inside 24px padding, so "Coordinar por
+     WhatsApp" wrapped to two lines in every media row while the text-only
+     clubes row kept it on one. Equal columns give the button room and keep the
+     CTA identical across all four rows. */
+  .negocios-row--media .negocios-row-copy {
+    grid-column: span 4 / span 4;
+  }
+
+  .negocios-row--media .negocios-row-details {
+    grid-column: span 4 / span 4;
+  }
+
+  .negocios-row--media .negocios-row-figure {
+    grid-column: span 4 / span 4;
+  }
+
+  .negocios-row--text .negocios-row-copy {
+    grid-column: span 5 / span 5;
+  }
+
+  .negocios-row--text .negocios-row-details {
+    grid-column: span 7 / span 7;
+  }
+}
+
+.negocios-bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.negocios-bullet {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: var(--type-sm);
+  line-height: 1.5;
+  color: rgba(45, 26, 26, 0.75);
+}
+
+.negocios-bullet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: rgba(168, 20, 82, 0.4);
+}
+
+.negocios-row-cta {
+  margin-top: 1.25rem;
+}
+
+.negocios-row-figure {
+  margin: 0;
+}
+
+.negocios-row-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-row-figure--wide img {
+  aspect-ratio: 16 / 9;
+}
+
+/* ---------------------------------------------------------------------------
+   /negocios type scale.
+   The page previously set H1, H2 and body within about one octave of each
+   other, so every line carried the same weight and the page read flat. The
+   scale below is deliberately wide: a display tier, a huge numeral tier for
+   the proof figures, and an eyebrow tier small enough that the contrast
+   between them is the composition.
+   --------------------------------------------------------------------------- */
+.n-eyebrow {
+  display: inline-block;
+  font-family: theme("fontFamily.body");
+  font-size: var(--type-2xs);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.n-display {
+  font-family: theme("fontFamily.display");
+  font-size: clamp(2.5rem, 6.4vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.n-h2 {
+  font-family: theme("fontFamily.display");
+  /* Was 2.6rem (41.6px), which landed a hair above the 40px step numerals —
+     two sizes close enough to read as a mistake rather than a hierarchy.
+     44px puts real distance between a section heading and a numeral. */
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.n-stat-figure {
+  display: block;
+  font-family: theme("fontFamily.display");
+  font-size: clamp(3.25rem, 11vw, 6.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: theme("colors.horno.orange");
+}
+
+/* No text-transform here on purpose. innerText applies CSS casing, so
+   uppercasing the label made the page read "+120 PEDIDOS ENTREGADOS" and broke
+   the sanctioned-proof assertion, which looks for the exact phrase. The wide
+   tracking carries the same small-label feel without rewriting the copy. */
+.n-stat-label {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: var(--type-xs);
+  letter-spacing: 0.14em;
+  color: rgba(251, 235, 222, 0.78);
+}
+
+/* Full-bleed colour bands. Five of the six sections used to sit on the same
+   cream, which is why the brand magenta only ever showed up as ink. Making it
+   a surface is the whole point. */
+.n-band-magenta {
+  background: theme("colors.horno.magenta");
+  color: theme("colors.horno.cream");
+}
+
+.n-band-deep {
+  background: theme("colors.horno.magentaDeep");
+  color: theme("colors.horno.cream");
+}
+
+.n-stat-grid {
+  display: grid;
+  gap: 3rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .n-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .n-stat-grid > div + div {
+    padding-left: 2.5rem;
+    border-left: 1px solid rgba(251, 235, 222, 0.22);
+  }
+}
+
+/* The primary action was a magenta pill on cream, the same treatment as every
+   secondary link. Orange on magenta is the highest-contrast pairing the brand
+   owns, so the one action that matters now looks like nothing else. */
+.n-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1.125rem 2.25rem;
+  border-radius: 999px;
+  background: theme("colors.horno.orange");
+  color: theme("colors.horno.ink");
+  font-family: theme("fontFamily.body");
+  font-weight: 600;
+  font-size: var(--type-lg);
+  box-shadow: 0 10px 30px -12px rgba(45, 26, 26, 0.5);
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.n-cta:hover {
+  transform: translateY(-2px);
+  background: theme("colors.horno.orangeLight");
+}
+
+.n-cta:focus-visible {
+  outline: 3px solid theme("colors.horno.ink");
+  outline-offset: 3px;
+}
+
+.n-cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.n-cta:hover .n-cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .n-cta,
+  .n-cta-arrow {
+    transition: none;
+  }
+
+  .n-cta:hover {
+    transform: none;
+  }
+}
+
+.negocios-product-item {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-product-item:last-child {
+  border-bottom: 1px solid rgba(168, 20, 82, 0.12);
+}
+
+.negocios-product-item dt {
+  font-family: theme("fontFamily.display");
+  font-size: var(--type-lg);
+  color: theme("colors.horno.magentaDeep");
+}
+
+.negocios-product-item dd {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(45, 26, 26, 0.75);
+}
+
+.negocios-flavours {
+  margin-top: 1.5rem;
+  line-height: 1.6;
+  color: rgba(45, 26, 26, 0.75);
+}
+
+.negocios-flavours strong {
+  font-weight: 600;
+  color: theme("colors.horno.magentaDeep");
+}
+
+/* Same ledger structure, read on the deep band. Only the ink changes. */
+.negocios-product-list--inverted .negocios-product-item {
+  border-top-color: rgba(251, 235, 222, 0.22);
+}
+
+.negocios-product-list--inverted .negocios-product-item:last-child {
+  border-bottom-color: rgba(251, 235, 222, 0.22);
+}
+
+.negocios-product-list--inverted .negocios-product-item dt {
+  color: theme("colors.horno.orange");
+}
+
+.negocios-product-list--inverted .negocios-product-item dd,
+.negocios-product-list--inverted .negocios-flavours {
+  color: rgba(251, 235, 222, 0.82);
+}
+
+.negocios-product-list--inverted .negocios-flavours strong {
+  color: theme("colors.horno.cream");
+}
+
+@media (min-width: 640px) {
+  .negocios-product-item {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0 2rem;
+    align-items: baseline;
+  }
+}
+
+.negocios-closing {
+  background: theme("colors.horno.magentaDeep");
+}
+
+.negocios-closing-cta {
+  background: #ffffff;
+  color: theme("colors.horno.magentaDeep");
+}
+
+.negocios-closing-cta:hover {
+  background: theme("colors.horno.cream");
 }

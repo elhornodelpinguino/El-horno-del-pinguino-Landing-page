@@ -1,0 +1,207 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import BusinessSegmentRow from "~/components/BusinessSegmentRow.astro";
+import { BUSINESS_SEGMENTS } from "~/lib/business-segments";
+import { SITE, whatsappLink } from "~/lib/config";
+
+// No `~/lib/api` import anywhere in this page — /negocios must render
+// identically with the backend asleep (design: Data Flow).
+
+const introMessage = `¡Hola ${SITE.name}! Ya conversamos. Quiero contarte qué necesito para mi negocio.`;
+const closingMessage = `¡Hola ${SITE.name}! Ya nos conocimos. Te cuento qué necesito para armar la propuesta.`;
+const introLink = whatsappLink(introMessage);
+const closingLink = whatsappLink(closingMessage);
+
+const title = `Pedidos para negocios en Loja — ${SITE.name}`;
+const description =
+  "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Ya nos conocimos: cuéntanos qué necesitas por WhatsApp.";
+const canonicalUrl = "https://el-horno-del-pinguino-landing-page.pages.dev/negocios";
+
+const jsonLd: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE.name,
+  url: canonicalUrl,
+  logo: "https://el-horno-del-pinguino-landing-page.pages.dev/logo.png",
+  description,
+  address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
+};
+
+const steps = [
+  { title: "Conversamos tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y preferencias de sabor." },
+  { title: "Acordamos cantidad y fecha", copy: "Fijamos cuánto necesitas y para cuándo, según tu evento o tu rotación." },
+  { title: "Horneamos por encargo", copy: "Preparamos tu pedido fresco, en el formato acordado, listo para entregar." },
+  { title: "Coordinamos la entrega", copy: "Confirmamos punto y hora de entrega directo contigo, por WhatsApp." },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  jsonLd={jsonLd}
+>
+  <main class="negocios">
+    <!-- §1 Identity header + §2 Proof line: one shared entrance root -->
+    <header class="negocios-hero relative py-16 sm:py-24">
+      <div class="section relative z-10 mx-auto max-w-3xl text-center">
+        <img
+          src="/logo-horizontal.svg"
+          alt="El Horno del Pingüino"
+          class="mx-auto h-10 w-auto object-contain"
+          width="160"
+          height="40"
+          loading="eager"
+        />
+        <span data-negocios-anim="eyebrow" class="n-eyebrow mt-8 text-horno-magenta">
+          Para negocios en Loja
+        </span>
+        <h1 data-negocios-anim="heading" class="n-display mt-5 text-horno-magentaDeep">
+          Postres artesanales para tu vitrina, tu evento y tu equipo.
+        </h1>
+        <div data-negocios-anim="rule" class="negocios-rule mx-auto my-8" aria-hidden="true"></div>
+        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/75">
+          Ya nos conocimos. Aquí tienes el detalle de cómo trabajamos con cada tipo de negocio,
+          para que decidas con calma y confirmes por WhatsApp cuando quieras.
+        </p>
+        <div data-negocios-anim="cta" class="mt-10">
+          <a href={introLink} target="_blank" rel="noopener" class="n-cta">
+            Cuéntanos qué necesitas
+            <svg class="n-cta-arrow h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    {/* §2 Proof band. The two sanctioned figures were 14px inline text — the
+        strongest commercial asset on the page, set smaller than the body copy.
+        Full-bleed magenta with oversized orange numerals makes them the first
+        thing a buyer registers after the headline. The string "+120 pedidos
+        entregados" stays contiguous in the text flow so the copy guard and the
+        proof e2e assertion still read it as one phrase. */}
+    <section class="n-band-magenta py-14 sm:py-20" aria-label="Nuestros números">
+      <div class="section">
+        <div data-stat="proof" class="n-stat-grid mx-auto max-w-4xl">
+          <div data-negocios-anim="stat">
+            <span class="n-stat-figure">+120</span>
+            <span class="n-stat-label">pedidos entregados</span>
+          </div>
+          <div data-negocios-anim="stat">
+            <span class="n-stat-figure">3</span>
+            <span class="n-stat-label">años horneando en Loja</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §3 How we work — the only orange on this page lives in the step numerals -->
+    <section aria-labelledby="negocios-how-heading" class="flow-section py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-magenta">Cómo trabajamos</span>
+        <h2 id="negocios-how-heading" class="n-h2 mt-3 max-w-[18ch] text-horno-magentaDeep">
+          Del pedido a tu entrega, en 4 pasos
+        </h2>
+      </div>
+      <ol class="section mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((step, index) => (
+            <li data-negocios-anim="step" class="border-t border-horno-magenta/15 pt-5">
+              <span class="negocios-step-number" aria-hidden="true">{index + 1}</span>
+              <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
+              <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <!-- §4 Segment ledger — the signature element: one continuous ruled table -->
+    <section aria-labelledby="negocios-ledger-heading" class="flow-section py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-magenta">Elige tu tipo de negocio</span>
+        <h2 id="negocios-ledger-heading" class="n-h2 mt-3 max-w-[16ch] text-horno-magentaDeep">
+          Un plan por tipo de negocio
+        </h2>
+      </div>
+      <div class="section negocios-ledger mt-12">
+        {BUSINESS_SEGMENTS.map((segment) => <BusinessSegmentRow segment={segment} />)}
+      </div>
+    </section>
+
+    <!-- §5 Product line — existing photography, no invented context -->
+    <section aria-labelledby="negocios-product-heading" class="n-band-deep py-16 sm:py-24">
+      <div class="section">
+        <span class="n-eyebrow text-horno-orangeOnDark">Lo que horneamos</span>
+        <h2 id="negocios-product-heading" class="n-h2 mt-3 max-w-[20ch] text-horno-cream">
+          Minitortas y minidonas, hechas a mano
+        </h2>
+      </div>
+      {/* Text-led on purpose. The three real product photos already appear in
+          the ledger above; repeating one here duplicated an image and, worse,
+          showed a cheesecake under a heading that names minitortas and
+          minidonas. Naming the formats and flavours is also information a
+          buyer actually needs and the page did not state anywhere. */}
+      {/* The list sits inside its own .section wrapper rather than carrying the
+          class itself: .section is `max-w-6xl mx-auto`, so combining it with
+          max-w-3xl centred the list inside the 6xl track and pushed it 160px
+          out of alignment with its own heading. */}
+      <div class="section">
+        <div class="negocios-product-list negocios-product-list--inverted mt-12 max-w-3xl">
+          <dl>
+            <div class="negocios-product-item">
+              <dt>Minitortas</dt>
+              <dd>Capas, relleno y cobertura en porción individual.</dd>
+            </div>
+            <div class="negocios-product-item">
+              <dt>Minidonas</dt>
+              <dd>Suaves, glaseadas y del tamaño de un bocado.</dd>
+            </div>
+          </dl>
+          <p class="negocios-flavours">
+            Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
+            Si necesitas otro para tu vitrina, lo conversamos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- §6 Volume framing — price scales with volume/frequency, zero figures -->
+    <section aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
+      <div class="section grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-end">
+        <div>
+          <span class="n-eyebrow text-horno-magenta">Sobre el precio</span>
+          <h2 id="negocios-volume-heading" class="n-h2 mt-3 text-horno-magentaDeep">
+            El precio se ajusta a tu volumen
+          </h2>
+        </div>
+        <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/75">
+          El precio por unidad mejora según el volumen y la frecuencia. Lo conversamos con tu
+          cantidad y tus fechas.
+        </p>
+      </div>
+    </section>
+
+    <!-- §7 Closing CTA -->
+    <section class="negocios-closing py-20 sm:py-28">
+      <div class="section mx-auto max-w-3xl text-center">
+        <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">
+          Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
+        </h2>
+        <div data-negocios-anim="closing" class="mt-10">
+          <a href={closingLink} target="_blank" rel="noopener" class="n-cta">
+            Escribir por WhatsApp
+            <svg class="n-cta-arrow h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import "~/scripts/negocios-animation.js";
+  </script>
+</BaseLayout>
