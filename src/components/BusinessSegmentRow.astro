@@ -9,6 +9,15 @@ interface Props {
 const { segment } = Astro.props;
 const hasMedia = Boolean(segment.media);
 const ctaHref = segmentWhatsappLink(segment);
+
+// The title was `text-xl sm:text-2xl`, which on mobile put a segment heading
+// (20px) a hair above the process-step headings (18px) — same heading level,
+// indistinguishable sizes, no hierarchy. A segment is this page's main pitch
+// unit, so it holds 24px at every width: a 1.33 step instead of 1.11.
+//
+// Note this lives in the frontmatter, not the template: Astro emits HTML
+// comments to the built page, so design rationale written as `<!-- -->` would
+// ship to every visitor.
 ---
 
 <div
@@ -19,7 +28,7 @@ const ctaHref = segmentWhatsappLink(segment);
   ]}
 >
   <div class="negocios-row-copy">
-    <h3 class="font-display text-xl text-horno-magentaDeep sm:text-2xl">{segment.title}</h3>
+    <h3 class="font-display text-2xl text-horno-magentaDeep">{segment.title}</h3>
     <p class="mt-2 max-w-[42ch] leading-relaxed text-horno-ink/75">{segment.lead}</p>
   </div>
 

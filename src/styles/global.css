@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   Type scale — the single source of truth
+
+   Components used to invent their own rem values, which is how the page
+   ended up rendering 18px next to 18.4px and 40px next to 41.6px. Every
+   fixed font-size in this sheet resolves through a step below. Fluid
+   display type (`clamp`) and parent-relative type (`em`) are the two
+   deliberate exceptions. Enforced by tests/unit/type-scale.test.ts.
+   ============================================ */
+
+:root {
+  --type-2xs: 0.6875rem; /* 11px — eyebrows, stat labels */
+  --type-xs: 0.8125rem; /* 13px — tickets, micro labels */
+  --type-sm: 0.875rem; /* 14px — bullets, secondary copy */
+  --type-base: 1rem; /* 16px — body */
+  --type-lg: 1.125rem; /* 18px — leads, card headings, CTA labels */
+  --type-xl: 1.375rem; /* 22px — card titles */
+  --type-2xl: 1.75rem; /* 28px */
+  --type-3xl: 2.5rem; /* 40px — step numerals */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -121,6 +142,22 @@
 }
 
 /* ============================================
+   Section rhythm
+
+   Every section carried symmetric padding, so two sections on the same
+   surface stacked into a ~192px void with no background change to justify
+   it. A boundary needs one interval, not two: a `.flow-section` following
+   another drops its own top padding and lets the previous section's bottom
+   be the single, deliberate gap. Sections that *do* change surface keep
+   both paddings, because there the space is visibly doing work.
+   Enforced by tests/e2e/vertical-rhythm.spec.ts.
+   ============================================ */
+
+.flow-section + .flow-section {
+  padding-top: 0;
+}
+
+/* ============================================
    Flat background system
    Sections alternate cream (#fbebde) and warm
    white (#fff8f2). No radial glows, no orbs.
@@ -163,7 +200,7 @@
   background: #ffffff;
   color: rgba(138, 15, 67, 0.86);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
-  font-size: 0.78rem;
+  font-size: var(--type-xs);
   font-weight: 700;
   padding: 0.7rem 1rem;
 }
@@ -346,7 +383,7 @@
 }
 
 .business-card h3 {
-  font-size: 1.35rem;
+  font-size: var(--type-xl);
 }
 
 .business-card-inverted h3 {
@@ -371,7 +408,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.88rem;
+  font-size: var(--type-sm);
 }
 
 .business-bullet::before {
@@ -491,14 +528,16 @@
   display: block;
   margin-bottom: 0.35rem;
   font-family: Fraunces, serif;
-  font-size: 2.5rem;
+  font-size: var(--type-3xl);
   font-weight: 700;
   line-height: 1;
-  color: #f49d50;
+  /* Ink orange, not fill orange: these numerals sit on a light card, where
+     #f49d50 scored 2.15:1. See tests/unit/brand-contrast.test.ts. */
+  color: #944d0e;
 }
 
 .order-step-card h3 {
-  font-size: 1.15rem;
+  font-size: var(--type-lg);
 }
 
 /* ============================================
@@ -583,7 +622,7 @@
 .faq-answer {
   padding: 0 1.15rem 1.15rem;
   color: rgba(45, 26, 26, 0.68);
-  font-size: 0.92rem;
+  font-size: var(--type-sm);
   line-height: 1.7;
 }
 
@@ -644,7 +683,7 @@
 .negocios-step-number {
   display: block;
   font-family: Fraunces, serif;
-  font-size: 2.5rem;
+  font-size: var(--type-3xl);
   font-weight: 700;
   line-height: 1;
   color: theme("colors.horno.orange");
@@ -726,7 +765,7 @@
 .negocios-bullet {
   position: relative;
   padding-left: 1.1rem;
-  font-size: 0.95rem;
+  font-size: var(--type-sm);
   line-height: 1.5;
   color: rgba(45, 26, 26, 0.75);
 }
@@ -772,7 +811,7 @@
 .n-eyebrow {
   display: inline-block;
   font-family: theme("fontFamily.body");
-  font-size: 0.6875rem;
+  font-size: var(--type-2xs);
   font-weight: 600;
   letter-spacing: 0.34em;
   text-transform: uppercase;
@@ -787,7 +826,10 @@
 
 .n-h2 {
   font-family: theme("fontFamily.display");
-  font-size: clamp(1.75rem, 3.6vw, 2.6rem);
+  /* Was 2.6rem (41.6px), which landed a hair above the 40px step numerals —
+     two sizes close enough to read as a mistake rather than a hierarchy.
+     44px puts real distance between a section heading and a numeral. */
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
   line-height: 1.06;
   letter-spacing: -0.02em;
 }
@@ -808,7 +850,7 @@
 .n-stat-label {
   display: block;
   margin-top: 0.75rem;
-  font-size: 0.8125rem;
+  font-size: var(--type-xs);
   letter-spacing: 0.14em;
   color: rgba(251, 235, 222, 0.78);
 }
@@ -858,7 +900,7 @@
   color: theme("colors.horno.ink");
   font-family: theme("fontFamily.body");
   font-weight: 600;
-  font-size: 1.0625rem;
+  font-size: var(--type-lg);
   box-shadow: 0 10px 30px -12px rgba(45, 26, 26, 0.5);
   transition:
     transform 0.25s ease,
@@ -907,7 +949,7 @@
 
 .negocios-product-item dt {
   font-family: theme("fontFamily.display");
-  font-size: 1.125rem;
+  font-size: var(--type-lg);
   color: theme("colors.horno.magentaDeep");
 }
 
