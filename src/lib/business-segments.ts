@@ -34,10 +34,12 @@ export const BUSINESS_SEGMENTS = [
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu cafetería. Quiero coordinar los detalles.",
     media: {
-      src: "/chesscake-hero.png",
+      // Was a 1.8 MB PNG at 1672x941 for a slot that never exceeds 341 CSS px.
+      // WebP at 1200x675 still covers the slot at 2x retina and costs 62 KB.
+      src: "/chesscake-hero.webp",
       alt: "Cheesecake de frutos rojos en porción individual",
-      width: 1672,
-      height: 941,
+      width: 1200,
+      height: 675,
     },
   },
   {
