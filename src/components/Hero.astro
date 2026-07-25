@@ -3,6 +3,11 @@ import { SITE, whatsappLink } from "~/lib/config";
 
 const name = SITE.name;
 const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
+
+// Desktop nav pill: the 44px height belongs to the links rather than to the
+// container's padding, so the whole row is tappable (WCAG 2.5.8) while the
+// pill keeps its original size. This nav shows from `sm` up, which includes
+// touch tablets, so a mouse-only assumption would be wrong.
 ---
 
 <header class="hero-shell relative overflow-hidden pt-6 pb-20 sm:pb-28">
@@ -11,11 +16,11 @@ const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabor
       <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" loading="eager" />
     </a>
 
-    <div class="hidden items-center gap-7 rounded-full border border-white/70 bg-white/60 px-5 py-3 text-sm font-medium text-horno-magentaDeep/80 shadow-card backdrop-blur sm:flex">
-      <a href="#catalogo" class="transition hover:-translate-y-0.5 hover:text-horno-magenta">Catálogo</a>
-      <a href="#sabores" class="transition hover:-translate-y-0.5 hover:text-horno-magenta">Sabores</a>
-      <a href="/negocios" class="transition hover:-translate-y-0.5 hover:text-horno-magenta">Para negocios</a>
-      <a href="#contacto" class="transition hover:-translate-y-0.5 hover:text-horno-magenta">Contacto</a>
+    <div class="hidden items-center gap-7 rounded-full border border-white/70 bg-white/60 px-5 text-sm font-medium text-horno-magentaDeep/80 shadow-card backdrop-blur sm:flex">
+      <a href="#catalogo" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Catálogo</a>
+      <a href="#sabores" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Sabores</a>
+      <a href="/negocios" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Para negocios</a>
+      <a href="#contacto" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Contacto</a>
     </div>
 
     <a href={whatsappLink(orderMessage)} target="_blank" rel="noopener" data-magnetic class="hidden rounded-full bg-horno-magenta px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep md:inline-flex">
@@ -40,7 +45,7 @@ const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabor
     <div class="max-w-2xl">
       <span data-hero-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card">Hechos a mano en Loja, Ecuador</span>
       <h1 data-hero-anim="heading" class="mt-4 text-4xl leading-[1.02] text-horno-magentaDeep sm:text-5xl lg:text-6xl">
-        <span class="text-horno-orange">Minitortas y minidonas</span>, hechas a mano.
+        <span class="text-horno-orangeInk">Minitortas y minidonas</span>, hechas a mano.
       </h1>
       <div data-hero-anim="accent" class="my-6 h-1.5 w-20 rounded-full bg-horno-orange" aria-hidden="true"></div>
       <p data-hero-anim="copy" class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">

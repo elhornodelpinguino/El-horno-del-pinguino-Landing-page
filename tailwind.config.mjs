@@ -12,6 +12,12 @@ export default {
           creamDark: "#f5dcc9",
           orange: "#f49d50",
           orangeLight: "#ffb070",
+          // Ink pair for orange *text*. The fill orange above scores 1.84:1 on
+          // cream, so it may never carry type. `orangeInk` is the light-surface
+          // ink, `orangeOnDark` the magenta-band ink; both clear WCAG AA at
+          // body size. Enforced by tests/unit/brand-contrast.test.ts.
+          orangeInk: "#944d0e",
+          orangeOnDark: "#ffc08a",
           ink: "#2d1a1a",
         },
       },
