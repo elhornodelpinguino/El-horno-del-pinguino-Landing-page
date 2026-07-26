@@ -106,15 +106,17 @@ if (shell) {
   const rule = shell.querySelector("[data-negocios-anim='rule']");
   const lead = shell.querySelector("[data-negocios-anim='lead']");
   const cta = shell.querySelector("[data-negocios-anim='cta']");
+  const heroImage = shell.querySelector("[data-negocios-anim='hero-image']");
 
-  const entranceTargets = [eyebrow, heading, rule, lead, cta].filter(Boolean);
+  const entranceTargets = [heroImage, eyebrow, heading, rule, lead, cta].filter(Boolean);
 
   if (reduced) {
     gsap.set(entranceTargets, { clearProps: "all" });
   } else {
     const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.65 } });
 
-    tl.from(eyebrow, { y: 12, opacity: 0, duration: 0.5 })
+    tl.from(heroImage, { scale: 1.04, opacity: 0, duration: 1.1 })
+      .from(eyebrow, { y: 12, opacity: 0, duration: 0.5 }, "-=0.75")
       .from(heading, { y: 28, opacity: 0, duration: 0.8 }, "-=0.3")
       .from(rule, { scaleX: 0, transformOrigin: "center center" }, "-=0.45")
       .from(lead, { y: 16, opacity: 0, duration: 0.6 }, "-=0.35")
@@ -153,6 +155,27 @@ if (productList) {
     [...productList.querySelectorAll(".negocios-product-item"), productList.querySelector(".negocios-flavours")],
     { y: 18, stagger: 0.1 },
   );
+}
+
+/* ---- Editorial gallery and format blocks: images stay static, frames reveal ---- */
+const galleryItems = Array.from(document.querySelectorAll("[data-negocios-gallery] [data-negocios-anim='gallery']"));
+if (galleryItems.length) {
+  revealOnScroll(galleryItems[0].closest("section"), galleryItems, {
+    y: 18,
+    duration: 0.7,
+    stagger: 0.1,
+    start: "top 82%",
+  });
+}
+
+const productBlocks = Array.from(document.querySelectorAll(".negocios-product-block[data-negocios-anim='product']"));
+if (productBlocks.length) {
+  revealOnScroll(productBlocks[0].closest("section"), productBlocks, {
+    y: 20,
+    duration: 0.72,
+    stagger: 0.12,
+    start: "top 82%",
+  });
 }
 
 /* ---- Closing CTA ---- */

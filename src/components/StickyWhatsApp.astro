@@ -1,7 +1,16 @@
 ---
 import { SITE, whatsappLink } from "~/lib/config";
 
-const message = `¡Hola ${SITE.name}! Vi su web y quiero cotizar un pedido para una empresa, colegio o cafetería.`;
+interface Props {
+  audience?: "consumer" | "business";
+}
+
+const { audience = "consumer" } = Astro.props;
+const message = audience === "business"
+  ? `¡Hola ${SITE.name}! Vi su web y quiero cotizar un pedido para una empresa, colegio o cafetería.`
+  : `¡Hola ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, formatos y precios?`;
+const label = audience === "business" ? "Cotizar pedido por WhatsApp" : "Hacer pedido por WhatsApp";
+const action = audience === "business" ? "Cotización" : "Pedido";
 ---
 
 <a
@@ -9,7 +18,7 @@ const message = `¡Hola ${SITE.name}! Vi su web y quiero cotizar un pedido para 
   target="_blank"
   rel="noopener"
   class="sticky-whatsapp md:hidden"
-  aria-label="Hacer pedido por WhatsApp"
+  aria-label={label}
 >
   <span class="sticky-whatsapp-icon" aria-hidden="true">
     <svg viewBox="0 0 32 32" class="h-7 w-7" aria-hidden="true">
@@ -18,7 +27,7 @@ const message = `¡Hola ${SITE.name}! Vi su web y quiero cotizar un pedido para 
     </svg>
   </span>
   <span>
-    <span class="block text-[11px] font-medium leading-none text-white/80">Cotización</span>
+    <span class="block text-[11px] font-medium leading-none text-white/80">{action}</span>
     <span class="block font-display text-sm leading-tight">WhatsApp</span>
   </span>
 </a>

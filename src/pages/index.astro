@@ -4,8 +4,7 @@ import Hero from "~/components/Hero.astro";
 import Marquee from "~/components/Marquee.astro";
 import ProductGrid from "~/components/ProductGrid.astro";
 import Statement from "~/components/Statement.astro";
-import MiniFormat from "~/components/MiniFormat.astro";
-import Flavours from "~/components/Flavours.astro";
+import FlavourShowcase from "~/components/FlavourShowcase.astro";
 import BusinessBridge from "~/components/BusinessBridge.astro";
 import HowToOrder from "~/components/HowToOrder.astro";
 
@@ -60,8 +59,7 @@ if (products.length > 0) {
   <main>
     <Hero />
     <Marquee />
-    <MiniFormat />
-    <Flavours />
+    <FlavourShowcase />
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
       <ProductGrid products={products} />
     </ErrorBoundary>

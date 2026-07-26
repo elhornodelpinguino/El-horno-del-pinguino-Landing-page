@@ -10,24 +10,121 @@ test.describe("/negocios — B2B outbound collateral page", () => {
     expect(title).toMatch(/negocio/i);
   });
 
-  test("renders exactly 4 segment rows, and clubes has no empty media frame", async ({ page }) => {
+  test("renders exactly 4 segment rows with real responsive media", async ({ page }) => {
     await page.goto("/negocios");
 
     const rows = page.locator("[data-negocios-segment]");
     await expect(rows).toHaveCount(4);
 
-    const clubesRow = page.locator("[data-negocios-segment='clubes']");
-    await expect(clubesRow).toBeVisible();
-    await expect(clubesRow).toHaveClass(/negocios-row--text/);
-    // No figure element at all — not rendered-then-hidden, no placeholder frame.
-    await expect(clubesRow.locator("figure")).toHaveCount(0);
-    await expect(clubesRow.locator("img")).toHaveCount(0);
-
-    const mediaSegments = ["cafeterias", "colegios", "empresas"];
+    const mediaSegments = ["cafeterias", "colegios", "clubes", "empresas"];
     for (const slug of mediaSegments) {
       const row = page.locator(`[data-negocios-segment='${slug}']`);
       await expect(row).toHaveClass(/negocios-row--media/);
       await expect(row.locator("figure img")).toHaveCount(1);
+      await expect(row.locator("img")).toHaveAttribute("src", /b2b-/);
+      await expect(row.locator("img")).toHaveAttribute("srcset", /720w/);
+      await expect(row.locator("img")).toHaveAttribute("alt", /.+/);
+    }
+  });
+
+  test("keeps the editorial gallery static and complete", async ({ page }) => {
+    await page.goto("/negocios");
+
+    const gallery = page.locator("[data-negocios-gallery]");
+    await expect(gallery.locator("figure")).toHaveCount(4);
+    await expect(gallery.locator("figcaption")).toHaveText([
+      "Pedidos por volumen",
+      "Presentación individual",
+      "Detalles personalizados",
+      "Listos para entregar",
+    ]);
+    await expect(gallery.locator("[data-carousel], [data-autoplay], button")).toHaveCount(0);
+
+    for (const image of await gallery.locator("img").all()) {
+      await expect(image).toBeVisible();
+      await expect(image).toHaveAttribute("srcset", /720w/);
+      await expect(image).toHaveAttribute("alt", /.+/);
+    }
+  });
+
+  test("uses the two approved products and evidences all four process steps", async ({ page }) => {
+    await page.goto("/negocios");
+
+    await expect(page.locator(".negocios-product-block")).toHaveCount(2);
+    await expect(page.locator(".negocios-product-block h3")).toHaveText(["Cheesecake", "Minidonas"]);
+    await expect(page.locator(".negocios-products h2")).toHaveText("Cheesecake y minidonas para tu pedido");
+    await expect(page.locator(".negocios-products .negocios-product-copy .n-eyebrow")).toHaveText([
+      "Producto",
+      "Producto",
+    ]);
+    await expect(page.locator(".negocios-products")).not.toContainText(/minitorta/i);
+    await expect(page.locator(".negocios-step-media")).toHaveCount(4);
+    await expect(page.locator(".negocios-step-media img")).toHaveCount(4);
+    await expect(page.locator(".negocios-step-media figcaption")).toHaveText([
+      "Opciones para definir",
+      "Lote organizado",
+      "Lotes preparados",
+      "Presentación lista para coordinar",
+    ]);
+
+    for (const image of await page.locator(".negocios-step-media img").all()) {
+      await expect(image).toHaveAttribute("srcset", /720w/);
+      await expect(image).toHaveAttribute("alt", /.+/);
+      await expect(image).toHaveAttribute("width", "1200");
+      await expect(image).toHaveAttribute("height", "900");
+    }
+  });
+
+  test("keeps the B2B page inside the viewport on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/negocios");
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+    await expect(page.locator(".negocios-hero-media")).toHaveAttribute("width", "1600");
+    await expect(page.locator(".negocios-gallery-grid figure")).toHaveCount(4);
+    await expect(page.locator(".negocios-step-media")).toHaveCount(4);
+  });
+
+  test("keeps process evidence frames consistent on desktop and mobile", async ({ page }) => {
+    const frameSizes = async () =>
+      page.locator(".negocios-step-media img").evaluateAll((images) =>
+        images.map((image) => {
+          const rect = image.getBoundingClientRect();
+          return { width: Math.round(rect.width), height: Math.round(rect.height) };
+        }),
+      );
+
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/negocios");
+    const desktop = await frameSizes();
+    expect(desktop).toHaveLength(4);
+    expect(new Set(desktop.map(({ width, height }) => `${width}x${height}`)).size).toBe(1);
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload();
+    const mobile = await frameSizes();
+    expect(mobile).toHaveLength(4);
+    expect(new Set(mobile.map(({ width, height }) => `${width}x${height}`)).size).toBe(1);
+  });
+
+  test("loads every selected image with explicit dimensions", async ({ page }) => {
+    await page.goto("/negocios");
+    const images = page.locator(
+      ".negocios-hero-media, [data-negocios-segment] img, [data-negocios-gallery] img, .negocios-product-block img, .negocios-step-media img",
+    );
+    const count = await images.count();
+    expect(count).toBe(15);
+
+    for (let i = 0; i < count; i++) {
+      const image = images.nth(i);
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth))
+        .toBeGreaterThan(0);
+      await expect(image).toHaveAttribute("width", /\d+/);
+      await expect(image).toHaveAttribute("height", /\d+/);
+      await expect(image).toHaveAttribute("alt", /.+/);
     }
   });
 

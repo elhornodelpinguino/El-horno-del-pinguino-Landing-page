@@ -4,6 +4,8 @@ export type SegmentSlug = "cafeterias" | "colegios" | "clubes" | "empresas";
 
 export interface SegmentMedia {
   src: string; // path under public/, already deployed
+  srcset: string;
+  sizes: string;
   alt: string; // names the product; never claims a B2B context the photo lacks
   width: number; // explicit dimensions prevent CLS on mobile data
   height: number;
@@ -16,10 +18,10 @@ export interface BusinessSegment {
   bullets: string[];
   ctaLabel: string;
   whatsappMessage: string;
-  media?: SegmentMedia; // OPTIONAL BY CONTRACT — `clubes` ships without it
+  media: SegmentMedia;
 }
 
-// Pitch order, `clubes` third so the text-only row sits interior to the ledger.
+// Pitch order keeps clubes third so the visual rhythm changes before empresas.
 export const BUSINESS_SEGMENTS = [
   {
     slug: "cafeterias",
@@ -34,12 +36,12 @@ export const BUSINESS_SEGMENTS = [
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu cafetería. Quiero coordinar los detalles.",
     media: {
-      // Was a 1.8 MB PNG at 1672x941 for a slot that never exceeds 341 CSS px.
-      // WebP at 1200x675 still covers the slot at 2x retina and costs 62 KB.
-      src: "/chesscake-hero.webp",
-      alt: "Cheesecake de frutos rojos en porción individual",
+      src: "/b2b-segment-cafeteria.webp",
+      srcset: "/b2b-segment-cafeteria-sm.webp 720w, /b2b-segment-cafeteria.webp 1200w",
+      sizes: "(min-width: 768px) 28vw, 100vw",
+      alt: "Caja abierta con minidonas decoradas y una bebida al costado.",
       width: 1200,
-      height: 675,
+      height: 900,
     },
   },
   {
@@ -55,10 +57,12 @@ export const BUSINESS_SEGMENTS = [
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu colegio. Quiero coordinar los detalles.",
     media: {
-      src: "/producto-mini-donas.jpg",
-      alt: "Minidonas artesanales en porción individual",
-      width: 960,
-      height: 1280,
+      src: "/b2b-segment-school.webp",
+      srcset: "/b2b-segment-school-sm.webp 720w, /b2b-segment-school.webp 1200w",
+      sizes: "(min-width: 768px) 28vw, 100vw",
+      alt: "Varios vasos transparentes con minidonas decoradas en exhibición.",
+      width: 1200,
+      height: 900,
     },
   },
   {
@@ -73,6 +77,14 @@ export const BUSINESS_SEGMENTS = [
     ctaLabel: "Coordinar por WhatsApp",
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu club. Quiero coordinar los detalles.",
+    media: {
+      src: "/b2b-segment-club.webp",
+      srcset: "/b2b-segment-club-sm.webp 720w, /b2b-segment-club.webp 1200w",
+      sizes: "(min-width: 768px) 28vw, 100vw",
+      alt: "Varias cajas abiertas con minidonas decoradas en tonos amarillos y negros.",
+      width: 1200,
+      height: 900,
+    },
   },
   {
     slug: "empresas",
@@ -87,10 +99,12 @@ export const BUSINESS_SEGMENTS = [
     whatsappMessage:
       "Hola, ya conversamos sobre pedidos para tu empresa. Quiero coordinar los detalles.",
     media: {
-      src: "/producto-torta-mariposas.jpg",
-      alt: "Torta decorada con mariposas artesanales",
-      width: 960,
-      height: 1280,
+      src: "/b2b-segment-business.webp",
+      srcset: "/b2b-segment-business-sm.webp 720w, /b2b-segment-business.webp 1200w",
+      sizes: "(min-width: 768px) 28vw, 100vw",
+      alt: "Minidonas decoradas en azul y blanco dentro de una caja.",
+      width: 1200,
+      height: 900,
     },
   },
 ] as const satisfies readonly BusinessSegment[];

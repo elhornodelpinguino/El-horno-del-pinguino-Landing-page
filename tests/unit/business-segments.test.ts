@@ -54,20 +54,22 @@ describe("BUSINESS_SEGMENTS", () => {
     }
   });
 
-  it("allows clubes to be valid without a media asset (no placeholder implied)", () => {
+  it("gives every segment a real media asset, including clubes", () => {
     const clubes = BUSINESS_SEGMENTS.find((s) => s.slug === "clubes");
     expect(clubes).toBeDefined();
-    expect(clubes?.media).toBeUndefined();
+    expect(clubes?.media).toBeDefined();
+    expect(clubes?.media?.src).toMatch(/^\/b2b-[a-z-]+\.webp$/);
     expect(clubes?.title.trim().length).toBeGreaterThan(0);
     expect(clubes?.bullets.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("gives every other segment a media asset", () => {
-    const withMedia = BUSINESS_SEGMENTS.filter((s) => s.slug !== "clubes");
-    for (const segment of withMedia) {
+  it("gives every segment responsive media with useful alt text", () => {
+    for (const segment of BUSINESS_SEGMENTS) {
       expect(segment.media).toBeDefined();
       expect(segment.media?.src.length).toBeGreaterThan(0);
       expect(segment.media?.alt.length).toBeGreaterThan(0);
+      expect(segment.media?.srcset).toContain(" 720w");
+      expect(segment.media?.srcset).toContain(" 1200w");
     }
   });
 

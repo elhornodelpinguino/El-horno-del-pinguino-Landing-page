@@ -1,0 +1,127 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+
+const flavours = [
+  {
+    slug: "maracuya",
+    title: "Maracuyá",
+    copy: "Dulce arriba, ácido abajo.",
+    image: "/flavour-maracuya.webp",
+    width: 738,
+    height: 1600,
+    objectPosition: "center 58%",
+  },
+  {
+    slug: "oreo",
+    title: "Oreo",
+    copy: "Crema, galleta y más galleta.",
+    image: "/flavour-oreo.webp",
+    width: 738,
+    height: 1600,
+    objectPosition: "center 55%",
+  },
+  {
+    slug: "frutos-rojos",
+    title: "Frutos rojos",
+    copy: "Ácido, fresco y nada empalagoso.",
+    image: "/flavour-frutos-rojos.webp",
+    width: 1200,
+    height: 1600,
+    objectPosition: "center 52%",
+  },
+];
+
+const orderMessage = (flavour: string) =>
+  `¡Hola ${SITE.name}! Quiero consultar el sabor ${flavour}. ¿Me cuentan formatos, precios y entrega en Loja?`;
+---
+
+<section id="sabores" data-flavour-showcase class="flavour-showcase flow-section relative overflow-hidden py-16 sm:py-24">
+  <div class="section relative z-10">
+    <div class="flavour-showcase-header">
+      <div data-flavour-anim="intro" class="max-w-2xl">
+        <span class="eyebrow">Sabores confirmados</span>
+        <h2 id="flavour-showcase-title" class="mt-2 text-3xl leading-tight text-horno-magentaDeep sm:text-4xl">
+          Tres que nunca fallan.
+        </h2>
+        <p id="flavour-gallery-hint" class="mt-4 max-w-2xl leading-relaxed text-horno-magentaDeep/75">
+          Conoce los tres sabores y consulta tu pedido por WhatsApp. Desliza para verlos o usa las
+          flechas para avanzar.
+        </p>
+      </div>
+
+      <div data-flavour-anim="controls" data-flavour-controls hidden class="flex shrink-0 gap-2" aria-label="Controles de sabores">
+        <button type="button" data-flavour-prev class="flavour-showcase-control" aria-label="Ver sabor anterior" aria-controls="flavour-gallery">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
+        </button>
+        <button type="button" data-flavour-next class="flavour-showcase-control" aria-label="Ver sabor siguiente" aria-controls="flavour-gallery">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flavour-gallery-shell mt-10">
+      <div
+        id="flavour-gallery"
+        class="flavour-coverflow-viewport"
+        role="region"
+        aria-label="Galería de sabores"
+        aria-describedby="flavour-gallery-hint"
+      >
+        <div class="flavour-coverflow-stage">
+          {flavours.map((item, index) => (
+            <article
+              data-flavour-anim="card"
+              data-flavour-card
+              data-flavour-index={index}
+              data-coverflow-position={index === 0 ? "active" : index === 1 ? "next" : "previous"}
+              class="flavour-card"
+              role="group"
+              aria-roledescription="tarjeta"
+              aria-label={`Sabor ${index + 1} de ${flavours.length}: ${item.title}`}
+              aria-current={index === 0 ? "true" : undefined}
+              tabindex={index === 0 ? 0 : -1}
+            >
+              <figure class="flavour-card-media">
+                <img
+                  src={item.image}
+                  alt={`${item.title}: minitorta individual en su envase`}
+                  width={item.width}
+                  height={item.height}
+                  style={`object-position: ${item.objectPosition}`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </figure>
+              <div class="flavour-card-body">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-horno-orangeInk">Sabor</p>
+                  <h3 id={`flavour-${item.slug}`} class="mt-2 text-2xl text-horno-magentaDeep">{item.title}</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-horno-ink/75">{item.copy}</p>
+                </div>
+                <a
+                  href={whatsappLink(orderMessage(item.title))}
+                  target="_blank"
+                  rel="noopener"
+                  class="flavour-card-cta"
+                  aria-label={`Consultar ${item.title} por WhatsApp`}
+                >
+                  Consultar por WhatsApp
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <p data-flavour-status class="mt-3 text-right text-xs font-medium text-horno-magentaDeep/65" aria-live="polite" aria-atomic="true">
+        Sabor 1 de {flavours.length}: {flavours[0].title}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import "~/scripts/flavour-showcase.js";
+  import "~/scripts/flavour-animation.js";
+</script>

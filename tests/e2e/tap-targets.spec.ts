@@ -40,12 +40,6 @@ test("contact links meet the minimum target size", async ({ page }) => {
   await page.goto("/");
 
   // SC 2.5.8 exempts targets "in a sentence or [whose] size is otherwise
-  // constrained by the line-height of non-target text". Flavours' link sits
-  // mid-paragraph and ends with a period, so it is exempt by the criterion —
-  // padding it to 44px would break the paragraph's line rhythm for no
-  // accessibility gain. Standalone action links get no such exemption.
-  const INLINE_IN_SENTENCE = ["Escríbenos y lo vemos"];
-
   const contactLinks = page.locator(
     'a[href^="tel:"]:visible, a[href*="instagram.com"]:visible, a[href*="wa.me"]:visible',
   );
@@ -58,7 +52,6 @@ test("contact links meet the minimum target size", async ({ page }) => {
     const box = await link.boundingBox();
     if (!box) continue;
     const label = (await link.textContent())?.trim() || "?";
-    if (INLINE_IN_SENTENCE.includes(label)) continue;
     if (box.height < AA_MINIMUM) {
       undersized.push(`${label} (${Math.round(box.width)}x${Math.round(box.height)})`);
     }

@@ -573,6 +573,21 @@ test.describe("Visual Refresh — Interactions", () => {
       expect(consoleErrors).toEqual([]);
     });
 
+    test("uses a consumer message in the B2C sticky WhatsApp CTA", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/");
+      await page.evaluate(() => {
+        const shell = document.querySelector(".hero-shell");
+        if (shell) window.scrollTo(0, shell.getBoundingClientRect().bottom + window.scrollY + 50);
+      });
+      await expect(page.getByRole("link", { name: /hacer pedido por whatsapp/i })).toBeVisible();
+
+      const href = await page.getByRole("link", { name: /hacer pedido por whatsapp/i }).getAttribute("href");
+      const message = decodeURIComponent(href ?? "");
+      expect(message).toContain("Vi su web y quiero pedir");
+      expect(message).not.toMatch(/empresa|colegio|cafetería/i);
+    });
+
     test("button remains visible when its animation script fails to execute (GSAP-only hiding contract)", async ({ page }) => {
       // Block the StickyWhatsApp reveal script (dev server) and the bundled
       // hoisted script (production build, where all section scripts merge
@@ -609,9 +624,181 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(flavours.getByRole("heading", { name: "Oreo", exact: true })).toBeVisible();
     });
 
-    test("explains what a mini dessert actually is", async ({ page }) => {
+    test("shows the real flavour photos and flavor-specific WhatsApp links", async ({ page }) => {
       await page.goto("/");
-      await expect(page.getByRole("heading", { name: /mini, pero completo/i })).toBeVisible();
+
+      const cards = page.locator("[data-flavour-card]");
+      await expect(cards).toHaveCount(3);
+      await expect(cards.nth(0).locator("img")).toHaveAttribute("src", "/flavour-maracuya.webp");
+      await expect(cards.nth(1).locator("img")).toHaveAttribute("src", "/flavour-oreo.webp");
+      await expect(cards.nth(2).locator("img")).toHaveAttribute("src", "/flavour-frutos-rojos.webp");
+
+      for (const flavour of ["Maracuyá", "Oreo", "Frutos rojos"]) {
+        const href = await page.getByRole("link", { name: new RegExp(`Consultar ${flavour} por WhatsApp`, "i") }).getAttribute("href");
+        expect(decodeURIComponent(href ?? "")).toContain(`sabor ${flavour}`);
+      }
+    });
+
+    test("starts with one central active card and no semantic clones", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto("/");
+
+      const gallery = page.locator("#flavour-gallery");
+      await gallery.scrollIntoViewIfNeeded();
+      const cards = page.locator("[data-flavour-card]");
+
+      await expect(cards).toHaveCount(3);
+      await expect(page.locator("[data-coverflow-position='active'] h3")).toHaveText("Maracuyá");
+      await expect(page.locator("[data-coverflow-position='active']")).toHaveAttribute("aria-current", "true");
+      await expect(page.locator("[data-coverflow-position='previous']")).toHaveCount(1);
+      await expect(page.locator("[data-coverflow-position='next']")).toHaveCount(1);
+    });
+
+    test("uses full cards on desktop and intentional partial peeks on mobile", async ({ page }) => {
+      const visibleRatios = async () =>
+        page.locator("[data-flavour-card]").evaluateAll((cards) => {
+          const viewport = document.querySelector("#flavour-gallery")!.getBoundingClientRect();
+
+          return cards.map((card) => {
+            const box = card.getBoundingClientRect();
+            const visibleWidth = Math.max(0, Math.min(box.right, viewport.right) - Math.max(box.left, viewport.left));
+            return visibleWidth / box.width;
+          });
+        });
+
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/");
+      await page.locator("#flavour-gallery").scrollIntoViewIfNeeded();
+
+      const desktopRatios = await visibleRatios();
+      expect(desktopRatios.every((ratio) => ratio > 0.98)).toBe(true);
+
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.locator("#flavour-gallery").scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400);
+
+      const mobileRatios = await visibleRatios();
+      expect(mobileRatios[1]).toBeLessThan(0.7);
+      expect(mobileRatios[2]).toBeLessThan(0.7);
+    });
+
+    test("cycles next and previous buttons circularly", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto("/");
+
+      const gallery = page.locator("#flavour-gallery");
+      const status = page.locator("[data-flavour-status]");
+      await gallery.scrollIntoViewIfNeeded();
+      await expect(status).toContainText("Sabor 1 de 3");
+
+      await page.locator("[data-flavour-next]").click();
+      await expect(status).toContainText("Sabor 2 de 3");
+      await page.locator("[data-flavour-next]").click();
+      await expect(status).toContainText("Sabor 3 de 3");
+      await page.locator("[data-flavour-next]").click();
+      await expect(status).toContainText("Sabor 1 de 3");
+
+      await page.locator("[data-flavour-prev]").click();
+      await expect(status).toContainText("Sabor 3 de 3");
+      await expect(page.locator("[data-flavour-prev]")).toBeEnabled();
+      await expect(page.locator("[data-flavour-next]")).toBeEnabled();
+    });
+
+    test("supports ArrowLeft and ArrowRight on the active card", async ({ page }) => {
+      await page.goto("/");
+
+      const active = page.locator("[data-coverflow-position='active']");
+      const status = page.locator("[data-flavour-status]");
+      await active.focus();
+      await page.keyboard.press("ArrowRight");
+      await expect(status).toContainText("Sabor 2 de 3");
+
+      await page.locator("[data-coverflow-position='active']").focus();
+      await page.keyboard.press("ArrowLeft");
+      await expect(status).toContainText("Sabor 1 de 3");
+
+    });
+
+    test("centers a lateral card by click and keeps its CTA independent", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto("/");
+
+      const gallery = page.locator("#flavour-gallery");
+      const status = page.locator("[data-flavour-status]");
+      await gallery.scrollIntoViewIfNeeded();
+      await expect(status).toContainText("Sabor 1 de 3");
+
+      const lateral = page.locator("[data-coverflow-position='next']");
+      const lateralBox = await lateral.boundingBox();
+      expect(lateralBox).not.toBeNull();
+      await page.mouse.click(lateralBox!.x + lateralBox!.width - 24, lateralBox!.y + 24);
+      await expect(status).toContainText("Sabor 2 de 3");
+      await expect(page.locator("[data-coverflow-position='active'] h3")).toHaveText("Oreo");
+
+      await page.locator("[data-coverflow-position='active'] a").dispatchEvent("click");
+      await expect(status).toContainText("Sabor 2 de 3");
+    });
+
+    test("moves to the next card with a horizontal swipe", async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto("/");
+
+      const viewport = page.locator("#flavour-gallery");
+      const status = page.locator("[data-flavour-status]");
+      await viewport.scrollIntoViewIfNeeded();
+      const box = await viewport.boundingBox();
+      expect(box).not.toBeNull();
+
+      const startX = box!.x + box!.width / 2 + 70;
+      const y = box!.y + 100;
+      await page.mouse.move(startX, y);
+      await page.mouse.down();
+      await page.mouse.move(startX - 100, y, { steps: 5 });
+      await page.mouse.up();
+      await expect(status).toContainText("Sabor 2 de 3");
+    });
+
+    test("reduced motion keeps flavor navigation visible and functional", async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto("/");
+
+      const gallery = page.locator("#flavour-gallery");
+      const cards = page.locator("[data-flavour-anim='card']");
+      const status = page.locator("[data-flavour-status]");
+      await gallery.scrollIntoViewIfNeeded();
+      await expect(cards.first()).toHaveCSS("opacity", "1");
+      await expect(status).toContainText("Sabor 1 de 3");
+      await expect(page.locator("[data-coverflow-position='active']")).toHaveAttribute("aria-current", "true");
+      await expect(page.locator("[data-coverflow-position='active']")).toHaveCSS("transition-duration", "0s");
+
+      await page.locator("[data-flavour-next]").click();
+      await expect(status).toContainText("Sabor 2 de 3");
+      await page.locator("[data-flavour-prev]").click();
+      await expect(status).toContainText("Sabor 1 de 3");
+    });
+
+    test("flavour entrance is scroll-gated and settles visibly", async ({ page }) => {
+      await page.goto("/");
+
+      const section = page.locator("#sabores");
+      const intro = page.locator("[data-flavour-anim='intro']");
+      const cards = page.locator("[data-flavour-anim='card']");
+      await expect(intro).toHaveCSS("opacity", "0");
+
+      await section.scrollIntoViewIfNeeded();
+      await expect(intro).toHaveCSS("opacity", "1");
+      await expect(page.locator("[data-coverflow-position='active']")).toHaveCSS("opacity", "1");
+      for (let i = 0; i < await cards.count(); i++) {
+        await expect(cards.nth(i)).not.toHaveCSS("opacity", "0");
+      }
+    });
+
+    test("keeps the showcase dedicated to confirmed flavours", async ({ page }) => {
+      await page.goto("/");
+      const flavours = page.locator("#sabores");
+      await expect(flavours.getByRole("heading", { name: /tres que nunca fallan/i })).toBeVisible();
+      await expect(flavours).not.toContainText(/minitortas|minidonas|por encargo/i);
     });
 
     // B2B is outbound: the landing only bridges to it, it does not sell it.

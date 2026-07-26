@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
+import BusinessEditorialGallery from "~/components/BusinessEditorialGallery.astro";
+import BusinessProductShowcase from "~/components/BusinessProductShowcase.astro";
 import BusinessSegmentRow from "~/components/BusinessSegmentRow.astro";
+import { BUSINESS_STEP_EVIDENCE } from "~/lib/business-media";
 import { BUSINESS_SEGMENTS } from "~/lib/business-segments";
 import { SITE, whatsappLink } from "~/lib/config";
 
@@ -44,11 +47,23 @@ const steps = [
   <main class="negocios">
     <!-- §1 Identity header + §2 Proof line: one shared entrance root -->
     <header class="negocios-hero relative py-16 sm:py-24">
+      <img
+        data-negocios-anim="hero-image"
+        class="negocios-hero-media"
+        src="/b2b-hero-volume.webp"
+        srcset="/b2b-hero-volume-sm.webp 960w, /b2b-hero-volume.webp 1600w"
+        sizes="100vw"
+        alt="Cajas abiertas con minidonas decoradas dispuestas en varias filas."
+        width="1600"
+        height="900"
+        loading="eager"
+        decoding="async"
+      />
       <div class="section relative z-10 mx-auto max-w-3xl text-center">
         <img
           src="/logo-horizontal.svg"
           alt="El Horno del Pingüino"
-          class="mx-auto h-10 w-auto object-contain"
+          class="negocios-hero-logo mx-auto h-10 w-auto object-contain"
           width="160"
           height="40"
           loading="eager"
@@ -107,10 +122,27 @@ const steps = [
       <ol class="section mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {
           steps.map((step, index) => (
-            <li data-negocios-anim="step" class="border-t border-horno-magenta/15 pt-5">
+            <li data-negocios-anim="step" class:list={["negocios-step border-t border-horno-magenta/15 pt-5", BUSINESS_STEP_EVIDENCE.find((item) => item.step === index + 1) && "negocios-step--evidence"]}>
               <span class="negocios-step-number" aria-hidden="true">{index + 1}</span>
-              <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
-              <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
+              <div class="negocios-step-copy">
+                <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
+                <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
+              </div>
+              {BUSINESS_STEP_EVIDENCE.filter((item) => item.step === index + 1).map((evidence) => (
+                <figure class="negocios-step-media">
+                  <img
+                    src={evidence.src}
+                    srcset={evidence.srcset}
+                    sizes={evidence.sizes}
+                    alt={evidence.alt}
+                    width={evidence.width}
+                    height={evidence.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>{evidence.label}</figcaption>
+                </figure>
+              ))}
             </li>
           ))
         }
@@ -130,44 +162,13 @@ const steps = [
       </div>
     </section>
 
-    <!-- §5 Product line — existing photography, no invented context -->
-    <section aria-labelledby="negocios-product-heading" class="n-band-deep py-16 sm:py-24">
-      <div class="section">
-        <span class="n-eyebrow text-horno-orangeOnDark">Lo que horneamos</span>
-        <h2 id="negocios-product-heading" class="n-h2 mt-3 max-w-[20ch] text-horno-cream">
-          Minitortas y minidonas, hechas a mano
-        </h2>
-      </div>
-      {/* Text-led on purpose. The three real product photos already appear in
-          the ledger above; repeating one here duplicated an image and, worse,
-          showed a cheesecake under a heading that names minitortas and
-          minidonas. Naming the formats and flavours is also information a
-          buyer actually needs and the page did not state anywhere. */}
-      {/* The list sits inside its own .section wrapper rather than carrying the
-          class itself: .section is `max-w-6xl mx-auto`, so combining it with
-          max-w-3xl centred the list inside the 6xl track and pushed it 160px
-          out of alignment with its own heading. */}
-      <div class="section">
-        <div class="negocios-product-list negocios-product-list--inverted mt-12 max-w-3xl">
-          <dl>
-            <div class="negocios-product-item">
-              <dt>Minitortas</dt>
-              <dd>Capas, relleno y cobertura en porción individual.</dd>
-            </div>
-            <div class="negocios-product-item">
-              <dt>Minidonas</dt>
-              <dd>Suaves, glaseadas y del tamaño de un bocado.</dd>
-            </div>
-          </dl>
-          <p class="negocios-flavours">
-            Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
-            Si necesitas otro para tu vitrina, lo conversamos.
-          </p>
-        </div>
-      </div>
-    </section>
+    <!-- §5 Editorial proof: static, comparative, and fully visible. -->
+    <BusinessEditorialGallery />
 
-    <!-- §6 Volume framing — price scales with volume/frequency, zero figures -->
+    <!-- §6 Product line — two visual format blocks, no invented context. -->
+    <BusinessProductShowcase />
+
+    <!-- §7 Volume framing — price scales with volume/frequency, zero figures -->
     <section aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
       <div class="section grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-end">
         <div>
@@ -183,7 +184,7 @@ const steps = [
       </div>
     </section>
 
-    <!-- §7 Closing CTA -->
+    <!-- §8 Closing CTA -->
     <section class="negocios-closing py-20 sm:py-28">
       <div class="section mx-auto max-w-3xl text-center">
         <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">

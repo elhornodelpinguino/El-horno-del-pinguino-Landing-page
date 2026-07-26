@@ -1,0 +1,41 @@
+---
+import { BUSINESS_PRODUCTS } from "~/lib/business-media";
+---
+
+<section aria-labelledby="negocios-product-heading" class="n-band-deep negocios-products py-16 sm:py-24">
+  <div class="section">
+    <span class="n-eyebrow text-horno-orangeOnDark">Lo que horneamos</span>
+    <h2 id="negocios-product-heading" class="n-h2 mt-3 max-w-[20ch] text-horno-cream">
+      Cheesecake y minidonas para tu pedido
+    </h2>
+
+    <div class="negocios-product-grid mt-10">
+      {BUSINESS_PRODUCTS.map((item) => (
+        <article data-negocios-anim="product" class="negocios-product-block">
+          <figure class="negocios-product-media">
+            <img
+              src={item.src}
+              srcset={item.srcset}
+              sizes={item.sizes}
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          <div class="negocios-product-copy">
+            <p class="n-eyebrow text-horno-orangeOnDark">Producto</p>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="negocios-products-note">
+      Sabores: <strong>frutos rojos</strong>, <strong>maracuyá</strong> y <strong>Oreo</strong>.
+      Si necesitas otro para tu vitrina, lo conversamos.
+    </p>
+  </div>
+</section>

@@ -51,6 +51,8 @@ const ctaHref = segmentWhatsappLink(segment);
       <figure class="negocios-row-figure">
         <img
           src={segment.media.src}
+          srcset={segment.media.srcset}
+          sizes={segment.media.sizes}
           alt={segment.media.alt}
           width={segment.media.width}
           height={segment.media.height}
