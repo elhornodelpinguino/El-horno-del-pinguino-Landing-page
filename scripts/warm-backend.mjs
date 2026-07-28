@@ -7,6 +7,7 @@
 // because the fallback catalog path is still the safety net. The testable
 // body lives in src/utils/warm-backend-cli.mjs (covered by vitest) and never
 // rejects, but the catch below guards even an import-time surprise.
+await (await import("node:fs/promises")).rm("dist", { force: true, recursive: true });
 try {
   const { runWarmBackendCli } = await import("../src/utils/warm-backend-cli.mjs");
   await runWarmBackendCli();

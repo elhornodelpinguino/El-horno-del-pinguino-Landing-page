@@ -1,6 +1,7 @@
 ---
 import "~/styles/global.css";
-import { SITE } from "~/lib/config";
+import { ANALYTICS_CONFIG, SITE } from "~/lib/config";
+import { MEASURED_ROUTES, normalizeRoute } from "~/scripts/analytics.js";
 
 interface Props {
   title?: string;
@@ -20,6 +21,9 @@ const {
 
 const ogUrl = new URL(canonicalUrl, Astro.site).href;
 const ogImg = new URL(ogImage, Astro.site).href;
+const analyticsEndpoint = ANALYTICS_CONFIG?.endpoint;
+const analyticsRoute = normalizeRoute(Astro.url.pathname);
+const shouldLoadAnalytics = analyticsEndpoint !== undefined && analyticsRoute !== null && MEASURED_ROUTES.includes(analyticsRoute);
 ---
 
 <!doctype html>
@@ -54,6 +58,16 @@ const ogImg = new URL(ogImage, Astro.site).href;
     {
       jsonLd && (
         <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+    {shouldLoadAnalytics && <meta name="analytics-endpoint" content={analyticsEndpoint} />}
+    {
+      shouldLoadAnalytics && (
+        <script>
+          import { initializeAnalytics } from "~/scripts/analytics.js";
+          const endpoint = document.querySelector('meta[name="analytics-endpoint"]')?.getAttribute("content");
+          if (endpoint) initializeAnalytics({ endpoint });
+        </script>
       )
     }
   </head>
