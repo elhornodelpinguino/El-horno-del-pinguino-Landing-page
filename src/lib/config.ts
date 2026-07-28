@@ -15,6 +15,49 @@ export const SITE = {
   location: "Loja, Ecuador",
 };
 
+export const ANALYTICS_PROVIDERS = {
+  GOATCOUNTER: "goatcounter",
+} as const;
+
+export type AnalyticsProvider = (typeof ANALYTICS_PROVIDERS)[keyof typeof ANALYTICS_PROVIDERS];
+
+export interface AnalyticsConfig {
+  provider: AnalyticsProvider;
+  endpoint: string;
+}
+
+interface AnalyticsConfigInput {
+  provider: unknown;
+  endpoint: unknown;
+}
+
+function isHttpEndpoint(value: unknown): value is string {
+  if (typeof value !== "string" || value.trim() === "") return false;
+
+  try {
+    const url = new URL(value);
+    return (url.protocol === "http:" || url.protocol === "https:") && url.hostname !== "";
+  } catch {
+    return false;
+  }
+}
+
+export function validateAnalyticsConfig(input: AnalyticsConfigInput): AnalyticsConfig | null {
+  if (input.provider !== ANALYTICS_PROVIDERS.GOATCOUNTER || !isHttpEndpoint(input.endpoint)) {
+    return null;
+  }
+
+  return {
+    provider: ANALYTICS_PROVIDERS.GOATCOUNTER,
+    endpoint: input.endpoint,
+  };
+}
+
+export const ANALYTICS_CONFIG = validateAnalyticsConfig({
+  provider: import.meta.env.PUBLIC_ANALYTICS_PROVIDER as string | undefined,
+  endpoint: import.meta.env.PUBLIC_ANALYTICS_ENDPOINT as string | undefined,
+});
+
 export function whatsappLink(message: string): string {
   const base = `https://wa.me/${SITE.whatsapp}`;
   const text = encodeURIComponent(message);
