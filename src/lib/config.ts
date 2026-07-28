@@ -36,7 +36,17 @@ function isHttpEndpoint(value: unknown): value is string {
 
   try {
     const url = new URL(value);
-    return (url.protocol === "http:" || url.protocol === "https:") && url.hostname !== "";
+    return (
+      url.protocol === "https:" &&
+      url.hostname.endsWith(".goatcounter.com") &&
+      url.hostname !== "goatcounter.com" &&
+      url.pathname === "/count" &&
+      url.port === "" &&
+      url.username === "" &&
+      url.password === "" &&
+      url.search === "" &&
+      url.hash === ""
+    );
   } catch {
     return false;
   }

@@ -16,12 +16,40 @@ Pages serves the prebuilt `dist/` directory.
 4. **Environment variables** (Settings → Environment variables → Production):
    - `NODE_VERSION` = `22.12.0` — Astro 7 requires Node 22.12.0 or newer. The Tailwind 4 Vite plugin runs as part of the Astro build and requires no separate production runtime.
    - `PUBLIC_API_BASE_URL` = `https://horno-product-admin.onrender.com`
-   - `PUBLIC_WHATSAPP_NUMBER` = `593994808252`
-   - `PUBLIC_INSTAGRAM_HANDLE` = `elhornodelpinguino`
-   - `PUBLIC_TIKTOK_HANDLE` = `elhornodelpinguino`
+    - `PUBLIC_WHATSAPP_NUMBER` = `593994808252`
+    - `PUBLIC_INSTAGRAM_HANDLE` = `elhornodelpinguino`
+    - `PUBLIC_TIKTOK_HANDLE` = `elhornodelpinguino`
+    - `PUBLIC_ANALYTICS_PROVIDER` = `goatcounter`
+    - `PUBLIC_ANALYTICS_ENDPOINT` = `https://<site-code>.goatcounter.com/count`
 
-   These `PUBLIC_*` vars are inlined at build time by Astro/Vite — they must
-   be set before every build, not just once at runtime.
+    These `PUBLIC_*` vars are inlined at build time by Astro/Vite — they must
+    be set before every build, not just once at runtime.
+
+## Privacy-safe analytics activation
+
+Analytics is inert when either analytics variable is absent or invalid. To
+activate the free GoatCounter integration:
+
+1. Create or select the GoatCounter site and copy its `/count` tracking-pixel
+   endpoint.
+2. Set `PUBLIC_ANALYTICS_PROVIDER=goatcounter` and the HTTPS
+   `PUBLIC_ANALYTICS_ENDPOINT` in the Cloudflare Pages Production environment.
+3. Trigger a new deployment so Astro inlines the configuration into the two
+   measured routes (`/` and `/negocios`).
+4. Inspect one page view and one WhatsApp conversion in the browser network
+   trace before treating the dashboard as production-ready.
+
+The site does not load GoatCounter's `count.js`. Each request is a controlled
+`/count` pixel containing only `p` (the allowlisted route or conversion
+context) and, for conversions, `e=1`. It does not send query strings,
+fragments, titles, referrers, screen dimensions, phone numbers, WhatsApp
+message text, user identifiers, or arbitrary event fields. The pixel is sent
+with `referrerPolicy=no-referrer`, and a blocked endpoint never delays page
+rendering or WhatsApp navigation.
+
+To disable analytics, remove both public analytics variables and redeploy. The
+build remains successful and the visitor-facing site continues to work without
+analytics requests.
 
 ## Backend warm-up before build
 

@@ -13,6 +13,9 @@ const EVENT_TYPES = Object.freeze({
   CONVERSION: "conversion",
 });
 
+const HANDLED_CLICK = Symbol("analytics-click-handled");
+const INITIALIZED_DOCUMENTS = new WeakSet();
+
 function isMeasuredRoute(value) {
   return MEASURED_ROUTES.includes(value);
 }
@@ -31,7 +34,8 @@ export function normalizeRoute(value) {
     return null;
   }
 
-  return isMeasuredRoute(pathname) ? pathname : null;
+  const normalizedPath = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+  return isMeasuredRoute(normalizedPath) ? normalizedPath : null;
 }
 
 export function buildPageViewEvent(pathname) {
@@ -160,4 +164,94 @@ export function createPixelDispatcher({
     dispatch,
     pendingCount: () => pending.size,
   };
+}
+
+export function resolveWhatsappContext(pathname, link) {
+  const route = normalizeRoute(pathname);
+  if (route === null) return null;
+
+  const explicitContext =
+    link && typeof link.getAttribute === "function"
+      ? link.getAttribute("data-whatsapp-context")
+      : null;
+
+  if (isWhatsappContext(explicitContext) && buildConversionEvent(route, explicitContext) !== null) {
+    return explicitContext;
+  }
+
+  return route === "/" ? "consumer" : null;
+}
+
+/**
+ * @param {Object} [options]
+ * @param {Document} [options.documentRef]
+ * @param {string} [options.pathname]
+ * @param {(event: {type: string, route: string, context: string}) => void} [options.dispatch]
+ */
+export function attachWhatsappListener({
+  documentRef = globalThis.document,
+  pathname = globalThis.location?.pathname,
+  dispatch,
+} = {}) {
+  const route = normalizeRoute(pathname);
+  if (
+    route === null ||
+    !documentRef ||
+    typeof documentRef.addEventListener !== "function" ||
+    typeof dispatch !== "function"
+  ) {
+    return () => undefined;
+  }
+
+  const onClick = (event) => {
+    if (!event || typeof event !== "object" || event[HANDLED_CLICK]) return;
+    event[HANDLED_CLICK] = true;
+
+    const target = event.target;
+    const link = target && typeof target.closest === "function"
+      ? target.closest('a[href*="wa.me"]')
+      : null;
+    if (!link) return;
+
+    const context = resolveWhatsappContext(route, link);
+    const conversion = buildConversionEvent(route, context);
+    if (conversion !== null) dispatch(conversion);
+  };
+
+  documentRef.addEventListener("click", onClick);
+  return () => documentRef.removeEventListener?.("click", onClick);
+}
+
+/**
+ * @param {Object} [options]
+ * @param {string} [options.endpoint]
+ * @param {Document} [options.documentRef]
+ * @param {Location} [options.locationRef]
+ * @param {() => PixelImage} [options.imageFactory]
+ */
+export function initializeAnalytics({
+  endpoint,
+  documentRef = globalThis.document,
+  locationRef = globalThis.location,
+  imageFactory,
+} = {}) {
+  const route = normalizeRoute(locationRef?.pathname ?? locationRef?.href);
+  if (route === null || !documentRef || INITIALIZED_DOCUMENTS.has(documentRef)) return null;
+
+  INITIALIZED_DOCUMENTS.add(documentRef);
+  const dispatcher = createPixelDispatcher({ endpoint, imageFactory });
+  const deduper = createEventDeduper();
+  const pageView = buildPageViewEvent(route);
+
+  if (pageView !== null && deduper.accept(`page-view:${route}`)) {
+    dispatcher.dispatch(pageView);
+  }
+
+  const cleanup = attachWhatsappListener({
+    documentRef,
+    pathname: route,
+    dispatch: dispatcher.dispatch,
+  });
+
+  return { cleanup, dispatcher };
 }

@@ -33,6 +33,11 @@ export default defineConfig({
     // the static build only for this test-driven build — never in the
     // production deploy, which never sets this var (see
     // docs/deploy-cloudflare.md).
-    env: { ...process.env, ENABLE_E2E_FIXTURES: "true" },
+    env: {
+      ...process.env,
+      ENABLE_E2E_FIXTURES: "true",
+       PUBLIC_ANALYTICS_PROVIDER: "goatcounter",
+       PUBLIC_ANALYTICS_ENDPOINT: "https://e2e.goatcounter.com/count",
+    },
   },
 });

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   ANALYTICS_PROVIDERS,
@@ -11,19 +11,27 @@ import {
   createEventDeduper,
   createPixelDispatcher,
   normalizeRoute,
+  attachWhatsappListener,
+  initializeAnalytics,
+  resolveWhatsappContext,
 } from "./analytics.js";
 
 describe("analytics configuration", () => {
-  it("accepts the supported provider with an HTTP(S) endpoint", () => {
+  it("accepts the supported provider with a hosted GoatCounter pixel endpoint", () => {
     expect(
       validateAnalyticsConfig({
         provider: ANALYTICS_PROVIDERS.GOATCOUNTER,
-        endpoint: "https://stats.example.test/count",
+        endpoint: "https://shop.goatcounter.com/count",
       }),
     ).toEqual({
       provider: "goatcounter",
-      endpoint: "https://stats.example.test/count",
+      endpoint: "https://shop.goatcounter.com/count",
     });
+  });
+
+  it("rejects local, same-origin, and non-pixel production endpoints", () => {
+    for (const endpoint of ["http://localhost:4321/count", "https://shop.example.test/count", "https://shop.goatcounter.com/not-count"])
+      expect(validateAnalyticsConfig({ provider: ANALYTICS_PROVIDERS.GOATCOUNTER, endpoint })).toBeNull();
   });
 
   it("returns inert configuration for missing or unsupported values", () => {
@@ -41,6 +49,7 @@ describe("analytics event contract", () => {
   it("normalizes only the allowlisted routes and discards URL details", () => {
     expect(normalizeRoute("/?utm_source=secret#fragment")).toBe("/");
     expect(normalizeRoute("/negocios?customer=secret#fragment")).toBe("/negocios");
+    expect(normalizeRoute("/negocios/?customer=secret#fragment")).toBe("/negocios");
     expect(normalizeRoute("/admin?token=secret")).toBeNull();
   });
 
@@ -183,5 +192,134 @@ describe("analytics dispatch", () => {
 
     expect(dispatcher.dispatch(buildPageViewEvent("/"))).toBe(false);
     expect(dispatcher.pendingCount()).toBe(0);
+  });
+});
+
+describe("WhatsApp context resolution", () => {
+  it("prefers a valid explicit context and falls back to consumer on home", () => {
+    const businessLink = {
+      getAttribute: (name: string) => (name === "data-whatsapp-context" ? "business-intro" : null),
+    };
+
+    expect(resolveWhatsappContext("/", businessLink)).toBe("business-intro");
+    expect(resolveWhatsappContext("/", { getAttribute: () => "invalid" })).toBe("consumer");
+    expect(resolveWhatsappContext("/", { getAttribute: () => null })).toBe("consumer");
+  });
+
+  it("requires explicit business contexts on the B2B route", () => {
+    expect(
+      resolveWhatsappContext("/negocios", {
+        getAttribute: () => "business-closing",
+      }),
+    ).toBe("business-closing");
+    expect(resolveWhatsappContext("/negocios", { getAttribute: () => null })).toBeNull();
+  });
+});
+
+describe("delegated WhatsApp listener", () => {
+  it("dispatches one conversion per click event without preventing navigation", () => {
+    const listeners: Array<(event: { target: unknown; preventDefault: () => void }) => void> = [];
+    const documentRef = {
+      addEventListener: (_type: string, listener: (event: { target: unknown; preventDefault: () => void }) => void) => {
+        listeners.push(listener);
+      },
+      removeEventListener: () => undefined,
+    } as unknown as Document;
+    const link = {
+      closest: () => link,
+      getAttribute: () => "business-intro",
+    };
+    const dispatched: unknown[] = [];
+    const event = {
+      target: link,
+      preventDefault: () => {
+        throw new Error("navigation must remain untouched");
+      },
+    };
+
+    attachWhatsappListener({
+      documentRef,
+      pathname: "/",
+      dispatch: (analyticsEvent: unknown) => dispatched.push(analyticsEvent),
+    });
+
+    listeners[0](event);
+    listeners[0](event);
+
+    expect(dispatched).toEqual([
+      { type: "conversion", route: "/", context: "business-intro" },
+    ]);
+  });
+
+  it("allows a later activation while ignoring non-WhatsApp targets", () => {
+    const listeners: Array<(event: { target: unknown }) => void> = [];
+    const documentRef = {
+      addEventListener: (_type: string, listener: (event: { target: unknown }) => void) => {
+        listeners.push(listener);
+      },
+      removeEventListener: () => undefined,
+    } as unknown as Document;
+    const link = {
+      closest: () => link,
+      getAttribute: () => null,
+    };
+    const dispatch = vi.fn();
+
+    attachWhatsappListener({ documentRef, pathname: "/", dispatch });
+
+    listeners[0]({ target: { closest: () => null } });
+    listeners[0]({ target: link });
+    listeners[0]({ target: link });
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenNthCalledWith(1, {
+      type: "conversion",
+      route: "/",
+      context: "consumer",
+    });
+  });
+});
+
+describe("analytics initialization", () => {
+  it("emits one page view and does not duplicate on repeated initialization", () => {
+    const listeners: Array<(event: { target: unknown }) => void> = [];
+    const documentRef = {
+      addEventListener: (_type: string, listener: (event: { target: unknown }) => void) => {
+        listeners.push(listener);
+      },
+      removeEventListener: () => undefined,
+      documentElement: {},
+    } as unknown as Document;
+    const images: Array<{ src: string; referrerPolicy: string; onload: (() => void) | null; onerror: (() => void) | null }> = [];
+    const imageFactory = () => {
+      const image = { src: "", referrerPolicy: "", onload: null, onerror: null };
+      images.push(image);
+      return image;
+    };
+
+    initializeAnalytics({
+      endpoint: "https://stats.example.test/count",
+      documentRef,
+      locationRef: { pathname: "/negocios" } as unknown as Location,
+      imageFactory,
+    });
+    initializeAnalytics({
+      endpoint: "https://stats.example.test/count",
+      documentRef,
+      locationRef: { pathname: "/negocios" } as unknown as Location,
+      imageFactory,
+    });
+
+    expect(images).toHaveLength(1);
+    expect(images[0].src).toBe("https://stats.example.test/count?p=%2Fnegocios");
+
+    const link = {
+      closest: () => link,
+      getAttribute: () => "business-intro",
+    };
+    listeners[0]({ target: link });
+    listeners[0]({ target: link });
+
+    expect(images).toHaveLength(3);
   });
 });
