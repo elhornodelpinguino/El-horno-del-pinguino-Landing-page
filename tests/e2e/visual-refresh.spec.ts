@@ -221,7 +221,10 @@ test.describe("Visual Refresh — Interactions", () => {
       // This proves content is never CSS pre-hidden — hiding comes exclusively
       // from GSAP, so a script failure leaves content visible (spec.md:44-52).
       await page.route(
-        (url) => url.pathname.includes("faq-animation") || url.pathname.includes("hoisted"),
+        (url) =>
+          url.pathname.includes("faq-animation") ||
+          url.pathname.includes("FAQ.astro_astro_type_script") ||
+          url.pathname.includes("hoisted"),
         (route) => route.abort()
       );
 
@@ -597,7 +600,10 @@ test.describe("Visual Refresh — Interactions", () => {
       // ScrollTrigger, so a script failure leaves it visible/accessible
       // (spec.md: "StickyWhatsApp script fails to load").
       await page.route(
-        (url) => url.pathname.includes("sticky-whatsapp-animation") || url.pathname.includes("hoisted"),
+        (url) =>
+          url.pathname.includes("sticky-whatsapp-animation") ||
+          url.pathname.includes("StickyWhatsApp.astro_astro_type_script") ||
+          url.pathname.includes("hoisted"),
         (route) => route.abort()
       );
 
