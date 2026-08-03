@@ -656,6 +656,63 @@
   transform: scale(1.04);
 }
 
+/* Description.
+   The base rule IS the touch contract: normal flow, always visible, pushing
+   the price row down. Devices that can hover get the overlay treatment below
+   instead. Written base-first on purpose — a phone has no hover, so making
+   the reveal the default would hide the copy from most of the traffic. */
+.product-card-description {
+  margin-top: 0.5rem;
+  font-size: var(--type-sm);
+  line-height: 1.6;
+  color: rgba(138, 15, 67, 0.75);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Lifted out of flow and sized to the 4/3 media box above it, so the card
+     body keeps the height it had before the description existed. `.product-card`
+     is the positioning context and clips this to its own rounded corners. */
+  .product-card-description {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    aspect-ratio: 4 / 3;
+    margin: 0;
+    padding: 1.25rem;
+    color: #ffffff;
+    background: linear-gradient(
+      to top,
+      rgba(138, 15, 67, 0.94) 0%,
+      rgba(138, 15, 67, 0.8) 55%,
+      rgba(138, 15, 67, 0.5) 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 260ms ease;
+  }
+
+  /* `description` is capped at 2000 chars by the backend schema, which is far
+     more than the media box fits. Clamp so an over-long entry ends in an
+     ellipsis instead of being silently sliced off by the card's overflow. */
+  .product-card-description > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    overflow: hidden;
+  }
+
+  /* `:focus-within` is not decoration — tabbing to the "Pedir" link is the
+     only way a keyboard user reaches this copy (WCAG 2.1 SC 2.1.1). */
+  .product-card:hover .product-card-description,
+  .product-card:focus-within .product-card-description {
+    opacity: 1;
+  }
+}
+
 /* JS tilt active (pointer: fine + motion allowed): GSAP owns the whole
    card transform (tilt + lift), so drop the CSS transform transition and
    hover translate to keep the two systems from fighting. The image scale
@@ -682,6 +739,11 @@
 
   .product-card:hover .product-card-media img {
     transform: none;
+  }
+
+  /* The reveal itself still happens — only the fade is dropped. */
+  .product-card-description {
+    transition: none;
   }
 }
 
