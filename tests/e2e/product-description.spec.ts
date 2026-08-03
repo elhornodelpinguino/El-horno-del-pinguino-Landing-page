@@ -80,18 +80,29 @@ test.describe("Product description", () => {
       await expect(description).toHaveCSS("opacity", "1");
     });
 
-    test("covers the image rather than growing the card body", async ({ page }) => {
-      await page.goto(FIXTURE);
+    test.describe("geometry", () => {
+      // `catalog-tilt.js` applies a GSAP 3D tilt to cards on pointer devices,
+      // and a card rotated in 3D projects its children's bounding boxes with
+      // sub-pixel variance that depends on animation timing and the machine —
+      // this assertion passed locally at 0.6px and failed CI at 4.1px. Reduced
+      // motion disables both the tilt and the reveal (see catalog-tilt.js:13
+      // and catalog-animation.js:8), which makes the geometry deterministic
+      // instead of merely widening the tolerance until CI stops complaining.
+      test.use({ reducedMotion: "reduce" });
 
-      const mediaBox = await page.locator(".product-card-media").boundingBox();
-      const descriptionBox = await page.locator(".product-card-description").boundingBox();
+      test("covers the image rather than growing the card body", async ({ page }) => {
+        await page.goto(FIXTURE);
 
-      expect(mediaBox).not.toBeNull();
-      expect(descriptionBox).not.toBeNull();
-      // 2px absorbs sub-pixel layout rounding while staying discriminating:
-      // the in-flow alternative would put the description ~300px lower.
-      expect(Math.abs(descriptionBox!.y - mediaBox!.y)).toBeLessThanOrEqual(2);
-      expect(Math.abs(descriptionBox!.height - mediaBox!.height)).toBeLessThanOrEqual(2);
+        const mediaBox = await page.locator(".product-card-media").boundingBox();
+        const descriptionBox = await page.locator(".product-card-description").boundingBox();
+
+        expect(mediaBox).not.toBeNull();
+        expect(descriptionBox).not.toBeNull();
+        // 2px absorbs sub-pixel layout rounding while staying discriminating:
+        // the in-flow alternative would put the description ~300px lower.
+        expect(Math.abs(descriptionBox!.y - mediaBox!.y)).toBeLessThanOrEqual(2);
+        expect(Math.abs(descriptionBox!.height - mediaBox!.height)).toBeLessThanOrEqual(2);
+      });
     });
   });
 
