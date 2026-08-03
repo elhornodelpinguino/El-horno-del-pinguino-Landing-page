@@ -18,6 +18,36 @@ const FIXTURE_DESCRIPTION = "Producto sintético usado solo por tests E2E.";
 // CSS says. Do not "simplify" this back to emulateMedia/CDP.
 const TOUCH_VIEWPORT = { width: 390, height: 844 };
 
+test.describe("Product card framing", () => {
+  // 7 of the 8 real catalog photos are 3:4 portrait shots taken on a phone.
+  // A 4:3 landscape media box cropped them to 56% of their height, cutting the
+  // top off cakes and toppers. 4:5 keeps ~94% of a 3:4 photo visible.
+  const MEDIA_RATIO = 4 / 5;
+
+  test("frames the image at 4:5 so portrait photos are not half-cropped", async ({ page }) => {
+    await page.goto(FIXTURE);
+
+    const box = await page.locator(".product-card-media").boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width / box!.height).toBeCloseTo(MEDIA_RATIO, 2);
+  });
+
+  test("reserves two title lines so cards in a row share their inner spacing", async ({ page }) => {
+    await page.goto(FIXTURE);
+
+    // The fixture title fits on one line. Without a reserved second line, a
+    // one-line card and a two-line card end up the same total height but with
+    // visibly different gaps above the price row.
+    const title = page.locator(".product-card-title");
+    const { height, lineHeight } = await title.evaluate((el) => ({
+      height: el.getBoundingClientRect().height,
+      lineHeight: Number.parseFloat(getComputedStyle(el).lineHeight),
+    }));
+
+    expect(height).toBeGreaterThanOrEqual(lineHeight * 2 - 1);
+  });
+});
+
 test.describe("Product description", () => {
   test("is rendered in the card markup", async ({ page }) => {
     await page.goto(FIXTURE);

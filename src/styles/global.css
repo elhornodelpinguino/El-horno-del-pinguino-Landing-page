@@ -641,11 +641,24 @@
   box-shadow: 0 14px 34px -12px rgba(168, 20, 82, 0.28);
 }
 
+/* 4:5, not 4:3. The catalog photos are phone shots in 3:4 portrait; a
+   landscape box cropped them to 56% of their height via object-cover, cutting
+   the tops off cakes and toppers. 4:5 keeps ~94% visible while staying short
+   enough to fit three cards per row without a long scroll. Kept in sync with
+   the hover overlay's own aspect-ratio below. */
 .product-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #f5dcc9;
+}
+
+/* Reserve two lines. Titles like "Cheesecake de limon" take one line and
+   "Torta de cumpleaños decorada (12-14 porciones)" takes two; without a floor,
+   cards in the same row settle at equal height but with visibly different gaps
+   above the price. 2.75em = 2 lines at Tailwind's leading-snug (1.375). */
+.product-card-title {
+  min-height: 2.75em;
 }
 
 .product-card-media img {
@@ -679,7 +692,7 @@
     left: 0;
     display: flex;
     align-items: flex-end;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
     margin: 0;
     padding: 1.25rem;
     color: #ffffff;
