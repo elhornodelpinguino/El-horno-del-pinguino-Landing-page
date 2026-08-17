@@ -1,6 +1,7 @@
 ---
 import "~/styles/global.css";
 import { ANALYTICS_CONFIG, SITE } from "~/lib/config";
+import { serializeJsonLd } from "~/lib/json-ld";
 import { MEASURED_ROUTES, normalizeRoute } from "~/scripts/analytics.js";
 
 interface Props {
@@ -57,7 +58,7 @@ const shouldLoadAnalytics = analyticsEndpoint !== undefined && analyticsRoute !=
     />
     {
       jsonLd && (
-        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+        <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />
       )
     }
     {shouldLoadAnalytics && <meta name="analytics-endpoint" content={analyticsEndpoint} />}
