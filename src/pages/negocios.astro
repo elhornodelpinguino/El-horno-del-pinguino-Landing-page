@@ -6,6 +6,7 @@ import BusinessSegmentRow from "~/components/BusinessSegmentRow.astro";
 import { BUSINESS_STEP_EVIDENCE } from "~/lib/business-media";
 import { BUSINESS_SEGMENTS } from "~/lib/business-segments";
 import { SITE, whatsappLink } from "~/lib/config";
+import { localBusinessSchema } from "~/lib/schema";
 
 // No `~/lib/api` import anywhere in this page — /negocios must render
 // identically with the backend asleep (design: Data Flow).
@@ -20,15 +21,7 @@ const description =
   "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Ya nos conocimos: cuéntanos qué necesitas por WhatsApp.";
 const canonicalUrl = "https://elhornodelpinguino.com/negocios";
 
-const jsonLd: Record<string, unknown> = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.name,
-  url: canonicalUrl,
-  logo: "https://elhornodelpinguino.com/logo.png",
-  description,
-  address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
-};
+const jsonLd: Record<string, unknown> = localBusinessSchema({ description });
 
 const steps = [
   { title: "Conversamos tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y preferencias de sabor." },

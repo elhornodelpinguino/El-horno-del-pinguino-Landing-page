@@ -17,6 +17,7 @@ import ErrorBoundary from "~/components/ErrorBoundary.astro";
 import { getProducts, loadFallback } from "~/lib/api";
 import type { Product } from "~/lib/api";
 import { SITE } from "~/lib/config";
+import { localBusinessSchema } from "~/lib/schema";
 
 let products: Product[] = [];
 let hasProductsError = false;
@@ -33,15 +34,7 @@ try {
   hasProductsError = products.length === 0;
 }
 
-const jsonLd: Record<string, unknown> = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.name,
-  url: "https://elhornodelpinguino.com",
-  logo: "https://elhornodelpinguino.com/logo.png",
-  description: SITE.description,
-  address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
-};
+const jsonLd: Record<string, unknown> = localBusinessSchema({ description: SITE.description });
 if (products.length > 0) {
   jsonLd.offers = products.slice(0, 3).map((p) => ({
     "@type": "Offer", name: p.name, description: p.description,
