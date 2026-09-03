@@ -3,7 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://el-horno-del-pinguino-landing-page.pages.dev",
+  site: "https://elhornodelpinguino.com",
   output: "static",
   integrations: [sitemap()],
   vite: {

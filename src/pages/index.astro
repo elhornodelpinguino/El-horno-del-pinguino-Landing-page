@@ -37,8 +37,8 @@ const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE.name,
-  url: "https://el-horno-del-pinguino-landing-page.pages.dev",
-  logo: "https://el-horno-del-pinguino-landing-page.pages.dev/logo.png",
+  url: "https://elhornodelpinguino.com",
+  logo: "https://elhornodelpinguino.com/logo.png",
   description: SITE.description,
   address: { "@type": "PostalAddress", addressLocality: "Loja", addressCountry: "EC" },
 };
@@ -53,7 +53,7 @@ if (products.length > 0) {
 <BaseLayout
   title={`${SITE.name} — Minitortas y minidonas artesanales en Loja`}
   description={SITE.description}
-  canonicalUrl="https://el-horno-del-pinguino-landing-page.pages.dev"
+  canonicalUrl="https://elhornodelpinguino.com"
   jsonLd={jsonLd}
 >
   <main>
