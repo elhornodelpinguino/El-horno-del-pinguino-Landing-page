@@ -14,7 +14,7 @@ Pages serves the prebuilt `dist/` directory.
    - Build output directory: `dist`
    - Root directory: `/` (repo root)
 4. **Environment variables** (Settings → Environment variables → Production):
-   - `NODE_VERSION` = `22.12.0` — Astro 7 requires Node 22.12.0 or newer. The Tailwind 4 Vite plugin runs as part of the Astro build and requires no separate production runtime.
+   - `NODE_VERSION` = `22.23.2` — Astro 7.3 requires Node 22.19.0 or newer. The Tailwind 4 Vite plugin runs as part of the Astro build and requires no separate production runtime.
    - `PUBLIC_API_BASE_URL` = `https://horno-product-admin.onrender.com`
     - `PUBLIC_WHATSAPP_NUMBER` = `593994808252`
     - `PUBLIC_INSTAGRAM_HANDLE` = `elhornodelpinguino`
