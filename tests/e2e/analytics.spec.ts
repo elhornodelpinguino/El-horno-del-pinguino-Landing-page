@@ -46,12 +46,18 @@ test.describe("commercial analytics", () => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.route("**/count?*", (route) => route.abort());
+    // Stub the real WhatsApp destination so the popup navigation resolves
+    // deterministically without depending on outbound network/DNS in CI.
+    await page.context().route(/^https:\/\/(wa\.me|api\.whatsapp\.com)\//, (route) =>
+      route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>stub</title>" }),
+    );
     await page.goto("/negocios");
     const link = page.getByRole("link", { name: "Escribir por WhatsApp" });
     const href = await link.getAttribute("href");
     const popupPromise = page.waitForEvent("popup");
     await link.click();
     const popup = await popupPromise;
+    await popup.waitForURL(/^https:\/\/(wa\.me|api\.whatsapp\.com\/send)/);
     expect(href).toMatch(/^https:\/\/wa\.me\/593994808252\?text=/); expect(popup.url()).toMatch(/^https:\/\/(wa\.me|api\.whatsapp\.com\/send)/);
     expect(errors).toEqual([]);
   });
