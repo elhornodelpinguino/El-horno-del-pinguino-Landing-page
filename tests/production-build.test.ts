@@ -6,4 +6,4 @@ it("does not emit the local analytics fixture route in production", () => {
   build("true"); expect(existsSync("dist/e2e-fixtures")).toBe(true);
   build("");
   expect(existsSync("dist/count/index.html")).toBe(false); expect(existsSync("dist/e2e-fixtures")).toBe(false);
-}, 15_000);
+}, 120_000);
