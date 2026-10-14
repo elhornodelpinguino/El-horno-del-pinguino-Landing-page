@@ -38,7 +38,7 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - [x] R4 [S5-S7] Verify: unit tests, detector, desktop+mobile screenshots of / and /negocios/. Route: inline. Commit: n/a.
 - [x] P1 [L17-L21] Session polish: nav order + scrollspy + /negocios nav, final CTA order sentence, copy polish, flavour fit, flaky e2e fix. Route: inline. Commit: see L22.
 - [x] T2 [S2,S4] Theme tokens: role CSS variables (surface, surface-alt, surface-raised, ink, ink-brand, ink-accent, ink-warm) with light and dark values, .on-brand islands; contrast tests. Route: inline. Commit: 6090389.
-- T3 [S2] Migrate hard-coded colors in global.css and components to tokens; visual pass both themes. Route: inline. Commit: pending (next session).
+- [x] T3 [S2] Migrate surfaces and inks to theme roles (role utilities, .on-brand bands, global.css vars, dark logo); light theme diff 0/625; dark screenshots desktop+mobile. Route: inline. Commit: 111ee11.
 - [x] T4 [S3,S4] Theme init script (no flash) + sol/luna toggle in header (all widths), persisted in localStorage; unit + e2e tests. Done before T3 so the dark theme can be inspected while migrating. Route: inline. Commit: 715122e.
 - T5 [S1-S4] Final verification: tests, detector, screenshots both themes desktop/mobile. Route: inline. Commit: n/a.
 
@@ -74,3 +74,4 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - L21: "la redaccion de hero no me gusta lo de "hecho a mano" y la descripcion debajo del hero" — user chose "Tu antojo, a un mensaje de distancia." "actauliza la barra de /negocios sale como la lading normal" — /negocios got its own nav.
 - L22 (2026-10-14): "vamos con el modo oscuro". Session polish committed first as work units so dark mode diffs stay reviewable. Unit 139/139, e2e 107/107, astro check 0 errors.
 - L23: T4 done before T3 (toggle needed to inspect dark while migrating). T2 6090389, T4 715122e. Unit 158/158; theme + nav e2e 19/19.
+- L24: T3 111ee11. Unit 158/158, e2e 111/111, astro check 0.
