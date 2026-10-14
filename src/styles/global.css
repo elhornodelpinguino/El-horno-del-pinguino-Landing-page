@@ -255,15 +255,6 @@ html[data-theme="dark"] .on-brand {
   overflow: hidden;
 }
 
-/* Dark mode: the penguin's navy body melts into a dark card and only its
-   stray highlight pixels show, which reads as noise. A warm oven glow behind
-   it restores the silhouette the white card gives it in light mode. */
-html[data-theme="dark"] .hero-card {
-  background:
-    radial-gradient(ellipse 52% 56% at 50% 52%, rgba(255, 226, 200, 0.62) 0%, rgba(255, 200, 160, 0.34) 45%, rgba(255, 192, 138, 0) 100%),
-    var(--surface-raised);
-}
-
 /* Faint pixel grid inside the hero card */
 .hero-card-grid {
   position: absolute;
