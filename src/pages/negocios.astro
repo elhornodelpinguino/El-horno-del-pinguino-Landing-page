@@ -39,7 +39,7 @@ const steps = [
 >
   <main class="negocios">
     <!-- §1 Identity header + §2 Proof line: one shared entrance root -->
-    <header class="negocios-hero relative py-16 sm:py-24">
+    <header class="negocios-hero relative pt-32 pb-16 sm:pt-40 sm:pb-24">
       <img
         data-negocios-anim="hero-image"
         class="negocios-hero-media"
@@ -68,7 +68,7 @@ const steps = [
           Postres artesanales para tu vitrina, tu evento y tu equipo.
         </h1>
         <div data-negocios-anim="rule" class="negocios-rule mx-auto my-8" aria-hidden="true"></div>
-        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/75">
+        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/90">
           Ya nos conocimos. Aquí tienes el detalle de cómo trabajamos con cada tipo de negocio,
           para que decidas con calma y confirmes por WhatsApp cuando quieras.
         </p>
@@ -96,6 +96,7 @@ const steps = [
             <span class="n-stat-figure">+120</span>
             <span class="n-stat-label">pedidos entregados</span>
           </div>
+          <div class="negocios-stat-penguin" aria-hidden="true"></div>
           <div data-negocios-anim="stat">
             <span class="n-stat-figure">3</span>
             <span class="n-stat-label">años horneando en Loja</span>
@@ -119,7 +120,7 @@ const steps = [
               <span class="negocios-step-number" aria-hidden="true">{index + 1}</span>
               <div class="negocios-step-copy">
                 <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
-                <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
+                <p class="mt-2 leading-relaxed text-horno-ink/90">{step.copy}</p>
               </div>
               {BUSINESS_STEP_EVIDENCE.filter((item) => item.step === index + 1).map((evidence) => (
                 <figure class="negocios-step-media">
@@ -170,7 +171,7 @@ const steps = [
             El precio se ajusta a tu volumen
           </h2>
         </div>
-        <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/75">
+        <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/90">
           El precio por unidad mejora según el volumen y la frecuencia. Lo conversamos con tu
           cantidad y tus fechas.
         </p>
@@ -180,6 +181,7 @@ const steps = [
     <!-- §8 Closing CTA -->
     <section class="negocios-closing py-20 sm:py-28">
       <div class="section mx-auto max-w-3xl text-center">
+        <div class="penguin-bob negocios-closing-penguin" aria-hidden="true"></div>
         <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">
           Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
         </h2>

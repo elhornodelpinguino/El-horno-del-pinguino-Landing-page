@@ -1,0 +1,71 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+
+// One floating bar for the whole site, rendered by BaseLayout. It used to live
+// inside the home hero, so it scrolled away and never existed on /negocios.
+//
+// Section links are home anchors; off the home page they need the "/" prefix
+// or "#catalogo" would look for a section that page does not have.
+//
+// The 44px height belongs to the links rather than to the pill's padding, so
+// the whole row is tappable (WCAG 2.5.8). The pill shows from `sm` up, which
+// includes touch tablets, so a mouse-only assumption would be wrong.
+//
+// The mobile panel sits outside `.site-header-bar` on purpose: the bar uses
+// backdrop-filter, which would turn it into the containing block for the
+// panel's `position: fixed` and shrink the full-screen menu to the bar.
+const isHome = Astro.url.pathname === "/";
+const sectionBase = isHome ? "" : "/";
+const homeHref = isHome ? "#" : "/";
+const orderMessage = `¡Hola ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
+
+const links = [
+  { label: "Catálogo", href: `${sectionBase}#catalogo` },
+  { label: "Sabores", href: `${sectionBase}#sabores` },
+  { label: "Para negocios", href: "/negocios" },
+  { label: "Contacto", href: `${sectionBase}#contacto` },
+];
+---
+
+<header class="site-header" data-site-header>
+  <nav class="site-header-bar" aria-label="Principal">
+    <a href={homeHref} class="group flex shrink-0 items-center" aria-label={`${SITE.name} - inicio`}>
+      <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="eager" />
+    </a>
+
+    <div class="hidden items-center gap-7 text-sm font-semibold text-horno-magentaDeep sm:flex">
+      {links.map((link) => (
+        <a href={link.href} class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">{link.label}</a>
+      ))}
+    </div>
+
+    <a href={whatsappLink(orderMessage)} target="_blank" rel="noopener" data-magnetic class="hidden shrink-0 rounded-full bg-horno-magenta px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep md:inline-flex">
+      Pedir por WhatsApp
+    </a>
+
+    <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-full p-3 text-horno-magentaDeep focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 sm:hidden" aria-label="Abrir menú" type="button">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+
+  <div id="mobile-nav" data-mobile-nav>
+    {links.map((link) => (
+      <a href={link.href} class="flex min-h-[44px] items-center" tabindex="0">{link.label}</a>
+    ))}
+  </div>
+</header>
+
+<script>
+  import "~/scripts/mobile-nav.js";
+
+  // Lift the bar once the page moves: a stronger shadow and more opaque glass,
+  // so it reads over photos and colour bands instead of melting into the hero.
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+  if (header) {
+    const update = () => header.toggleAttribute("data-scrolled", window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+  }
+</script>

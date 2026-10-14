@@ -4,12 +4,25 @@ import { SITE, whatsappLink } from "~/lib/config";
 const orderLink = whatsappLink(`¡Hola ${SITE.name}! Se me antojó. ¿Me pasan sabores, tamaños y precios?`);
 ---
 
-<section class="final-cta relative overflow-hidden bg-horno-gradient-strong py-20 sm:py-28">
+<section class="final-cta relative overflow-hidden bg-horno-gradient-strong pt-24 pb-48 sm:py-36 lg:pt-48">
+  <!-- Delivery route: the penguin runs this loop around the copy and drops
+       an order at each stop. Decorative; the static penguin below is what
+       no-JS and reduced-motion visitors see. Wired by final-cta-animation.js. -->
+  <div class="delivery-route" data-delivery-route aria-hidden="true">
+    <svg class="delivery-route-track" data-route-svg>
+      <path data-route-path />
+    </svg>
+    <div class="delivery-runner" data-delivery-runner>
+      <div class="delivery-runner-body" data-delivery-runner-body></div>
+    </div>
+  </div>
+
   <div class="section relative z-10 flex flex-col items-center text-center">
+    <div data-finalcta-anim="penguin" class="penguin-cta" aria-hidden="true"></div>
     <span data-finalcta-anim="label" class="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/90">
       Pedido directo
     </span>
-    <h2 data-finalcta-anim="heading" class="mt-5 max-w-3xl text-3xl leading-tight text-white sm:text-5xl">
+    <h2 data-finalcta-anim="heading" class="display-section mt-5 max-w-3xl text-white">
       ¿Se te antojó?
     </h2>
     <p data-finalcta-anim="copy" class="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">

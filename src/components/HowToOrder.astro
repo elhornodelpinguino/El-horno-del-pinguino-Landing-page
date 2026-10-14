@@ -12,12 +12,18 @@ const steps = [
   <div class="section relative z-10">
     <div class="mx-auto mb-12 max-w-2xl text-center">
       <span data-order-anim="eyebrow" class="eyebrow">Pedir es fácil</span>
-      <h2 data-order-anim="heading" class="mt-2 text-3xl leading-tight sm:text-4xl">
+      <h2 data-order-anim="heading" class="display-section mt-2">
         Tres pasos y listo
       </h2>
     </div>
 
-    <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+    <div class="relative grid gap-6 md:mt-20 md:grid-cols-3 lg:gap-10">
+      <div class="order-route" aria-hidden="true">
+        <span data-order-anim="route" class="order-route-fill"></span>
+        <span data-order-anim="stop" class="order-route-stop"></span>
+        <span data-order-anim="stop" class="order-route-stop"></span>
+        <span data-order-anim="stop" class="order-route-stop"></span>
+      </div>
       {steps.map((step, index) => (
         <article data-order-anim="step" class="order-step-card" style={`--i: ${index}`}>
           <div data-order-anim="sprite" class:list={["penguin-step", step.penguinClass]} aria-hidden="true"></div>
