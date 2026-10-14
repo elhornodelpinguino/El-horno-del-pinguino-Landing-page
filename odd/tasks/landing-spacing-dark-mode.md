@@ -40,7 +40,7 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - [x] T2 [S2,S4] Theme tokens: role CSS variables (surface, surface-alt, surface-raised, ink, ink-brand, ink-accent, ink-warm) with light and dark values, .on-brand islands; contrast tests. Route: inline. Commit: 6090389.
 - [x] T3 [S2] Migrate surfaces and inks to theme roles (role utilities, .on-brand bands, global.css vars, dark logo); light theme diff 0/625; dark screenshots desktop+mobile. Route: inline. Commit: 111ee11.
 - [x] T4 [S3,S4] Theme init script (no flash) + sol/luna toggle in header (all widths), persisted in localStorage; unit + e2e tests. Done before T3 so the dark theme can be inspected while migrating. Route: inline. Commit: 715122e.
-- T5 [S1-S4] Final verification: tests, detector, screenshots both themes desktop/mobile. Route: inline. Commit: n/a.
+- [x] T5 [S1-S4] Final verification: unit 158/158, e2e 111/111 (incl. theme.spec), astro check 0, detector (no new findings), light diff 0/625, dark screenshots /, /negocios/, 404 desktop+mobile. Route: inline. Commit: n/a.
 
 ## Log
 
