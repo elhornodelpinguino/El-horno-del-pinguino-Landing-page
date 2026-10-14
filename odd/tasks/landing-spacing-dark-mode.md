@@ -37,7 +37,7 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - [x] R8 [S9-S11] Verify desktop+mobile, reduced motion, tests. Route: inline. Commit: n/a.
 - [x] R4 [S5-S7] Verify: unit tests, detector, desktop+mobile screenshots of / and /negocios/. Route: inline. Commit: n/a.
 - [x] P1 [L17-L21] Session polish: nav order + scrollspy + /negocios nav, final CTA order sentence, copy polish, flavour fit, flaky e2e fix. Route: inline. Commit: see L22.
-- T2 [S2,S4] Theme tokens: move brand colors to CSS variables with light and dark values; contrast tests for dark pairs. Route: inline. Commit: pending (next session).
+- [x] T2 [S2,S4] Theme tokens: role CSS variables (surface, surface-alt, surface-raised, ink, ink-brand, ink-accent, ink-warm) with light and dark values, .on-brand islands; contrast tests. Route: inline. Commit: 6090389.
 - T3 [S2] Migrate hard-coded colors in global.css and components to tokens; visual pass both themes. Route: inline. Commit: pending (next session).
 - T4 [S3,S4] Theme init script (no flash) + sol/luna toggle in header (desktop + mobile nav), persisted in localStorage; unit tests. Route: inline. Commit: pending (next session).
 - T5 [S1-S4] Final verification: tests, detector, screenshots both themes desktop/mobile. Route: inline. Commit: n/a.
