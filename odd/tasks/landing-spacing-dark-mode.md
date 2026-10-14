@@ -36,6 +36,7 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - [x] R9 [S12] /negocios redesign pass. Route: inline. Commit: 60f1799.
 - [x] R8 [S9-S11] Verify desktop+mobile, reduced motion, tests. Route: inline. Commit: n/a.
 - [x] R4 [S5-S7] Verify: unit tests, detector, desktop+mobile screenshots of / and /negocios/. Route: inline. Commit: n/a.
+- [x] P1 [L17-L21] Session polish: nav order + scrollspy + /negocios nav, final CTA order sentence, copy polish, flavour fit, flaky e2e fix. Route: inline. Commit: see L22.
 - T2 [S2,S4] Theme tokens: move brand colors to CSS variables with light and dark values; contrast tests for dark pairs. Route: inline. Commit: pending (next session).
 - T3 [S2] Migrate hard-coded colors in global.css and components to tokens; visual pass both themes. Route: inline. Commit: pending (next session).
 - T4 [S3,S4] Theme init script (no flash) + sol/luna toggle in header (desktop + mobile nav), persisted in localStorage; unit tests. Route: inline. Commit: pending (next session).
@@ -66,3 +67,9 @@ Branch: `polish/landing` (from `origin/main` e20e256). Builds on the uncommitted
 - Not run: Playwright e2e (project browsers missing; use executablePath /usr/bin/google-chrome-stable or `npx playwright install`). Specs touching changed areas: visual-refresh (order pinned timeline, nav), negocios (segment rows, nav links), hero-penguin, tap-targets.
 - Not done: native RDD review (user stopped the session), push, PR.
 - Data fixes outside this repo: catalog typos ("Cheesecake de limon", "Cheescake de maracuya", "chranchy") live in horno-product-admin.
+- L17 (2026-10-14): "ordena la barra flotantes, no estan todas las seccion y sobre todo estan desordenadas,a ctualiza". Nav now lists every home section in page order; desktop links from lg.
+- L18: "el pinguino choca con el boton de whatsapp. quiero mejorar esa seccion en general no me convence muy plana y repetitiva. y lo de la barra que se vaya actualizando segun la seccion en la que esta". Scrollspy added; three mockups rejected ("ninguno me gusta supeeer genericos, usa impecable para esta seccion, las iamgeeenes que creas son terriblemente genericas"). Final CTA rebuilt with impeccable as an order sentence + real photo + clipboard penguin; route, runner and destination sprites removed. PRODUCT.md written via impeccable init.
+- L19: "si arregla el test ahora pasemos a pulido en cuanto a gramatica y vocabulario para vender lo veo bastante flojito ahi" and "mejoremos la redaccion". product-description e2e fixed (contextOptions.reducedMotion); home and /negocios copy polished; segment WhatsApp messages fixed to the customer's voice ("mi colegio").
+- L20: "esta seccion esta muy larga, no entra en el navegador" (flavour showcase at 1904x940). Card sized by viewport height, square media.
+- L21: "la redaccion de hero no me gusta lo de "hecho a mano" y la descripcion debajo del hero" — user chose "Tu antojo, a un mensaje de distancia." "actauliza la barra de /negocios sale como la lading normal" — /negocios got its own nav.
+- L22 (2026-10-14): "vamos con el modo oscuro". Session polish committed first as work units so dark mode diffs stay reviewable. Unit 139/139, e2e 107/107, astro check 0 errors.
