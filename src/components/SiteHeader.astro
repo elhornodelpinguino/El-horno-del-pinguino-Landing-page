@@ -58,12 +58,14 @@ const cta = isBusiness
 <header class="site-header" data-site-header>
   <nav class="site-header-bar" aria-label="Principal">
     <a href={homeHref} class="group flex shrink-0 items-center" aria-label={`${SITE.name} - inicio`}>
-      <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="h-8 w-auto object-contain max-[379px]:h-[22px] transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="eager" />
+      <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="logo-on-light h-8 w-auto object-contain max-[379px]:h-[22px] transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="eager" />
+      <!-- Same logo with the magenta lifted for the dark bar; CSS shows one. -->
+      <img src="/logo-horizontal-dark.svg" alt="El Horno del Pingüino" class="logo-on-dark h-8 w-auto object-contain max-[379px]:h-[22px] transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="lazy" />
     </a>
 
-    <div class="hidden items-center gap-4 whitespace-nowrap text-sm font-semibold text-horno-magentaDeep lg:flex xl:gap-6 2xl:gap-8">
+    <div class="hidden items-center gap-4 whitespace-nowrap text-sm font-semibold text-ink-role-brand lg:flex xl:gap-6 2xl:gap-8">
       {links.map((link) => (
-        <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="nav-link flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">{link.label}</a>
+        <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="nav-link flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-ink-role-accent">{link.label}</a>
       ))}
     </div>
 
@@ -78,7 +80,7 @@ const cta = isBusiness
         {cta.label}
       </a>
 
-      <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-full p-3 text-horno-magentaDeep focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 lg:hidden" aria-label="Abrir menú" type="button">
+      <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-full p-3 text-ink-role-brand focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 lg:hidden" aria-label="Abrir menú" type="button">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>

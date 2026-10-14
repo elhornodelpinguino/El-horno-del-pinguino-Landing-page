@@ -28,6 +28,7 @@
   color-scheme: light;
   --surface: #fbebde; /* page and cream sections */
   --surface-alt: #f5dcc9; /* secondary cream */
+  --surface-soft: #fff8f2; /* warm white sections (catalog, how to order) */
   --surface-raised: #ffffff; /* cards, panels */
   --ink: #2d1a1a; /* body text */
   --ink-brand: #8a0f43; /* headings and brand text (magentaDeep) */
@@ -41,6 +42,7 @@ html[data-theme="dark"] {
   color-scheme: dark;
   --surface: #1a1013;
   --surface-alt: #24161a;
+  --surface-soft: #1f1316;
   --surface-raised: #2c1c21;
   --ink: #f4e8e2;
   --ink-brand: #f9c4d7;
@@ -53,6 +55,7 @@ html[data-theme="dark"] {
 html[data-theme="dark"] .on-brand {
   --surface: #fbebde;
   --surface-alt: #f5dcc9;
+  --surface-soft: #fff8f2;
   --surface-raised: #ffffff;
   --ink: #2d1a1a;
   --ink-brand: #8a0f43;
@@ -87,7 +90,7 @@ html[data-theme="dark"] .on-brand {
   /* Medium, not regular: Poppins 400 at 14-16px read hairline-thin on the
      cream surface, and the page lost its presence. */
   body {
-    @apply bg-horno-cream text-horno-ink font-body antialiased;
+    @apply bg-surface text-ink-role font-body antialiased;
     font-weight: 500;
   }
 
@@ -95,7 +98,7 @@ html[data-theme="dark"] .on-brand {
   h2,
   h3,
   h4 {
-    @apply font-display tracking-tight text-horno-magentaDeep;
+    @apply font-display tracking-tight text-ink-role-brand;
     font-weight: 700;
   }
 
@@ -120,7 +123,7 @@ html[data-theme="dark"] .on-brand {
   }
 
   .btn-secondary {
-    @apply btn bg-white text-horno-magenta border border-horno-creamDark
+    @apply btn bg-surface-raised text-ink-role-accent border border-surface-alt
       hover:bg-horno-creamDark;
   }
 
@@ -133,7 +136,7 @@ html[data-theme="dark"] .on-brand {
 
   .eyebrow {
     @apply inline-block text-xs font-semibold uppercase tracking-[0.22em]
-      text-horno-magenta mb-3;
+      text-ink-role-accent mb-3;
   }
 
   /* Display voice. Every home h1/h2 resolves through one of these two, so the
@@ -193,7 +196,7 @@ html[data-theme="dark"] .on-brand {
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
-    background: rgba(251, 235, 222, 0.98);
+    background: color-mix(in srgb, var(--surface) 98%, transparent);
     backdrop-filter: blur(8px);
     opacity: 0;
     pointer-events: none;
@@ -207,8 +210,8 @@ html[data-theme="dark"] .on-brand {
 
   /* Mobile nav links */
   [data-mobile-nav] a {
-    @apply font-display text-2xl text-horno-magentaDeep no-underline
-      hover:text-horno-magenta transition-colors;
+    @apply font-display text-2xl text-ink-role-brand no-underline
+      hover:text-ink-role-accent transition-colors;
   }
 }
 
@@ -236,7 +239,7 @@ html[data-theme="dark"] .on-brand {
 
 .hero-shell {
   /* Flat cream with a subtle linear tint toward warm white — no glows */
-  background: linear-gradient(180deg, #fbebde 0%, #fff8f2 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
 }
 
 .hero-card {
@@ -247,7 +250,7 @@ html[data-theme="dark"] .on-brand {
   min-height: clamp(22rem, 60vw, 36rem);
   border: 1px solid rgba(168, 20, 82, 0.08);
   border-radius: 2rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
   overflow: hidden;
 }
@@ -268,8 +271,8 @@ html[data-theme="dark"] .on-brand {
   z-index: 2;
   border: 1px solid rgba(168, 20, 82, 0.12);
   border-radius: 9999px;
-  background: #ffffff;
-  color: rgba(138, 15, 67, 0.86);
+  background: var(--surface-raised);
+  color: color-mix(in srgb, var(--ink-brand) 86%, transparent);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
   font-size: var(--type-sm);
   font-weight: 700;
@@ -371,7 +374,7 @@ html[data-theme="dark"] .on-brand {
    ============================================ */
 
 .flavour-showcase {
-  background: #fbebde;
+  background: var(--surface);
 }
 
 .flavour-showcase-header {
@@ -439,7 +442,7 @@ html[data-theme="dark"] .on-brand {
   overflow: hidden;
   border: 1px solid rgba(138, 15, 67, 0.12);
   border-radius: 1.5rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.14);
   cursor: pointer;
   opacity: 0.82;
@@ -479,7 +482,7 @@ html[data-theme="dark"] .on-brand {
   aspect-ratio: 1 / 1;
   margin: 0;
   overflow: hidden;
-  background: #f5dcc9;
+  background: var(--surface-alt);
 }
 
 .flavour-card-media img {
@@ -521,7 +524,7 @@ html[data-theme="dark"] .on-brand {
 .flavour-card-cta:focus-visible,
 .flavour-showcase-control:focus-visible,
 .flavour-card:focus-visible {
-  outline: 3px solid theme("colors.horno.orangeInk");
+  outline: 3px solid var(--ink-warm);
   outline-offset: 3px;
 }
 
@@ -668,7 +671,7 @@ html[data-theme="dark"] .on-brand {
    ============================================ */
 
 .business-section {
-  background: #fbebde;
+  background: var(--surface);
 }
 
 .business-card {
@@ -679,7 +682,7 @@ html[data-theme="dark"] .on-brand {
   overflow: hidden;
   border: 1px solid rgba(168, 20, 82, 0.08);
   border-radius: 1.5rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   padding: 1.75rem 1.5rem 1.5rem;
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
 }
@@ -740,7 +743,7 @@ html[data-theme="dark"] .on-brand {
    ============================================ */
 
 .catalog-section {
-  background: #fff8f2;
+  background: var(--surface-soft);
 }
 
 .product-card {
@@ -751,7 +754,7 @@ html[data-theme="dark"] .on-brand {
   overflow: hidden;
   border: 1px solid rgba(168, 20, 82, 0.08);
   border-radius: 1.5rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
   transition:
     transform 260ms ease,
@@ -774,7 +777,7 @@ html[data-theme="dark"] .on-brand {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #f5dcc9;
+  background: var(--surface-alt);
 }
 
 /* Reserve two lines. Titles like "Cheesecake de limon" take one line and
@@ -802,7 +805,7 @@ html[data-theme="dark"] .on-brand {
   margin-top: 0.5rem;
   font-size: var(--type-sm);
   line-height: 1.6;
-  color: rgba(138, 15, 67, 0.9);
+  color: color-mix(in srgb, var(--ink-brand) 90%, transparent);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -889,7 +892,7 @@ html[data-theme="dark"] .on-brand {
    ============================================ */
 
 .order-section {
-  background: #fff8f2;
+  background: var(--surface-soft);
 }
 
 .order-step-card {
@@ -897,7 +900,7 @@ html[data-theme="dark"] .on-brand {
   z-index: 1;
   border: 2px solid rgba(168, 20, 82, 0.08);
   border-radius: 1.75rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
   padding: 2rem 1.5rem 2.25rem;
   text-align: center;
@@ -942,7 +945,7 @@ html[data-theme="dark"] .on-brand {
     height: 22px;
     border: 4px solid #f49d50;
     border-radius: 9999px;
-    background: #fff8f2;
+    background: var(--surface-soft);
     transform: translate(-50%, -50%);
   }
 
@@ -981,7 +984,7 @@ html[data-theme="dark"] .on-brand {
   line-height: 1;
   /* Ink orange, not fill orange: these numerals sit on a light card, where
      #f49d50 scored 2.15:1. See tests/unit/brand-contrast.test.ts. */
-  color: #944d0e;
+  color: var(--ink-warm);
 }
 
 .order-step-card h3 {
@@ -1012,7 +1015,7 @@ html[data-theme="dark"] .on-brand {
    ============================================ */
 
 .faq-section {
-  background: #fbebde;
+  background: var(--surface);
 }
 
 .faq-intro-card {
@@ -1020,7 +1023,7 @@ html[data-theme="dark"] .on-brand {
   top: 2rem;
   border: 1px solid rgba(168, 20, 82, 0.08);
   border-radius: 1.5rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.18);
   padding: 1.5rem;
 }
@@ -1040,7 +1043,7 @@ html[data-theme="dark"] .on-brand {
   overflow: hidden;
   border: 1px solid rgba(168, 20, 82, 0.08);
   border-radius: 1.25rem;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.12);
 }
 
@@ -1055,13 +1058,13 @@ html[data-theme="dark"] .on-brand {
   padding: 1rem 1.15rem;
   font-family: Poppins, sans-serif;
   font-weight: 600;
-  color: #8a0f43;
+  color: var(--ink-brand);
   transition: color 200ms ease, background 200ms ease;
 }
 
 .faq-summary:hover {
-  color: #a81452;
-  background: rgba(251, 235, 222, 0.42);
+  color: var(--ink-accent);
+  background: color-mix(in srgb, var(--surface) 42%, transparent);
 }
 
 .faq-summary::-webkit-details-marker {
@@ -1070,7 +1073,7 @@ html[data-theme="dark"] .on-brand {
 
 .faq-answer {
   padding: 0 1.15rem 1.15rem;
-  color: rgba(45, 26, 26, 0.68);
+  color: color-mix(in srgb, var(--ink) 68%, transparent);
   font-size: var(--type-sm);
   line-height: 1.7;
 }
@@ -1175,12 +1178,12 @@ html[data-theme="dark"] .on-brand {
   font-variant-numeric: tabular-nums;
   font-weight: 700;
   font-size: 1.5em;
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
 }
 
 .negocios-proof-sep {
   margin: 0 0.5rem;
-  color: rgba(45, 26, 26, 0.35);
+  color: color-mix(in srgb, var(--ink) 35%, transparent);
 }
 
 /* The only orange on this page: the 4 "how we work" step numerals */
@@ -1220,7 +1223,7 @@ html[data-theme="dark"] .on-brand {
   min-height: 1.25rem;
   margin-top: 0.5rem;
   font-size: var(--type-xs);
-  color: rgba(45, 26, 26, 0.62);
+  color: color-mix(in srgb, var(--ink) 62%, transparent);
 }
 
 .negocios-ledger {
@@ -1301,7 +1304,7 @@ html[data-theme="dark"] .on-brand {
   padding-left: 1.1rem;
   font-size: var(--type-base);
   line-height: 1.5;
-  color: rgba(45, 26, 26, 0.75);
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
 
 .negocios-bullet::before {
@@ -1646,24 +1649,24 @@ html[data-theme="dark"] .on-brand {
 .negocios-product-item dt {
   font-family: theme("fontFamily.display");
   font-size: var(--type-lg);
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
 }
 
 .negocios-product-item dd {
   margin: 0;
   line-height: 1.6;
-  color: rgba(45, 26, 26, 0.75);
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
 
 .negocios-flavours {
   margin-top: 1.5rem;
   line-height: 1.6;
-  color: rgba(45, 26, 26, 0.75);
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
 
 .negocios-flavours strong {
   font-weight: 600;
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
 }
 
 /* Same ledger structure, read on the deep band. Only the ink changes. */
@@ -1721,8 +1724,8 @@ html[data-theme="dark"] .on-brand {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: theme("colors.horno.cream");
-  color: theme("colors.horno.ink");
+  background: var(--surface);
+  color: var(--ink);
 }
 
 .order-close-media {
@@ -1778,9 +1781,9 @@ html[data-theme="dark"] .on-brand {
   left: 82%;
   padding: 0.4rem 0.75rem;
   border-radius: 14px;
-  background: #ffffff;
+  background: var(--surface-raised);
   box-shadow: 0 10px 22px -10px rgba(45, 26, 26, 0.45);
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
   font-family: Fraunces, serif;
   font-size: var(--type-base);
   font-weight: 700;
@@ -1816,7 +1819,7 @@ html[data-theme="dark"] .on-brand {
 }
 
 .order-close-heading {
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
   font-family: Fraunces, serif;
 }
 
@@ -1851,23 +1854,30 @@ html[data-theme="dark"] .on-brand {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23a81452' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
       right 0.12em center / 0.5em no-repeat,
     linear-gradient(currentColor, currentColor) left calc(100% - 0.02em) / calc(100% - 0.95em) 0.075em no-repeat;
-  color: theme("colors.horno.magenta");
+  color: var(--ink-accent);
   cursor: pointer;
   line-height: inherit;
   transition: color 0.2s ease;
 }
 
+.order-blank:where(html[data-theme="dark"] *) {
+  /* Same chevron, recoloured: a data-URI SVG cannot read currentColor. */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ff8db6' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    linear-gradient(currentColor, currentColor);
+}
+
 .order-blank:hover {
-  color: theme("colors.horno.magentaDeep");
+  color: var(--ink-brand);
 }
 
 .order-blank:focus-visible {
-  outline: 3px solid theme("colors.horno.magenta");
+  outline: 3px solid var(--ink-accent);
   outline-offset: 4px;
 }
 
 .order-blank option {
-  color: theme("colors.horno.ink");
+  color: var(--ink);
   font-family: Poppins, sans-serif;
   font-size: var(--type-base);
   font-weight: 500;
@@ -1897,7 +1907,7 @@ html[data-theme="dark"] .on-brand {
 
 .order-close-hint,
 .order-close-facts {
-  color: color-mix(in srgb, theme("colors.horno.ink") 74%, transparent);
+  color: color-mix(in srgb, var(--ink) 74%, transparent);
   font-size: var(--type-base);
 }
 
@@ -1938,7 +1948,7 @@ html[data-theme="dark"] .on-brand {
 }
 
 .order-close-cta:focus-visible {
-  outline: 3px solid theme("colors.horno.magentaDeep");
+  outline: 3px solid var(--ink-brand);
   outline-offset: 4px;
 }
 
@@ -2240,7 +2250,7 @@ html[data-theme="dark"] .on-brand {
   gap: 1rem;
   border: 1px solid rgba(168, 20, 82, 0.1);
   border-radius: 9999px;
-  background: rgba(255, 248, 242, 0.82);
+  background: color-mix(in srgb, var(--surface-soft) 82%, transparent);
   box-shadow: 0 10px 30px -18px rgba(138, 15, 67, 0.4);
   backdrop-filter: blur(14px) saturate(1.4);
   pointer-events: auto;
@@ -2248,8 +2258,18 @@ html[data-theme="dark"] .on-brand {
 }
 
 .site-header[data-scrolled] .site-header-bar {
-  background: rgba(255, 248, 242, 0.94);
+  background: color-mix(in srgb, var(--surface-soft) 94%, transparent);
   box-shadow: 0 18px 40px -16px rgba(45, 26, 26, 0.35);
+}
+
+/* Header logo: the dark variant lifts the magenta so it reads on the dark bar. */
+.logo-on-dark,
+html[data-theme="dark"] .logo-on-light {
+  display: none;
+}
+
+html[data-theme="dark"] .logo-on-dark {
+  display: block;
 }
 
 /* Theme toggle: a 44px round button; shows the moon in light mode (the
@@ -2317,7 +2337,7 @@ html[data-theme="dark"] .theme-toggle-sun {
 }
 
 .site-header .nav-link[aria-current="location"] {
-  @apply text-horno-magenta;
+  @apply text-ink-role-accent;
 }
 
 .site-header .nav-link[aria-current="location"]::after {
@@ -2325,7 +2345,7 @@ html[data-theme="dark"] .theme-toggle-sun {
 }
 
 .site-header [data-mobile-nav] a[aria-current="location"] {
-  @apply text-horno-magenta;
+  @apply text-ink-role-accent;
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-underline-offset: 0.3em;

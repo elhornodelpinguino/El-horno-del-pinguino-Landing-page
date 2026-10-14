@@ -20,13 +20,13 @@ const orderLink = whatsappLink(
       product.imageUrl ? (
         <img src={product.imageUrl} alt={product.name} loading="lazy" class="h-full w-full object-cover" />
       ) : (
-        <div class="h-full w-full bg-horno-creamDark" aria-hidden="true"></div>
+        <div class="h-full w-full bg-surface-alt" aria-hidden="true"></div>
       )
     }
   </div>
 
   <div class="flex flex-1 flex-col p-5">
-    <h3 class="product-card-title font-display text-xl leading-snug text-horno-magentaDeep">
+    <h3 class="product-card-title font-display text-xl leading-snug text-ink-role-brand">
       {product.name}
     </h3>
 
@@ -39,7 +39,7 @@ const orderLink = whatsappLink(
     }
 
     <div class="mt-auto flex items-center justify-between gap-3 pt-4">
-      <span class="text-2xl font-bold text-horno-magenta">
+      <span class="text-2xl font-bold text-ink-role-accent">
         {formatPrice(product.price)}
       </span>
       <a

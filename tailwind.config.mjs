@@ -20,6 +20,20 @@ export default {
           orangeOnDark: "#ffc08a",
           ink: "#2d1a1a",
         },
+        // Theme roles: resolve through the CSS custom properties in
+        // global.css, so they flip with data-theme. Use these for surfaces and
+        // the text on them; keep `horno.*` for brand fills that never change.
+        surface: {
+          DEFAULT: "var(--surface)",
+          alt: "var(--surface-alt)",
+          raised: "var(--surface-raised)",
+        },
+        "ink-role": {
+          DEFAULT: "var(--ink)",
+          brand: "var(--ink-brand)",
+          accent: "var(--ink-accent)",
+          warm: "var(--ink-warm)",
+        },
       },
       fontFamily: {
         display: ["'Fraunces'", "serif"],

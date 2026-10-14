@@ -11,7 +11,7 @@ import { contrastRatio } from "./brand-contrast.test";
 // `.on-brand` and keep the light roles, so their dark ink stays dark on orange.
 const css = readFileSync(path.resolve(__dirname, "../../src/styles/global.css"), "utf8");
 
-const SURFACES = ["--surface", "--surface-alt", "--surface-raised"] as const;
+const SURFACES = ["--surface", "--surface-alt", "--surface-soft", "--surface-raised"] as const;
 const INKS = ["--ink", "--ink-brand", "--ink-accent", "--ink-warm"] as const;
 const AA_NORMAL = 4.5;
 
@@ -39,6 +39,7 @@ describe("theme roles", () => {
   it("keeps the light theme on the current brand values", () => {
     expect(light["--surface"]).toBe("#fbebde");
     expect(light["--surface-alt"]).toBe("#f5dcc9");
+    expect(light["--surface-soft"]).toBe("#fff8f2");
     expect(light["--surface-raised"]).toBe("#ffffff");
     expect(light["--ink"]).toBe("#2d1a1a");
     expect(light["--ink-brand"]).toBe("#8a0f43");
