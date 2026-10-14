@@ -32,20 +32,19 @@ const flavours = [
 ];
 
 const orderMessage = (flavour: string) =>
-  `¡Hola ${SITE.name}! Quiero consultar el sabor ${flavour}. ¿Me cuentan formatos, precios y entrega en Loja?`;
+  `¡Hola, ${SITE.name}! Se me antojó el sabor ${flavour}. ¿Me cuentan tamaños, precios y entrega en Loja?`;
 ---
 
 <section id="sabores" data-flavour-showcase class="flavour-showcase flow-section relative overflow-hidden py-16 sm:py-24">
   <div class="section relative z-10">
     <div class="flavour-showcase-header">
       <div data-flavour-anim="intro" class="max-w-3xl">
-        <span class="eyebrow">Sabores confirmados</span>
+        <span class="eyebrow">Los favoritos de la casa</span>
         <h2 id="flavour-showcase-title" class="display-section mt-2 text-horno-magentaDeep">
           Tres que nunca fallan.
         </h2>
         <p id="flavour-gallery-hint" class="mx-auto mt-4 max-w-2xl leading-relaxed text-horno-magentaDeep/90">
-          Conoce los tres sabores y consulta tu pedido por WhatsApp. Desliza para verlos o usa las
-          flechas para avanzar.
+          Desliza o usa las flechas, elige el tuyo y pídelo por WhatsApp.
         </p>
       </div>
 
@@ -105,7 +104,7 @@ const orderMessage = (flavour: string) =>
                   class="flavour-card-cta"
                   aria-label={`Consultar ${item.title} por WhatsApp`}
                 >
-                  Consultar por WhatsApp
+                  Pedir este sabor
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>

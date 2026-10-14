@@ -282,8 +282,41 @@ test.describe("Homepage hand-off to /negocios", () => {
   test("Hero desktop nav anchor navigates to /negocios", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
-    const desktopNavLink = page.locator("nav .hidden.sm\\:flex a", { hasText: "Para negocios" });
+    const desktopNavLink = page.locator("nav .hidden.lg\\:flex a", { hasText: "Para negocios" });
     await expect(desktopNavLink).toHaveAttribute("href", "/negocios");
+  });
+
+  test("/negocios gets its own nav: its sections in page order, a way home and a business CTA", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/negocios");
+    const links = page.locator("nav .hidden.lg\\:flex a");
+    await expect(links).toHaveText(["Cómo trabajamos", "Tu negocio", "Trabajos", "Productos", "Precio", "Para casa"]);
+
+    // Every section link points at a section of this page, in reading order.
+    const tops = await links.evaluateAll((anchors) =>
+      anchors
+        .map((a) => a.getAttribute("href")!)
+        .filter((href) => href.startsWith("#"))
+        .map((href) => {
+          const target = document.querySelector(href);
+          return target ? target.getBoundingClientRect().top + window.scrollY : -1;
+        }),
+    );
+    expect(tops).toHaveLength(5);
+    expect(tops.every((top) => top >= 0)).toBe(true);
+    expect(tops).toEqual([...tops].sort((a, b) => a - b));
+    await expect(links.last()).toHaveAttribute("href", "/");
+
+    // No home-page sections leak into this page's bar.
+    await expect(page.locator("nav a", { hasText: "Sabores" })).toHaveCount(0);
+
+    const cta = page.locator("nav a[href*='wa.me']");
+    await expect(cta).toHaveText(/Cotizar por WhatsApp/);
+    expect(decodeURIComponent((await cta.getAttribute("href"))!)).toMatch(/negocio/i);
+
+    // Scrollspy runs here too.
+    await page.evaluate(() => window.scrollTo(0, document.querySelector("#precio")!.getBoundingClientRect().top + window.scrollY - 100));
+    await expect(page.locator('nav .hidden.lg\\:flex a[aria-current="location"]')).toHaveText("Precio");
   });
 
   test("Hero mobile nav anchor navigates to /negocios", async ({ page }) => {

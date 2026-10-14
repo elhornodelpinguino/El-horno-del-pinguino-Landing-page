@@ -2,18 +2,18 @@
 import { SITE, whatsappLink } from "~/lib/config";
 
 const steps = [
-  { number: "01", title: "Cuéntanos qué celebras y para cuántos", penguinClass: "penguin-step-1" },
-  { number: "02", title: "Elegimos sabor, tamaño y presentación", penguinClass: "penguin-step-2" },
-  { number: "03", title: "Coordinamos pago y entrega en Loja", penguinClass: "penguin-step-3" },
+  { number: "01", title: "Cuéntanos qué se te antoja y para cuántos", penguinClass: "penguin-step-1" },
+  { number: "02", title: "Te ayudamos a elegir sabor y tamaño", penguinClass: "penguin-step-2" },
+  { number: "03", title: "Pagas y coordinamos la entrega en Loja", penguinClass: "penguin-step-3" },
 ];
 ---
 
 <section id="como-pedir" class="order-section relative overflow-hidden py-20 sm:py-28">
   <div class="section relative z-10">
     <div class="mx-auto mb-12 max-w-2xl text-center">
-      <span data-order-anim="eyebrow" class="eyebrow">Pedir es fácil</span>
+      <span data-order-anim="eyebrow" class="eyebrow">Así de fácil</span>
       <h2 data-order-anim="heading" class="display-section mt-2">
-        Tres pasos y listo
+        Tres mensajes y listo
       </h2>
     </div>
 
@@ -34,8 +34,8 @@ const steps = [
     </div>
 
     <div data-order-anim="cta" class="mt-10 text-center">
-      <a href={whatsappLink(`¡Hola ${SITE.name}! Quiero hacer un pedido. ¿Me pasan sabores y precios?`)} target="_blank" rel="noopener" class="btn-primary">
-        Escribir por WhatsApp
+      <a href={whatsappLink(`¡Hola, ${SITE.name}! Quiero hacer un pedido. ¿Me pasan sabores y precios?`)} target="_blank" rel="noopener" class="btn-primary">
+        Escríbenos por WhatsApp
       </a>
     </div>
   </div>

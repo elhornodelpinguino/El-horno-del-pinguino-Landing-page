@@ -5,7 +5,7 @@ import { SITE, whatsappLink } from "~/lib/config";
 // arrive here searching. This block only signals that volume orders exist and
 // hands the conversation to WhatsApp.
 const quoteLink = whatsappLink(
-  `¡Hola ${SITE.name}! Represento a un negocio y quiero cotizar pedidos por volumen en Loja.`,
+  `¡Hola, ${SITE.name}! Represento a un negocio y quiero cotizar pedidos por volumen en Loja.`,
 );
 
 // The quote link is a standalone secondary action beside the primary button,
@@ -21,8 +21,8 @@ const quoteLink = whatsappLink(
         ¿Tienes un negocio, colegio o club?
       </h2>
       <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-horno-ink lg:mx-0">
-        También trabajamos pedidos por volumen en Loja, con porción consistente y entrega
-        coordinada.
+        También horneamos por volumen en Loja: cada porción del mismo tamaño y entregas
+        coordinadas a tu horario.
       </p>
 
       <div class="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
@@ -32,8 +32,8 @@ const quoteLink = whatsappLink(
             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </a>
-        <a href={quoteLink} target="_blank" rel="noopener" data-whatsapp-context="business-intro" class="inline-flex min-h-[44px] items-center font-semibold text-horno-ink underline decoration-2 underline-offset-4 hover:text-horno-magentaDeep">
-          O pide cotización directo por WhatsApp
+        <a href={quoteLink} target="_blank" rel="noopener" data-whatsapp-context="business-intro" class="inline-flex min-h-[44px] items-center font-semibold text-horno-ink underline decoration-2 underline-offset-[0.4em] hover:text-horno-magentaDeep">
+          O cotiza directamente por WhatsApp
         </a>
       </div>
     </div>

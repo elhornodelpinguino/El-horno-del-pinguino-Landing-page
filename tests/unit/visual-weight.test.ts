@@ -138,9 +138,39 @@ describe("floating site header", () => {
   it("keeps the e2e nav contract: desktop links, hamburger, mobile panel", () => {
     const header = read("src/components/SiteHeader.astro");
     expect(header).toMatch(/<nav\b/);
-    expect(header).toMatch(/class="hidden[^"]*sm:flex/);
+    expect(header).toMatch(/class="hidden[^"]*lg:flex/);
+    expect(header).toMatch(/data-hamburger[^>]*lg:hidden/);
     expect(header).toMatch(/data-hamburger/);
     expect(header).toMatch(/data-mobile-nav/);
+  });
+
+  it("lists every home section in the order the page renders them", () => {
+    const header = read("src/components/SiteHeader.astro");
+    const homeLinks = header.slice(header.indexOf("const homeLinks"), header.indexOf("const businessLinks"));
+    const navHrefs = [...homeLinks.matchAll(/href: (?:`\$\{sectionBase\}(#[\w-]+)`|"([^"]+)")/g)].map(
+      (m) => m[1] ?? m[2],
+    );
+    expect(navHrefs).toEqual(["#sabores", "#catalogo", "#como-pedir", "#preguntas", "/negocios", "#contacto"]);
+
+    // Each anchor must exist, and the page must render them in that same order.
+    const page = read("src/pages/index.astro");
+    const componentFor: Record<string, string> = {
+      "#sabores": "FlavourShowcase",
+      "#catalogo": "ProductGrid",
+      "#como-pedir": "HowToOrder",
+      "#preguntas": "FAQ",
+      "/negocios": "BusinessBridge",
+      "#contacto": "Contact",
+    };
+    const positions = navHrefs.map((href) => {
+      const name = componentFor[href];
+      if (href.startsWith("#")) {
+        expect(read(`src/components/${name}.astro`)).toContain(`id="${href.slice(1)}"`);
+      }
+      return page.indexOf(`<${name} `) >= 0 ? page.indexOf(`<${name} `) : page.indexOf(`<${name}/`);
+    });
+    expect(positions.every((p) => p >= 0)).toBe(true);
+    expect(positions).toEqual([...positions].sort((a, b) => a - b));
   });
 
   it("points section links back to the home page when off the home page", () => {

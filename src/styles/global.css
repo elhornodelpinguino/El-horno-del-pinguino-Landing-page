@@ -344,6 +344,14 @@
   text-align: center;
 }
 
+/* Short laptop screens: less top padding, so the card's CTA still lands
+   above the fold once the card is at its minimum width. */
+@media (min-width: 768px) and (max-height: 860px) {
+  .flavour-showcase {
+    padding-top: 4rem;
+  }
+}
+
 .flavour-gallery-shell {
   position: relative;
   min-width: 0;
@@ -427,8 +435,10 @@
   transform: translate3d(var(--coverflow-offset), 1rem, 0) scale(0.86) rotateY(-10deg);
 }
 
+/* Square, not portrait: the flavour photos carry empty wall above and below
+   the cake, and a 4:5 frame made the card taller than the viewport. */
 .flavour-card-media {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   margin: 0;
   overflow: hidden;
   background: #f5dcc9;
@@ -517,14 +527,18 @@
 }
 
 @media (min-width: 768px) {
-  /* The stage spans the widened section: side cards reach toward the edges,
-     the offset is capped so they never clip at 1880px wide. */
+  /* The card is sized by the viewport's height as well as its width, so the
+     heading, the card and its CTA fit after the "Sabores" nav jump (35rem is the section padding,
+     the heading block, the card body and the header). Side cards sit one
+     card-width out (never more than 27vw, or they clip at the stage edge)
+     so they stay whole and close at any size. */
   .flavour-coverflow-viewport {
-    --coverflow-offset: clamp(14rem, 27vw, 28rem);
+    --flavour-card-w: clamp(15rem, min(32vw, calc(100svh - 35rem)), 28rem);
+    --coverflow-offset: min(27vw, calc(var(--flavour-card-w) * 0.98));
   }
 
   .flavour-card {
-    width: min(32vw, 30rem);
+    width: var(--flavour-card-w);
   }
 
   .flavour-showcase-control {
@@ -1658,28 +1672,318 @@
 }
 
 /* ============================================
-   Final CTA penguin — the mascot carries the box to the order button.
-   The idle bob animates `translate`, not `transform`, so it composes with
-   the GSAP entrance (which owns `transform`) instead of fighting it.
+   Final CTA — the order gets written here.
+   A real product photo bleeds off the right edge; the penguin with its
+   clipboard stands on the seam, taking the order. The headline is followed
+   by one sentence with three native selects styled as words.
    ============================================ */
 
-.penguin-cta {
-  width: 176px;
-  height: 176px;
-  margin-bottom: 0.5rem;
-  background: url("/penguin-chef-delivery-box-transparent.png") center / contain no-repeat;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 14px 18px rgba(45, 26, 26, 0.35));
-  animation: penguin-bob 2.6s ease-in-out infinite;
+.order-close {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: theme("colors.horno.cream");
+  color: theme("colors.horno.ink");
 }
 
-@media (min-width: 1024px) {
-  .penguin-cta {
-    width: 240px;
-    height: 240px;
+.order-close-media {
+  position: relative;
+}
+
+.order-close-photo {
+  margin: 0;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
+.order-close-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.35s ease;
+}
+
+.order-close-photo img.is-swapping {
+  opacity: 0.25;
+}
+
+.order-close-penguin {
+  position: absolute;
+  z-index: 2;
+  bottom: -4.25rem;
+  left: 0.75rem;
+  width: 152px;
+  height: 152px;
+  background: url("/penguin-chef-clipboard-transparent.png") center / contain no-repeat;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 14px 14px rgba(45, 26, 26, 0.3));
+  animation: penguin-bob 2.8s ease-in-out infinite;
+}
+
+.order-close-penguin.is-noting {
+  animation:
+    penguin-bob 2.8s ease-in-out infinite,
+    penguin-note 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes penguin-note {
+  0% { rotate: 0deg; }
+  30% { rotate: -9deg; }
+  60% { rotate: 5deg; }
+  100% { rotate: 0deg; }
+}
+
+.order-close-bubble {
+  position: absolute;
+  top: 0.4rem;
+  left: 82%;
+  padding: 0.4rem 0.75rem;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 22px -10px rgba(45, 26, 26, 0.45);
+  color: theme("colors.horno.magentaDeep");
+  font-family: Fraunces, serif;
+  font-size: var(--type-base);
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px) scale(0.6);
+  transform-origin: left bottom;
+}
+
+.order-close-bubble::after {
+  position: absolute;
+  bottom: -5px;
+  left: 12px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.order-close-penguin.is-noting .order-close-bubble {
+  animation: bubble-note 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes bubble-note {
+  0% { opacity: 0; transform: translateY(6px) scale(0.6); }
+  18%, 78% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+.order-close-body {
+  padding: 5.75rem 1.25rem 6.5rem;
+}
+
+.order-close-heading {
+  color: theme("colors.horno.magentaDeep");
+  font-family: Fraunces, serif;
+}
+
+.order-sentence {
+  position: relative;
+  max-width: 30ch;
+  margin-top: 1.5rem;
+  font-family: Fraunces, serif;
+  font-size: clamp(1.625rem, 1.1rem + 1.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+/* A select that reads as a word: magenta, underlined, with a small chevron.
+   The script sets its width to the chosen option, measured on the probe. */
+.order-blank,
+.order-blank-probe {
+  padding: 0 0.95em 0 0;
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: inherit;
+}
+
+.order-blank {
+  appearance: none;
+  max-width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23a81452' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      right 0.12em center / 0.5em no-repeat,
+    linear-gradient(currentColor, currentColor) left calc(100% - 0.02em) / calc(100% - 0.95em) 0.075em no-repeat;
+  color: theme("colors.horno.magenta");
+  cursor: pointer;
+  line-height: inherit;
+  transition: color 0.2s ease;
+}
+
+.order-blank:hover {
+  color: theme("colors.horno.magentaDeep");
+}
+
+.order-blank:focus-visible {
+  outline: 3px solid theme("colors.horno.magenta");
+  outline-offset: 4px;
+}
+
+.order-blank option {
+  color: theme("colors.horno.ink");
+  font-family: Poppins, sans-serif;
+  font-size: var(--type-base);
+  font-weight: 500;
+}
+
+.order-blank.is-swapped {
+  animation: blank-swap 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes blank-swap {
+  from { filter: blur(6px); opacity: 0.2; translate: 0 0.18em; }
+  to { filter: none; opacity: 1; translate: 0 0; }
+}
+
+.order-slot {
+  white-space: nowrap;
+}
+
+.order-blank-probe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+
+.order-close-hint,
+.order-close-facts {
+  color: color-mix(in srgb, theme("colors.horno.ink") 74%, transparent);
+  font-size: var(--type-base);
+}
+
+.order-close-hint {
+  margin-top: 0.75rem;
+}
+
+.order-close-actions {
+  margin-top: 2.25rem;
+}
+
+.order-close-cta {
+  display: inline-flex;
+  width: 100%;
+  min-height: 60px;
+  padding: 1rem 1.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  background: theme("colors.horno.magenta");
+  box-shadow: 0 18px 36px -16px rgba(138, 15, 67, 0.6);
+  color: #ffffff;
+  font-family: Fraunces, serif;
+  font-size: var(--type-lg);
+  font-weight: 700;
+  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.order-close-cta span {
+  white-space: nowrap;
+}
+
+.order-close-cta:hover {
+  background: theme("colors.horno.magentaDeep");
+  box-shadow: 0 24px 40px -18px rgba(138, 15, 67, 0.7);
+  transform: translateY(-2px);
+}
+
+.order-close-cta:focus-visible {
+  outline: 3px solid theme("colors.horno.magentaDeep");
+  outline-offset: 4px;
+}
+
+.order-close-facts {
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .order-close-body {
+    padding: 7rem 2rem 6.5rem;
+  }
+
+  .order-close-cta {
+    width: auto;
+  }
+
+  .order-close-penguin {
+    bottom: -5rem;
+    left: 2rem;
+    width: 184px;
+    height: 184px;
   }
 }
 
+/* Desktop: two columns, the photo bleeding to the viewport's right edge and
+   the copy aligned to the shared 88rem container on the left. */
+@media (min-width: 1024px) {
+  .order-close {
+    display: grid;
+    min-height: min(50rem, 100svh);
+    grid-template-columns: minmax(0, 1fr) 42vw;
+  }
+
+  .order-close-media {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .order-close-photo {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  /* The sprite keeps 22/256 transparent rows under its feet; pull it down
+     by that much so the feet, not the canvas, meet the section's edge. */
+  .order-close-penguin {
+    bottom: -19px;
+    left: -7.5rem;
+    width: 224px;
+    height: 224px;
+  }
+
+  .order-close-body {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    padding: 7rem 9.5rem 7rem max(3rem, calc((100vw - 88rem) / 2 + 3rem));
+  }
+}
+
+@media (min-width: 1536px) {
+  .order-close-penguin {
+    bottom: -22px;
+    left: -8.5rem;
+    width: 256px;
+    height: 256px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-close-penguin,
+  .order-close-penguin.is-noting,
+  .order-blank.is-swapped {
+    animation: none;
+  }
+
+  .order-close-cta {
+    transition: none;
+  }
+}
+
+/* Idle float shared by standalone penguins. Animates `translate`, not
+   `transform`, so it composes with GSAP entrances that own `transform`. */
 @keyframes penguin-bob {
   0%,
   100% {
@@ -1688,141 +1992,6 @@
   50% {
     translate: 0 -10px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .penguin-cta {
-    animation: none;
-  }
-}
-
-/* Delivery route (final CTA). Hidden until the script starts the run, so
-   no-JS and reduced-motion visitors keep the static `.penguin-cta` above. */
-.delivery-route {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  display: none;
-  pointer-events: none;
-}
-
-.final-cta.is-delivering .delivery-route {
-  display: block;
-}
-
-.final-cta.is-delivering .penguin-cta {
-  display: none;
-}
-
-.delivery-route-track {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.delivery-route-track path {
-  fill: none;
-  stroke: rgba(255, 192, 138, 0.45);
-  stroke-dasharray: 2 14;
-  stroke-linecap: round;
-  stroke-width: 5;
-}
-
-.delivery-runner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 96px;
-  height: 96px;
-}
-
-@media (min-width: 900px) {
-  .delivery-runner {
-    width: 136px;
-    height: 136px;
-  }
-}
-
-/* Facing is a scaleX the script flips with direction; the trot is a CSS
-   `translate` hop so it never fights GSAP's transform on the parent. */
-.delivery-runner-body {
-  width: 100%;
-  height: 100%;
-  background: url("/penguin-chef-delivery-box-transparent.png") center / contain no-repeat;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 10px 12px rgba(45, 26, 26, 0.35));
-  animation: penguin-trot 0.32s ease-in-out infinite alternate;
-}
-
-@keyframes penguin-trot {
-  from {
-    translate: 0 0;
-    rotate: -3deg;
-  }
-  to {
-    translate: 0 -7px;
-    rotate: 3deg;
-  }
-}
-
-/* A destination: a zero-size anchor on the route line. The building stands
-   on the line above it; the chip appears below it, clear of the runner. */
-.delivery-stop {
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
-/* Asleep and awake sprites share one spot; the delivery swaps them. */
-.dest-building {
-  position: absolute;
-  /* Centred with a negative margin, not a transform: the delivery hop
-     tweens the transform, and would wipe a translateX(-50%). The sprite's
-     ground row sits a few pixels above its canvas edge, hence -3px. */
-  bottom: -3px;
-  left: 0;
-  width: 72px;
-  height: 72px;
-  max-width: none;
-  margin-left: -36px;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 8px 8px rgba(45, 26, 26, 0.35));
-  transition: opacity 0.25s ease;
-}
-
-@media (min-width: 900px) {
-  .dest-building {
-    width: 96px;
-    height: 96px;
-    margin-left: -48px;
-  }
-}
-
-.dest-awake,
-.delivery-stop.is-lit .dest-asleep {
-  opacity: 0;
-}
-
-.delivery-stop.is-lit .dest-awake {
-  opacity: 1;
-}
-
-.delivery-stop-chip {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 50%;
-  padding: 0.35rem 0.75rem;
-  border-radius: 9999px;
-  background: #ffffff;
-  box-shadow: 0 10px 22px -10px rgba(45, 26, 26, 0.5);
-  color: #8a0f43;
-  font-size: var(--type-xs);
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translate(-50%, -8px) scale(0.6);
 }
 
 /* Negocios penguins. Each segment gets the mascot dressed for that customer;
@@ -2045,6 +2214,39 @@
   box-shadow: 0 18px 40px -16px rgba(45, 26, 26, 0.35);
 }
 
+/* Scrollspy: the link of the section on screen gets a short bar under it. */
+.site-header .nav-link {
+  position: relative;
+}
+
+.site-header .nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 0.55rem;
+  left: 0;
+  height: 3px;
+  border-radius: 9999px;
+  background: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.site-header .nav-link[aria-current="location"] {
+  @apply text-horno-magenta;
+}
+
+.site-header .nav-link[aria-current="location"]::after {
+  transform: scaleX(1);
+}
+
+.site-header [data-mobile-nav] a[aria-current="location"] {
+  @apply text-horno-magenta;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.3em;
+}
+
 .site-header [data-mobile-nav] {
   z-index: 1;
   pointer-events: auto;
@@ -2061,7 +2263,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header-bar {
+  .site-header-bar,
+  .site-header .nav-link::after {
     transition: none;
   }
 }

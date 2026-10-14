@@ -11,23 +11,23 @@ import { localBusinessSchema } from "~/lib/schema";
 // No `~/lib/api` import anywhere in this page — /negocios must render
 // identically with the backend asleep (design: Data Flow).
 
-const introMessage = `¡Hola ${SITE.name}! Ya conversamos. Quiero contarte qué necesito para mi negocio.`;
-const closingMessage = `¡Hola ${SITE.name}! Ya nos conocimos. Te cuento qué necesito para armar la propuesta.`;
+const introMessage = `¡Hola, ${SITE.name}! Ya conversamos y quiero contarles qué necesito para mi negocio.`;
+const closingMessage = `¡Hola, ${SITE.name}! Les cuento qué necesito para que me armen la propuesta.`;
 const introLink = whatsappLink(introMessage);
 const closingLink = whatsappLink(closingMessage);
 
 const title = `Pedidos para negocios en Loja — ${SITE.name}`;
 const description =
-  "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Ya nos conocimos: cuéntanos qué necesitas por WhatsApp.";
+  "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Cuéntanos qué necesitas y te armamos una propuesta por WhatsApp.";
 const canonicalUrl = "https://elhornodelpinguino.com/negocios/";
 
 const jsonLd: Record<string, unknown> = localBusinessSchema({ description });
 
 const steps = [
-  { title: "Conversamos tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y preferencias de sabor." },
+  { title: "Hablamos de tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y sabores preferidos." },
   { title: "Acordamos cantidad y fecha", copy: "Fijamos cuánto necesitas y para cuándo, según tu evento o tu rotación." },
   { title: "Horneamos por encargo", copy: "Preparamos tu pedido fresco, en el formato acordado, listo para entregar." },
-  { title: "Coordinamos la entrega", copy: "Confirmamos punto y hora de entrega directo contigo, por WhatsApp." },
+  { title: "Coordinamos la entrega", copy: "Confirmamos contigo el punto y la hora de entrega por WhatsApp." },
 ];
 ---
 
@@ -69,8 +69,8 @@ const steps = [
         </h1>
         <div data-negocios-anim="rule" class="negocios-rule mx-auto my-8" aria-hidden="true"></div>
         <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/90">
-          Ya nos conocimos. Aquí tienes el detalle de cómo trabajamos con cada tipo de negocio,
-          para que decidas con calma y confirmes por WhatsApp cuando quieras.
+          Gracias por la conversación. Aquí tienes, por escrito, cómo trabajamos con cada tipo de
+          negocio, para que lo revises con calma y confirmes por WhatsApp cuando quieras.
         </p>
         <div data-negocios-anim="cta" class="mt-10">
           <a href={introLink} target="_blank" rel="noopener" data-whatsapp-context="business-intro" class="n-cta">
@@ -106,11 +106,11 @@ const steps = [
     </section>
 
     <!-- §3 How we work — the only orange on this page lives in the step numerals -->
-    <section aria-labelledby="negocios-how-heading" class="flow-section py-16 sm:py-24">
+    <section id="como-trabajamos" aria-labelledby="negocios-how-heading" class="flow-section py-16 sm:py-24">
       <div class="section">
         <span class="n-eyebrow text-horno-magenta">Cómo trabajamos</span>
         <h2 id="negocios-how-heading" class="n-h2 mt-3 max-w-[18ch] text-horno-magentaDeep">
-          Del pedido a tu entrega, en 4 pasos
+          Del primer mensaje a la entrega, en 4 pasos
         </h2>
       </div>
       <ol class="section mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -144,11 +144,11 @@ const steps = [
     </section>
 
     <!-- §4 Segment ledger — the signature element: one continuous ruled table -->
-    <section aria-labelledby="negocios-ledger-heading" class="flow-section py-16 sm:py-24">
+    <section id="tu-negocio" aria-labelledby="negocios-ledger-heading" class="flow-section py-16 sm:py-24">
       <div class="section">
         <span class="n-eyebrow text-horno-magenta">Elige tu tipo de negocio</span>
         <h2 id="negocios-ledger-heading" class="n-h2 mt-3 max-w-[16ch] text-horno-magentaDeep">
-          Un plan por tipo de negocio
+          Una propuesta para cada negocio
         </h2>
       </div>
       <div class="section negocios-ledger mt-12">
@@ -163,7 +163,7 @@ const steps = [
     <BusinessProductShowcase />
 
     <!-- §7 Volume framing — price scales with volume/frequency, zero figures -->
-    <section aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
+    <section id="precio" aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
       <div class="section grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-end">
         <div>
           <span class="n-eyebrow text-horno-magenta">Sobre el precio</span>
@@ -172,8 +172,8 @@ const steps = [
           </h2>
         </div>
         <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/90">
-          El precio por unidad mejora según el volumen y la frecuencia. Lo conversamos con tu
-          cantidad y tus fechas.
+          Mientras más pides y más seguido, mejor es el precio por unidad. Lo calculamos con tus
+          cantidades y tus fechas.
         </p>
       </div>
     </section>
@@ -183,7 +183,7 @@ const steps = [
       <div class="section mx-auto max-w-3xl text-center">
         <div class="penguin-bob negocios-closing-penguin" aria-hidden="true"></div>
         <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">
-          Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
+          Cuéntanos cantidades y fechas, y te armamos la propuesta.
         </h2>
         <div data-negocios-anim="closing" class="mt-10">
             <a href={closingLink} target="_blank" rel="noopener" data-whatsapp-context="business-closing" class="n-cta">
