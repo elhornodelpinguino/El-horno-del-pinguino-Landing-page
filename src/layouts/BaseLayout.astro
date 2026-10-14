@@ -32,6 +32,16 @@ const shouldLoadAnalytics = analyticsEndpoint !== undefined && analyticsRoute !=
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <!-- Theme before first paint (no flash). Mirrors resolveTheme() in
+         src/scripts/theme.js: a stored choice wins, otherwise the system. -->
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem("horno-theme"); } catch (e) {}
+        var dark = stored === "dark" || (stored !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
