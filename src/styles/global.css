@@ -20,6 +20,44 @@
   --type-xl: 1.375rem; /* 22px — card titles */
   --type-2xl: 1.75rem; /* 28px */
   --type-3xl: 2.5rem; /* 40px — step numerals */
+
+  /* Theme roles. Dark mode swaps roles, never brand fills: surfaces (cream
+     sections, white cards) and the inks painted on them change with the
+     theme, while magenta and orange bands, buttons and sprites keep their
+     exact brand colour. Contrast is enforced by tests/unit/dark-theme.test.ts. */
+  color-scheme: light;
+  --surface: #fbebde; /* page and cream sections */
+  --surface-alt: #f5dcc9; /* secondary cream */
+  --surface-raised: #ffffff; /* cards, panels */
+  --ink: #2d1a1a; /* body text */
+  --ink-brand: #8a0f43; /* headings and brand text (magentaDeep) */
+  --ink-accent: #a81452; /* links, emphasis (magenta) */
+  --ink-warm: #944d0e; /* orange-family text (orangeInk) */
+}
+
+/* Warm plum darks, so the brand magenta and orange still read as the same
+   bakery at night. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1013;
+  --surface-alt: #24161a;
+  --surface-raised: #2c1c21;
+  --ink: #f4e8e2;
+  --ink-brand: #f9c4d7;
+  --ink-accent: #ff8db6;
+  --ink-warm: #ffc08a;
+}
+
+/* Brand bands (orange, magenta, ink) look the same in both themes, so the
+   inks inside them must stay the light-theme ones. */
+html[data-theme="dark"] .on-brand {
+  --surface: #fbebde;
+  --surface-alt: #f5dcc9;
+  --surface-raised: #ffffff;
+  --ink: #2d1a1a;
+  --ink-brand: #8a0f43;
+  --ink-accent: #a81452;
+  --ink-warm: #944d0e;
 }
 
 @layer base {
