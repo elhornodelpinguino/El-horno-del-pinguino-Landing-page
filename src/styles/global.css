@@ -1876,7 +1876,10 @@ html[data-theme="dark"] .on-brand {
   outline-offset: 4px;
 }
 
+/* The popup is native: without its own surface it stays browser-white,
+   which hides the light dark-theme ink. */
 .order-blank option {
+  background-color: var(--surface-raised);
   color: var(--ink);
   font-family: Poppins, sans-serif;
   font-size: var(--type-base);
