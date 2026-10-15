@@ -1,10 +1,17 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Smoke tests", () => {
-  test("FAQ answers the price question with a reference price", async ({ page }) => {
+  // FAQ copy comes from the admin at build time (fallback copy is pinned in
+  // tests/unit/site-content.test.ts), so this checks structure, not wording.
+  test("FAQ renders every question with a non-empty answer", async ({ page }) => {
     await page.goto("/");
-    const answer = page.locator(".faq-item", { hasText: "¿Cuánto cuesta" }).locator(".faq-answer");
-    await expect(answer).toContainText("Desde $0,99 el cheesecake pequeño");
+    const items = page.locator("[data-faq-root] .faq-item");
+    await expect(items.first()).toBeVisible();
+    const count = await items.count();
+    for (let i = 0; i < count; i++) {
+      await expect(items.nth(i).locator(".faq-summary")).not.toBeEmpty();
+      await expect(items.nth(i).locator(".faq-answer")).not.toHaveText(/^\s*$/);
+    }
   });
 
   test("index page loads with title and no console errors", async ({ page }) => {
