@@ -1,6 +1,12 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Smoke tests", () => {
+  test("FAQ answers the price question with a reference price", async ({ page }) => {
+    await page.goto("/");
+    const answer = page.locator(".faq-item", { hasText: "¿Cuánto cuesta" }).locator(".faq-answer");
+    await expect(answer).toContainText("Desde $0,99 el cheesecake pequeño");
+  });
+
   test("index page loads with title and no console errors", async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (msg) => { if (msg.type() === "error") errors.push(msg.text()); });
