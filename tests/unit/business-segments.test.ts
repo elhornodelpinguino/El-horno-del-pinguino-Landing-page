@@ -84,6 +84,15 @@ describe("BUSINESS_SEGMENTS", () => {
     }
   });
 
+  it("writes each WhatsApp message in the customer's voice (\"mi colegio\", not \"tu colegio\")", () => {
+    for (const segment of BUSINESS_SEGMENTS) {
+      const name = SEGMENT_NAME_REFERENCE[segment.slug];
+      expect(segment.whatsappMessage).toContain(`mi ${name}`);
+      expect(segment.whatsappMessage).not.toContain(`tu ${name}`);
+      expect(segment.whatsappMessage).toMatch(/^¡Hola, /);
+    }
+  });
+
   it("never uses Rioplatense voseo in any copy string", () => {
     for (const copy of allCopyStrings()) {
       expect(copy).not.toMatch(VOSEO_PATTERN);

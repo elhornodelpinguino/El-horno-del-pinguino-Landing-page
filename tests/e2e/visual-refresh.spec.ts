@@ -8,7 +8,11 @@ test.describe("Visual Refresh — Interactions", () => {
       const hamburger = page.locator("[data-hamburger]");
       await expect(hamburger).toBeVisible();
 
+      // Tablets keep the menu: six section links only fit beside the logo from lg.
       await page.setViewportSize({ width: 768, height: 800 });
+      await expect(hamburger).toBeVisible();
+
+      await page.setViewportSize({ width: 1024, height: 800 });
       await expect(hamburger).toBeHidden();
     });
 
@@ -62,12 +66,27 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-mobile-nav]")).toHaveAttribute("data-menu-open", "true");
     });
 
+    test("desktop nav marks the section currently on screen", async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto("/");
+      const current = page.locator('nav .hidden.lg\\:flex a[aria-current="location"]');
+      await expect(current).toHaveCount(0);
+
+      await page.locator("#preguntas").scrollIntoViewIfNeeded();
+      await page.evaluate(() => window.scrollTo(0, document.querySelector("#preguntas")!.getBoundingClientRect().top + window.scrollY - 100));
+      await expect(current).toHaveText("Preguntas");
+
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await expect(current).toHaveText("Contacto");
+      await expect(current).toHaveCount(1);
+    });
+
     test("desktop viewport has no hamburger and desktop links visible", async ({ page }) => {
       await page.setViewportSize({ width: 1024, height: 800 });
       await page.goto("/");
       await expect(page.locator("[data-hamburger]")).toBeHidden();
       // Desktop nav links should be visible
-      const desktopLinks = page.locator("nav .hidden.sm\\:flex a");
+      const desktopLinks = page.locator("nav .hidden.lg\\:flex a");
       await expect(desktopLinks.first()).toBeVisible();
     });
   });
@@ -360,6 +379,21 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-order-anim='step']").first()).toHaveCSS("opacity", "1");
     });
 
+    test("FinalCTA sentence writes the WhatsApp order the visitor composed", async ({ page }) => {
+      await page.goto("/");
+      const link = page.locator("[data-order-link]");
+      await link.scrollIntoViewIfNeeded();
+      const message = async () => new URL((await link.getAttribute("href"))!).searchParams.get("text");
+
+      expect(await message()).toContain("quiero minitortas para 4, lo antes posible");
+
+      await page.selectOption("#order-what", "minidonas");
+      await page.selectOption("#order-who", "1");
+      await page.selectOption("#order-when", "weekend");
+      expect(await message()).toContain("quiero minidonas solo para mí, para el fin de semana");
+      await expect(page.getByLabel("Para cuántos")).toHaveValue("1");
+    });
+
     test("FinalCTA actions stay rectangular (no clip-path) and reveal on scroll", async ({ page }) => {
       await page.goto("/");
       const actions = page.locator("[data-finalcta-anim='actions']");
@@ -619,7 +653,11 @@ test.describe("Visual Refresh — Interactions", () => {
   test.describe("Consumer positioning", () => {
     test("leads with the mini format above the fold", async ({ page }) => {
       await page.goto("/");
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(/minitortas y minidonas/i);
+      // The h1 sells the craving ("Tu antojo, a un mensaje de distancia."); the
+      // lead right under it names the format, still inside the first viewport.
+      const lead = page.locator("[data-hero-anim='copy']");
+      await expect(lead).toContainText(/minitortas y minidonas/i);
+      await expect(lead).toBeInViewport();
     });
 
     test("names the signature flavours", async ({ page }) => {
@@ -658,6 +696,25 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(page.locator("[data-coverflow-position='active']")).toHaveAttribute("aria-current", "true");
       await expect(page.locator("[data-coverflow-position='previous']")).toHaveCount(1);
       await expect(page.locator("[data-coverflow-position='next']")).toHaveCount(1);
+    });
+
+    test("fits the flavour showcase down to the card CTA after the Sabores nav jump on desktop", async ({ page }) => {
+      // A 4:5 card sized only by width grew to ~800px tall at 1900px wide and
+      // pushed the flavour name and its CTA below the fold.
+      for (const [width, height] of [[1904, 940], [1440, 800]]) {
+        await page.setViewportSize({ width, height });
+        await page.goto("/");
+        // Land where the "Sabores" nav link lands: section top 88px down
+        // (smooth-scroll offset and scroll-padding-top in global.css).
+        const ctaBottom = await page.evaluate(() => {
+          const section = document.querySelector("#sabores")!;
+          window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY - 88);
+          return document
+            .querySelector("[data-coverflow-position='active'] .flavour-card-cta")!
+            .getBoundingClientRect().bottom;
+        });
+        expect(ctaBottom, `${width}x${height}`).toBeLessThanOrEqual(height);
+      }
     });
 
     test("uses full cards on desktop and intentional partial peeks on mobile", async ({ page }) => {

@@ -12,8 +12,11 @@ if (!motionQuery.matches) {
   const lenis = new Lenis({
     // Intercept same-page anchor clicks (#catalogo, #contacto,
     // #business-heading, mobile nav) so they glide through Lenis instead
-    // of the native jump.
-    anchors: true,
+    // of the native jump. The offset keeps the section clear of the fixed
+    // site header; it matches `scroll-padding-top` in global.css, which covers
+    // the native path (reduced motion, and arriving at /#catalogo from
+    // another page).
+    anchors: { offset: -88 },
   });
 
   // Keep ScrollTrigger measurements in sync with Lenis' smoothed scroll.

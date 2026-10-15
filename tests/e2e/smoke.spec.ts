@@ -13,7 +13,7 @@ test.describe("Smoke tests", () => {
   test("product section is visible", async ({ page }) => {
     await page.goto("/");
     const productCards = page.locator("article");
-    const emptyState = page.getByText("Estamos preparando nuevas creaciones");
+    const emptyState = page.getByText("Estamos horneando el catálogo");
     await expect(productCards.first().or(emptyState.first())).toBeVisible({ timeout: 10000 });
   });
 

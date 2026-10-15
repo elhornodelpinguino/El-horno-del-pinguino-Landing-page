@@ -7,8 +7,8 @@ interface Props {
 
 const { audience = "consumer" } = Astro.props;
 const message = audience === "business"
-  ? `¡Hola ${SITE.name}! Vi su web y quiero cotizar un pedido para una empresa, colegio o cafetería.`
-  : `¡Hola ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, formatos y precios?`;
+  ? `¡Hola, ${SITE.name}! Vi su web y quiero cotizar un pedido para una empresa, colegio o cafetería.`
+  : `¡Hola, ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
 const label = audience === "business" ? "Cotizar pedido por WhatsApp" : "Hacer pedido por WhatsApp";
 const action = audience === "business" ? "Cotización" : "Pedido";
 ---

@@ -34,7 +34,7 @@ export const BUSINESS_SEGMENTS = [
     ],
     ctaLabel: "Coordinar por WhatsApp",
     whatsappMessage:
-      "Hola, ya conversamos sobre pedidos para tu cafetería. Quiero coordinar los detalles.",
+      "¡Hola, El Horno del Pingüino! Ya conversamos sobre pedidos para mi cafetería y quiero coordinar los detalles.",
     media: {
       src: "/b2b-segment-cafeteria.webp",
       srcset: "/b2b-segment-cafeteria-sm.webp 720w, /b2b-segment-cafeteria.webp 1200w",
@@ -55,7 +55,7 @@ export const BUSINESS_SEGMENTS = [
     ],
     ctaLabel: "Coordinar por WhatsApp",
     whatsappMessage:
-      "Hola, ya conversamos sobre pedidos para tu colegio. Quiero coordinar los detalles.",
+      "¡Hola, El Horno del Pingüino! Ya conversamos sobre pedidos para mi colegio y quiero coordinar los detalles.",
     media: {
       src: "/b2b-segment-school.webp",
       srcset: "/b2b-segment-school-sm.webp 720w, /b2b-segment-school.webp 1200w",
@@ -71,12 +71,12 @@ export const BUSINESS_SEGMENTS = [
     lead: "Para torneos, socios y eventos deportivos, con entrega coordinada el día del evento.",
     bullets: [
       "Cantidades pensadas para el día del torneo o la reunión de socios.",
-      "Entrega coordinada directo en la sede o la cancha.",
-      "Coordinamos las fechas con anticipación para no fallar el día clave.",
+      "Entregamos directamente en la sede o en la cancha.",
+      "Agendamos con anticipación para no fallar el día clave.",
     ],
     ctaLabel: "Coordinar por WhatsApp",
     whatsappMessage:
-      "Hola, ya conversamos sobre pedidos para tu club. Quiero coordinar los detalles.",
+      "¡Hola, El Horno del Pingüino! Ya conversamos sobre pedidos para mi club y quiero coordinar los detalles.",
     media: {
       src: "/b2b-segment-club.webp",
       srcset: "/b2b-segment-club-sm.webp 720w, /b2b-segment-club.webp 1200w",
@@ -92,12 +92,12 @@ export const BUSINESS_SEGMENTS = [
     lead: "Para tu equipo, un cliente importante o un evento corporativo, con presentación cuidada.",
     bullets: [
       "Presentación cuidada para regalar o servir en la oficina.",
-      "Coordinamos la entrega directo en tu oficina o punto de reunión.",
-      "Pedido recurrente si tu equipo lo pide seguido.",
+      "Entregamos directamente en tu oficina o en el punto de reunión.",
+      "Pedidos recurrentes, si tu equipo los quiere seguido.",
     ],
     ctaLabel: "Coordinar por WhatsApp",
     whatsappMessage:
-      "Hola, ya conversamos sobre pedidos para tu empresa. Quiero coordinar los detalles.",
+      "¡Hola, El Horno del Pingüino! Ya conversamos sobre pedidos para mi empresa y quiero coordinar los detalles.",
     media: {
       src: "/b2b-segment-business.webp",
       srcset: "/b2b-segment-business-sm.webp 720w, /b2b-segment-business.webp 1200w",

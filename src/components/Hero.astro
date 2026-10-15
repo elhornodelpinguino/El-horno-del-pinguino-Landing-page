@@ -2,54 +2,19 @@
 import { SITE, whatsappLink } from "~/lib/config";
 
 const name = SITE.name;
-const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
-
-// Desktop nav pill: the 44px height belongs to the links rather than to the
-// container's padding, so the whole row is tappable (WCAG 2.5.8) while the
-// pill keeps its original size. This nav shows from `sm` up, which includes
-// touch tablets, so a mouse-only assumption would be wrong.
+const orderMessage = `¡Hola, ${name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
 ---
 
-<header class="hero-shell relative overflow-hidden pt-6 pb-20 sm:pb-28">
-  <nav class="section relative z-20 flex items-center justify-between">
-    <a href="#" class="group flex items-center" aria-label={`${name} - inicio`}>
-      <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" loading="eager" />
-    </a>
-
-    <div class="hidden items-center gap-7 rounded-full border border-white/70 bg-white/60 px-5 text-sm font-medium text-horno-magentaDeep/80 shadow-card backdrop-blur sm:flex">
-      <a href="#catalogo" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Catálogo</a>
-      <a href="#sabores" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Sabores</a>
-      <a href="/negocios" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Para negocios</a>
-      <a href="#contacto" class="flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-horno-magenta">Contacto</a>
-    </div>
-
-    <a href={whatsappLink(orderMessage)} target="_blank" rel="noopener" data-magnetic class="hidden rounded-full bg-horno-magenta px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep md:inline-flex">
-      Pedir por WhatsApp
-    </a>
-
-    <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-lg p-3 -mr-3 focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 sm:hidden" aria-label="Abrir menú" type="button">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
-
-    <div id="mobile-nav" data-mobile-nav>
-      <a href="#catalogo" class="flex min-h-[44px] items-center" tabindex="0">Catálogo</a>
-      <a href="#sabores" class="flex min-h-[44px] items-center" tabindex="0">Sabores</a>
-      <a href="/negocios" class="flex min-h-[44px] items-center" tabindex="0">Para negocios</a>
-      <a href="#contacto" class="flex min-h-[44px] items-center" tabindex="0">Contacto</a>
-    </div>
-  </nav>
-
-  <div class="section relative z-10 mt-14 grid items-center gap-12 lg:mt-16 lg:grid-cols-[1.03fr_0.97fr]">
+<header class="hero-shell relative overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-28">
+  <div class="section relative z-10 mt-4 grid items-center gap-12 lg:mt-6 lg:grid-cols-[1.03fr_0.97fr]">
     <div class="max-w-2xl">
-      <span data-hero-anim="eyebrow" class="eyebrow rounded-full bg-white/70 px-4 py-2 shadow-card">Hechos a mano en Loja, Ecuador</span>
-      <h1 data-hero-anim="heading" class="mt-4 text-4xl leading-[1.02] text-horno-magentaDeep sm:text-5xl lg:text-6xl">
-        <span class="text-horno-orangeInk">Minitortas y minidonas</span>, hechas a mano.
+      <span data-hero-anim="eyebrow" class="eyebrow rounded-full bg-surface-raised/70 px-4 py-2 shadow-card max-sm:tracking-[0.14em]">Repostería artesanal en Loja</span>
+      <h1 data-hero-anim="heading" class="display-hero mt-4 text-ink-role-brand">
+        <span class="text-ink-role-warm">Tu antojo</span>, a&nbsp;un mensaje de distancia.
       </h1>
       <div data-hero-anim="accent" class="my-6 h-1.5 w-20 rounded-full bg-horno-orange" aria-hidden="true"></div>
-      <p data-hero-anim="copy" class="mb-8 max-w-xl text-lg leading-relaxed text-horno-magentaDeep/80">
-        Frutos rojos, maracuyá y Oreo. Del horno a tu mesa, en Loja. Pides por WhatsApp y coordinamos la entrega.
+      <p data-hero-anim="copy" class="mb-8 max-w-xl text-lg leading-relaxed text-ink-role-brand/90">
+        Minitortas y minidonas de frutos rojos, maracuyá y Oreo. Escríbenos por WhatsApp: te respondemos el mismo día y coordinamos la entrega en Loja.
       </p>
 
       <div data-hero-anim="actions" class="hero-actions">
@@ -61,21 +26,21 @@ const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabor
             </svg>
             Pedir por WhatsApp
           </a>
-          <a href="#sabores" class="btn-secondary">Ver sabores</a>
+          <a href="#sabores" class="btn-secondary">Ver los sabores</a>
         </div>
       </div>
 
-      <ul class="mt-10 flex max-w-xl flex-col gap-3 text-sm font-medium text-horno-magentaDeep/75 sm:flex-row sm:flex-wrap sm:gap-x-6">
+      <ul class="mt-10 flex max-w-xl flex-col gap-3 text-sm font-medium text-ink-role-brand/90 sm:flex-row sm:flex-wrap sm:gap-x-6">
         <li data-hero-anim="badge" class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-ink-role-accent" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
           +120 pedidos entregados
         </li>
         <li data-hero-anim="badge" class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
-          Recién horneado, por encargo
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-ink-role-accent" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
+          Horneado por encargo
         </li>
         <li data-hero-anim="badge" class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-horno-magenta" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 flex-shrink-0 text-ink-role-accent" aria-hidden="true"><path d="M5 13l4 4L19 7" /></svg>
           Entrega coordinada en Loja
         </li>
       </ul>
@@ -85,7 +50,7 @@ const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabor
       <div class="hero-card" aria-hidden="true">
         <div class="hero-card-grid"></div>
         <div class="penguin-sprite" aria-hidden="true"></div>
-        <div class="order-ticket order-ticket-top">Recién horneado</div>
+        <div class="order-ticket order-ticket-top">Sale del horno</div>
         <div class="order-ticket order-ticket-bottom">Porción individual</div>
       </div>
     </div>
@@ -93,6 +58,5 @@ const orderMessage = `¡Hola ${name}! Vi su web y quiero pedir. ¿Me pasan sabor
 </header>
 
 <script>
-  import "~/scripts/mobile-nav.js";
   import "~/scripts/hero-animation.js";
 </script>

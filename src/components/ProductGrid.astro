@@ -12,21 +12,21 @@ const { products } = Astro.props;
 <section id="catalogo" class="catalog-section relative overflow-hidden py-20 sm:py-28">
   <div class="section relative z-10">
     <div class="mb-12 max-w-2xl">
-      <span data-catalog-anim="eyebrow" class="eyebrow">Nuestro catálogo</span>
-      <h2 data-catalog-anim="heading" class="mt-2 text-3xl leading-tight sm:text-4xl">
-        Postres con <span class="text-horno-orangeInk">presentación profesional</span>.
+      <span data-catalog-anim="eyebrow" class="eyebrow">El catálogo</span>
+      <h2 data-catalog-anim="heading" class="display-section mt-2">
+        Para darte un gusto <span class="text-ink-role-warm">o regalar</span>.
       </h2>
-      <p data-catalog-anim="copy" class="mt-4 leading-relaxed text-horno-magentaDeep/75">
-        Cada pedido se coordina por WhatsApp: tamaño, cantidad, fecha y entrega en Loja.
+      <p data-catalog-anim="copy" class="mt-4 leading-relaxed text-ink-role-brand/90">
+        Elige el que se te antoje y lo coordinamos por WhatsApp: cantidad, fecha y entrega en Loja.
       </p>
     </div>
 
     {
       products.length === 0 ? (
-        <div data-catalog-anim="empty" class="rounded-3xl bg-white py-20 text-center shadow-card">
-          <div class="mx-auto mb-4 h-12 w-12 rounded-2xl bg-horno-cream" aria-hidden="true"></div>
-          <p class="font-display text-xl text-horno-magentaDeep">Estamos preparando nuevas creaciones</p>
-          <p class="mx-auto mt-2 max-w-md text-horno-magentaDeep/60">Vuelve pronto o escríbenos por WhatsApp para encargos personalizados.</p>
+        <div data-catalog-anim="empty" class="rounded-3xl bg-surface-raised py-20 text-center shadow-card">
+          <div class="mx-auto mb-4 h-12 w-12 rounded-2xl bg-surface" aria-hidden="true"></div>
+          <p class="font-display text-xl text-ink-role-brand">Estamos horneando el catálogo</p>
+          <p class="mx-auto mt-2 max-w-md text-ink-role-brand/90">Mientras tanto, escríbenos por WhatsApp y te contamos qué tenemos disponible.</p>
         </div>
       ) : (
         <div class="grid gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">

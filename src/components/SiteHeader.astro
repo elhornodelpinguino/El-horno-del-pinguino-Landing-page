@@ -1,0 +1,116 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+
+// One floating bar for the whole site, rendered by BaseLayout. It used to live
+// inside the home hero, so it scrolled away and never existed on /negocios.
+//
+// Section links are home anchors; off the home page they need the "/" prefix
+// or "#catalogo" would look for a section that page does not have.
+//
+// The 44px height belongs to the links rather than to the pill's padding, so
+// the whole row is tappable (WCAG 2.5.8). The pill shows from `lg` up, which
+// includes touch tablets, so a mouse-only assumption would be wrong. Six
+// links do not fit beside the logo below `lg`, and the WhatsApp pill joins
+// them only from `xl`; the sticky WhatsApp button covers the gap.
+//
+// Links follow the order the page renders its sections, so the bar reads as
+// a table of contents rather than a random set of jumps. /negocios has its
+// own sections and its own CTA; every other page uses the home links. On
+// both sectioned pages the link of the section on screen gets
+// aria-current="location".
+//
+// The mobile panel sits outside `.site-header-bar` on purpose: the bar uses
+// backdrop-filter, which would turn it into the containing block for the
+// panel's `position: fixed` and shrink the full-screen menu to the bar.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isHome = path === "/";
+const isBusiness = path === "/negocios";
+const sectionBase = isHome ? "" : "/";
+const homeHref = isHome ? "#" : "/";
+const orderMessage = `¡Hola, ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
+const quoteMessage = `¡Hola, ${SITE.name}! Vi su web y quiero cotizar pedidos por volumen para mi negocio.`;
+
+const homeLinks = [
+  { label: "Sabores", href: `${sectionBase}#sabores`, section: "sabores" },
+  { label: "Catálogo", href: `${sectionBase}#catalogo`, section: "catalogo" },
+  { label: "Cómo pedir", href: `${sectionBase}#como-pedir`, section: "como-pedir" },
+  { label: "Preguntas", href: `${sectionBase}#preguntas`, section: "preguntas" },
+  { label: "Para negocios", href: "/negocios", section: "negocios" },
+  { label: "Contacto", href: `${sectionBase}#contacto`, section: "contacto" },
+];
+
+const businessLinks = [
+  { label: "Cómo trabajamos", href: "#como-trabajamos", section: "como-trabajamos" },
+  { label: "Tu negocio", href: "#tu-negocio", section: "tu-negocio" },
+  { label: "Trabajos", href: "#trabajos", section: "trabajos" },
+  { label: "Productos", href: "#productos", section: "productos" },
+  { label: "Precio", href: "#precio", section: "precio" },
+  { label: "Para casa", href: "/", section: undefined },
+];
+
+const links = isBusiness ? businessLinks : homeLinks;
+const sectioned = isHome || isBusiness;
+const cta = isBusiness
+  ? { label: "Cotizar por WhatsApp", href: whatsappLink(quoteMessage), context: "business-intro" }
+  : { label: "Pedir por WhatsApp", href: whatsappLink(orderMessage), context: undefined };
+---
+
+<header class="site-header" data-site-header>
+  <nav class="site-header-bar" aria-label="Principal">
+    <a href={homeHref} class="group flex shrink-0 items-center" aria-label={`${SITE.name} - inicio`}>
+      <img src="/logo-horizontal.svg" alt="El Horno del Pingüino" class="logo-on-light h-8 w-auto object-contain max-[379px]:h-[22px] transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="eager" />
+      <!-- Same logo with the magenta lifted for the dark bar; CSS shows one. -->
+      <img src="/logo-horizontal-dark.svg" alt="El Horno del Pingüino" class="logo-on-dark h-8 w-auto object-contain max-[379px]:h-[22px] transition-transform duration-300 group-hover:scale-105 sm:h-10" width="160" height="40" loading="lazy" />
+    </a>
+
+    <div class="hidden items-center gap-4 whitespace-nowrap text-sm font-semibold text-ink-role-brand lg:flex xl:gap-6 2xl:gap-8">
+      {links.map((link) => (
+        <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="nav-link flex min-h-[44px] items-center transition hover:-translate-y-0.5 hover:text-ink-role-accent">{link.label}</a>
+      ))}
+    </div>
+
+    <div class="flex shrink-0 items-center sm:gap-2">
+      <!-- Sun/moon switch. The label names the action; theme.js keeps it in
+           sync. The moon shows in light mode, the sun in dark mode. -->
+      <button type="button" data-theme-toggle class="theme-toggle" aria-label="Activar modo oscuro">
+        <svg class="theme-toggle-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" /></svg>
+        <svg class="theme-toggle-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" /><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" /></svg>
+      </button>
+      <a href={cta.href} target="_blank" rel="noopener" data-whatsapp-context={cta.context} data-magnetic class="hidden shrink-0 rounded-full bg-horno-magenta px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep xl:inline-flex">
+        {cta.label}
+      </a>
+
+      <button data-hamburger aria-controls="mobile-nav" class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-full p-3 text-ink-role-brand focus:outline-none focus:ring-2 focus:ring-horno-magenta focus:ring-offset-2 lg:hidden" aria-label="Abrir menú" type="button">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" data-mobile-nav>
+    {links.map((link) => (
+      <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="flex min-h-[44px] items-center" tabindex="0">{link.label}</a>
+    ))}
+  </div>
+</header>
+
+<script>
+  import "~/scripts/mobile-nav.js";
+  import { initScrollspy } from "~/scripts/nav-scrollspy.js";
+  import { initThemeToggle } from "~/scripts/theme.js";
+
+  initThemeToggle();
+
+  // Home and /negocios only: other pages render no data-nav-section.
+  initScrollspy();
+
+  // Lift the bar once the page moves: a stronger shadow and more opaque glass,
+  // so it reads over photos and colour bands instead of melting into the hero.
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+  if (header) {
+    const update = () => header.toggleAttribute("data-scrolled", window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+  }
+</script>

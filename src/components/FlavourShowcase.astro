@@ -32,24 +32,26 @@ const flavours = [
 ];
 
 const orderMessage = (flavour: string) =>
-  `¡Hola ${SITE.name}! Quiero consultar el sabor ${flavour}. ¿Me cuentan formatos, precios y entrega en Loja?`;
+  `¡Hola, ${SITE.name}! Se me antojó el sabor ${flavour}. ¿Me cuentan tamaños, precios y entrega en Loja?`;
 ---
 
 <section id="sabores" data-flavour-showcase class="flavour-showcase flow-section relative overflow-hidden py-16 sm:py-24">
   <div class="section relative z-10">
     <div class="flavour-showcase-header">
-      <div data-flavour-anim="intro" class="max-w-2xl">
-        <span class="eyebrow">Sabores confirmados</span>
-        <h2 id="flavour-showcase-title" class="mt-2 text-3xl leading-tight text-horno-magentaDeep sm:text-4xl">
+      <div data-flavour-anim="intro" class="max-w-3xl">
+        <span class="eyebrow">Los favoritos de la casa</span>
+        <h2 id="flavour-showcase-title" class="display-section mt-2 text-ink-role-brand">
           Tres que nunca fallan.
         </h2>
-        <p id="flavour-gallery-hint" class="mt-4 max-w-2xl leading-relaxed text-horno-magentaDeep/75">
-          Conoce los tres sabores y consulta tu pedido por WhatsApp. Desliza para verlos o usa las
-          flechas para avanzar.
+        <p id="flavour-gallery-hint" class="mx-auto mt-4 max-w-2xl leading-relaxed text-ink-role-brand/90">
+          Desliza o usa las flechas, elige el tuyo y pídelo por WhatsApp.
         </p>
       </div>
 
-      <div data-flavour-anim="controls" data-flavour-controls hidden class="flex shrink-0 gap-2" aria-label="Controles de sabores">
+    </div>
+
+    <div class="flavour-gallery-shell mt-10">
+      <div data-flavour-anim="controls" data-flavour-controls hidden class="flavour-showcase-controls" aria-label="Controles de sabores">
         <button type="button" data-flavour-prev class="flavour-showcase-control" aria-label="Ver sabor anterior" aria-controls="flavour-gallery">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
         </button>
@@ -57,9 +59,6 @@ const orderMessage = (flavour: string) =>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
         </button>
       </div>
-    </div>
-
-    <div class="flavour-gallery-shell mt-10">
       <div
         id="flavour-gallery"
         class="flavour-coverflow-viewport"
@@ -94,9 +93,9 @@ const orderMessage = (flavour: string) =>
               </figure>
               <div class="flavour-card-body">
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-horno-orangeInk">Sabor</p>
-                  <h3 id={`flavour-${item.slug}`} class="mt-2 text-2xl text-horno-magentaDeep">{item.title}</h3>
-                  <p class="mt-2 text-sm leading-relaxed text-horno-ink/75">{item.copy}</p>
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-role-warm">Sabor</p>
+                  <h3 id={`flavour-${item.slug}`} class="mt-2 text-2xl text-ink-role-brand">{item.title}</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-role/75">{item.copy}</p>
                 </div>
                 <a
                   href={whatsappLink(orderMessage(item.title))}
@@ -105,7 +104,7 @@ const orderMessage = (flavour: string) =>
                   class="flavour-card-cta"
                   aria-label={`Consultar ${item.title} por WhatsApp`}
                 >
-                  Consultar por WhatsApp
+                  Pedir este sabor
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>
@@ -114,7 +113,7 @@ const orderMessage = (flavour: string) =>
         </div>
       </div>
 
-      <p data-flavour-status class="mt-3 text-right text-xs font-medium text-horno-magentaDeep/65" aria-live="polite" aria-atomic="true">
+      <p data-flavour-status class="mt-3 text-center text-xs font-medium text-ink-role-brand/90" aria-live="polite" aria-atomic="true">
         Sabor 1 de {flavours.length}: {flavours[0].title}
       </p>
     </div>

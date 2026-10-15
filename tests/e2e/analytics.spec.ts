@@ -28,7 +28,7 @@ test.describe("commercial analytics", () => {
     const requests = await stubPixelEndpoint(page);
     await page.goto("/");
     const consumerLink = page.locator('a[href*="wa.me"]').first();
-    const businessLink = page.getByRole("link", { name: /pide cotización directo por WhatsApp/i });
+    const businessLink = page.getByRole("link", { name: /cotiza directamente por WhatsApp/i });
     await consumerLink.dispatchEvent("click");
     await businessLink.dispatchEvent("click");
     await expect.poll(() => requests).toHaveLength(3);
@@ -64,7 +64,7 @@ test.describe("commercial analytics", () => {
   test("keeps the delegated listener to one conversion for one activation", async ({ page }) => {
     const requests = await stubPixelEndpoint(page);
     await page.goto("/");
-    const businessLink = page.getByRole("link", { name: /pide cotización directo por WhatsApp/i });
+    const businessLink = page.getByRole("link", { name: /cotiza directamente por WhatsApp/i });
     await businessLink.dispatchEvent("click");
     await expect.poll(() => requests).toHaveLength(2);
     expect(requests.filter(({ url }) => new URL(url).searchParams.has("e"))).toHaveLength(1);

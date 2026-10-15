@@ -36,10 +36,10 @@ const useCases = [
   <div class="section relative z-10">
     <div class="max-w-2xl">
       <h2 data-business-anim="heading" id="business-heading" class="text-3xl leading-tight sm:text-4xl">
-        <span class="text-horno-magentaDeep">Hecho para</span>
-        <span class="text-horno-orangeInk">tu negocio.</span>
+        <span class="text-ink-role-brand">Hecho para</span>
+        <span class="text-ink-role-warm">tu negocio.</span>
       </h2>
-      <p data-business-anim="copy" class="mt-4 leading-relaxed text-horno-magentaDeep/75">
+      <p data-business-anim="copy" class="mt-4 leading-relaxed text-ink-role-brand/75">
         Cotizamos por cantidad, fecha y entrega en Loja. Respuesta el mismo día.
       </p>
     </div>
@@ -53,10 +53,10 @@ const useCases = [
         >
           <div class:list={["business-card-penguin", item.penguinClass]} aria-hidden="true"></div>
           <h3>{item.title}</h3>
-          <p class:list={["mt-2 text-sm leading-relaxed", item.inverted ? "text-horno-cream/85" : "text-horno-ink/70"]}>
+          <p class:list={["mt-2 text-sm leading-relaxed", item.inverted ? "text-horno-cream/85" : "text-ink-role/70"]}>
             {item.copy}
           </p>
-          <ul class:list={["mt-4 space-y-2", item.inverted ? "text-horno-cream/90" : "text-horno-ink/80"]}>
+          <ul class:list={["mt-4 space-y-2", item.inverted ? "text-horno-cream/90" : "text-ink-role/80"]}>
             {item.bullets.map((bullet) => (
               <li class="business-bullet">{bullet}</li>
             ))}

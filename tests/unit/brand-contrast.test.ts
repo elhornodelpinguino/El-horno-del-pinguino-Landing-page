@@ -69,6 +69,17 @@ describe("brand contrast tokens", () => {
     }
   });
 
+  // The trust stats band is painted in the brand ink (#2d1a1a), not a magenta
+  // band. The light-surface ink scored 2.2:1 there, so its numerals must use
+  // the dark-surface ink instead.
+  it("paints the trust band numerals with the dark-surface ink", () => {
+    const trust = readFileSync(path.resolve(__dirname, "../../src/components/Trust.astro"), "utf8");
+
+    expect(trust).not.toMatch(/text-horno-orangeInk/);
+    expect(trust).toMatch(/text-horno-orangeOnDark/);
+    expect(contrastRatio(brand.orangeOnDark, brand.ink)).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+
   it("keeps the brand fill orange at its original value", () => {
     // Changing this would repaint buttons, borders and the penguin sprite.
     // The contrast fix is a text-only change by construction.

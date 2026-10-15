@@ -11,23 +11,23 @@ import { localBusinessSchema } from "~/lib/schema";
 // No `~/lib/api` import anywhere in this page — /negocios must render
 // identically with the backend asleep (design: Data Flow).
 
-const introMessage = `¡Hola ${SITE.name}! Ya conversamos. Quiero contarte qué necesito para mi negocio.`;
-const closingMessage = `¡Hola ${SITE.name}! Ya nos conocimos. Te cuento qué necesito para armar la propuesta.`;
+const introMessage = `¡Hola, ${SITE.name}! Ya conversamos y quiero contarles qué necesito para mi negocio.`;
+const closingMessage = `¡Hola, ${SITE.name}! Les cuento qué necesito para que me armen la propuesta.`;
 const introLink = whatsappLink(introMessage);
 const closingLink = whatsappLink(closingMessage);
 
 const title = `Pedidos para negocios en Loja — ${SITE.name}`;
 const description =
-  "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Ya nos conocimos: cuéntanos qué necesitas por WhatsApp.";
-const canonicalUrl = "https://elhornodelpinguino.com/negocios";
+  "Postres artesanales por volumen para cafeterías, colegios, clubes y empresas en Loja. Cuéntanos qué necesitas y te armamos una propuesta por WhatsApp.";
+const canonicalUrl = "https://elhornodelpinguino.com/negocios/";
 
 const jsonLd: Record<string, unknown> = localBusinessSchema({ description });
 
 const steps = [
-  { title: "Conversamos tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y preferencias de sabor." },
+  { title: "Hablamos de tu pedido", copy: "Definimos qué necesitas: tipo de negocio, ocasión y sabores preferidos." },
   { title: "Acordamos cantidad y fecha", copy: "Fijamos cuánto necesitas y para cuándo, según tu evento o tu rotación." },
   { title: "Horneamos por encargo", copy: "Preparamos tu pedido fresco, en el formato acordado, listo para entregar." },
-  { title: "Coordinamos la entrega", copy: "Confirmamos punto y hora de entrega directo contigo, por WhatsApp." },
+  { title: "Coordinamos la entrega", copy: "Confirmamos contigo el punto y la hora de entrega por WhatsApp." },
 ];
 ---
 
@@ -39,7 +39,7 @@ const steps = [
 >
   <main class="negocios">
     <!-- §1 Identity header + §2 Proof line: one shared entrance root -->
-    <header class="negocios-hero relative py-16 sm:py-24">
+    <header class="on-brand negocios-hero relative pt-32 pb-16 sm:pt-40 sm:pb-24">
       <img
         data-negocios-anim="hero-image"
         class="negocios-hero-media"
@@ -61,16 +61,16 @@ const steps = [
           height="40"
           loading="eager"
         />
-        <span data-negocios-anim="eyebrow" class="n-eyebrow mt-8 text-horno-magenta">
+        <span data-negocios-anim="eyebrow" class="n-eyebrow mt-8 text-ink-role-accent">
           Para negocios en Loja
         </span>
-        <h1 data-negocios-anim="heading" class="n-display mt-5 text-horno-magentaDeep">
+        <h1 data-negocios-anim="heading" class="n-display mt-5 text-ink-role-brand">
           Postres artesanales para tu vitrina, tu evento y tu equipo.
         </h1>
         <div data-negocios-anim="rule" class="negocios-rule mx-auto my-8" aria-hidden="true"></div>
-        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-horno-ink/75">
-          Ya nos conocimos. Aquí tienes el detalle de cómo trabajamos con cada tipo de negocio,
-          para que decidas con calma y confirmes por WhatsApp cuando quieras.
+        <p data-negocios-anim="lead" class="mx-auto max-w-[54ch] text-lg leading-relaxed text-ink-role/90">
+          Gracias por la conversación. Aquí tienes, por escrito, cómo trabajamos con cada tipo de
+          negocio, para que lo revises con calma y confirmes por WhatsApp cuando quieras.
         </p>
         <div data-negocios-anim="cta" class="mt-10">
           <a href={introLink} target="_blank" rel="noopener" data-whatsapp-context="business-intro" class="n-cta">
@@ -89,13 +89,14 @@ const steps = [
         thing a buyer registers after the headline. The string "+120 pedidos
         entregados" stays contiguous in the text flow so the copy guard and the
         proof e2e assertion still read it as one phrase. */}
-    <section class="n-band-magenta py-14 sm:py-20" aria-label="Nuestros números">
+    <section class="on-brand n-band-magenta py-14 sm:py-20" aria-label="Nuestros números">
       <div class="section">
         <div data-stat="proof" class="n-stat-grid mx-auto max-w-4xl">
           <div data-negocios-anim="stat">
             <span class="n-stat-figure">+120</span>
             <span class="n-stat-label">pedidos entregados</span>
           </div>
+          <div class="negocios-stat-penguin" aria-hidden="true"></div>
           <div data-negocios-anim="stat">
             <span class="n-stat-figure">3</span>
             <span class="n-stat-label">años horneando en Loja</span>
@@ -105,11 +106,11 @@ const steps = [
     </section>
 
     <!-- §3 How we work — the only orange on this page lives in the step numerals -->
-    <section aria-labelledby="negocios-how-heading" class="flow-section py-16 sm:py-24">
+    <section id="como-trabajamos" aria-labelledby="negocios-how-heading" class="flow-section py-16 sm:py-24">
       <div class="section">
-        <span class="n-eyebrow text-horno-magenta">Cómo trabajamos</span>
-        <h2 id="negocios-how-heading" class="n-h2 mt-3 max-w-[18ch] text-horno-magentaDeep">
-          Del pedido a tu entrega, en 4 pasos
+        <span class="n-eyebrow text-ink-role-accent">Cómo trabajamos</span>
+        <h2 id="negocios-how-heading" class="n-h2 mt-3 max-w-[18ch] text-ink-role-brand">
+          Del primer mensaje a la entrega, en 4 pasos
         </h2>
       </div>
       <ol class="section mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -118,8 +119,8 @@ const steps = [
             <li data-negocios-anim="step" class:list={["negocios-step border-t border-horno-magenta/15 pt-5", BUSINESS_STEP_EVIDENCE.find((item) => item.step === index + 1) && "negocios-step--evidence"]}>
               <span class="negocios-step-number" aria-hidden="true">{index + 1}</span>
               <div class="negocios-step-copy">
-                <h3 class="mt-2 font-display text-lg text-horno-magentaDeep">{step.title}</h3>
-                <p class="mt-2 leading-relaxed text-horno-ink/75">{step.copy}</p>
+                <h3 class="mt-2 font-display text-lg text-ink-role-brand">{step.title}</h3>
+                <p class="mt-2 leading-relaxed text-ink-role/90">{step.copy}</p>
               </div>
               {BUSINESS_STEP_EVIDENCE.filter((item) => item.step === index + 1).map((evidence) => (
                 <figure class="negocios-step-media">
@@ -143,11 +144,11 @@ const steps = [
     </section>
 
     <!-- §4 Segment ledger — the signature element: one continuous ruled table -->
-    <section aria-labelledby="negocios-ledger-heading" class="flow-section py-16 sm:py-24">
+    <section id="tu-negocio" aria-labelledby="negocios-ledger-heading" class="flow-section py-16 sm:py-24">
       <div class="section">
-        <span class="n-eyebrow text-horno-magenta">Elige tu tipo de negocio</span>
-        <h2 id="negocios-ledger-heading" class="n-h2 mt-3 max-w-[16ch] text-horno-magentaDeep">
-          Un plan por tipo de negocio
+        <span class="n-eyebrow text-ink-role-accent">Elige tu tipo de negocio</span>
+        <h2 id="negocios-ledger-heading" class="n-h2 mt-3 max-w-[16ch] text-ink-role-brand">
+          Una propuesta para cada negocio
         </h2>
       </div>
       <div class="section negocios-ledger mt-12">
@@ -162,26 +163,27 @@ const steps = [
     <BusinessProductShowcase />
 
     <!-- §7 Volume framing — price scales with volume/frequency, zero figures -->
-    <section aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
+    <section id="precio" aria-labelledby="negocios-volume-heading" class="py-16 sm:py-24">
       <div class="section grid gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:items-end">
         <div>
-          <span class="n-eyebrow text-horno-magenta">Sobre el precio</span>
-          <h2 id="negocios-volume-heading" class="n-h2 mt-3 text-horno-magentaDeep">
+          <span class="n-eyebrow text-ink-role-accent">Sobre el precio</span>
+          <h2 id="negocios-volume-heading" class="n-h2 mt-3 text-ink-role-brand">
             El precio se ajusta a tu volumen
           </h2>
         </div>
-        <p class="max-w-[46ch] text-lg leading-relaxed text-horno-ink/75">
-          El precio por unidad mejora según el volumen y la frecuencia. Lo conversamos con tu
-          cantidad y tus fechas.
+        <p class="max-w-[46ch] text-lg leading-relaxed text-ink-role/90">
+          Mientras más pides y más seguido, mejor es el precio por unidad. Lo calculamos con tus
+          cantidades y tus fechas.
         </p>
       </div>
     </section>
 
     <!-- §8 Closing CTA -->
-    <section class="negocios-closing py-20 sm:py-28">
+    <section class="on-brand negocios-closing py-20 sm:py-28">
       <div class="section mx-auto max-w-3xl text-center">
+        <div class="penguin-bob negocios-closing-penguin" aria-hidden="true"></div>
         <h2 data-negocios-anim="closing" class="n-h2 text-horno-cream">
-          Ya nos conocimos. Cuéntanos qué necesitas y te armamos la propuesta.
+          Cuéntanos cantidades y fechas, y te armamos la propuesta.
         </h2>
         <div data-negocios-anim="closing" class="mt-10">
             <a href={closingLink} target="_blank" rel="noopener" data-whatsapp-context="business-closing" class="n-cta">

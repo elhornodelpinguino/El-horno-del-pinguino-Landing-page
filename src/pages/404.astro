@@ -7,7 +7,7 @@ import { SITE, whatsappLink } from "~/lib/config";
 const title = `Página no encontrada — ${SITE.name}`;
 const description = "Esta página no existe, pero el horno sigue encendido. Volvé al inicio o pedí por WhatsApp.";
 
-const homeMessage = `¡Hola ${SITE.name}! Llegué a una página que no existe, pero quiero pedir postres.`;
+const homeMessage = `¡Hola, ${SITE.name}! Llegué a una página que no existe, pero quiero pedir postres.`;
 ---
 
 <BaseLayout title={title} description={description} canonicalUrl="https://elhornodelpinguino.com/404">
@@ -21,12 +21,12 @@ const homeMessage = `¡Hola ${SITE.name}! Llegué a una página que no existe, p
         class="mx-auto h-40 w-40 object-contain sm:h-52 sm:w-52"
         loading="eager"
       />
-      <p class="mt-8 text-sm font-semibold uppercase tracking-[0.3em] text-horno-orangeInk">Error 404</p>
-      <h1 class="mt-3 font-display text-4xl leading-tight text-horno-magentaDeep sm:text-5xl">
+      <p class="mt-8 text-sm font-semibold uppercase tracking-[0.3em] text-ink-role-warm">Error 404</p>
+      <h1 class="mt-3 font-display text-4xl leading-tight text-ink-role-brand sm:text-5xl">
         Se nos quemó esta página.
       </h1>
-      <p class="mt-5 leading-relaxed text-horno-magentaDeep/75">
-        La URL que buscás no existe o cambió. Pero el horno sigue encendido y los postres siguen listos.
+      <p class="mt-5 leading-relaxed text-ink-role-brand/75">
+        La URL que buscas no existe o cambió. Pero el horno sigue encendido y los postres siguen listos.
       </p>
       <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <a href="/" class="btn-primary">Volver al inicio</a>

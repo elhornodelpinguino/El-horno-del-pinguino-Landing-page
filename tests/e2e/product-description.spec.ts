@@ -88,7 +88,10 @@ test.describe("Product description", () => {
       // motion disables both the tilt and the reveal (see catalog-tilt.js:13
       // and catalog-animation.js:8), which makes the geometry deterministic
       // instead of merely widening the tolerance until CI stops complaining.
-      test.use({ reducedMotion: "reduce" });
+      // Through contextOptions: Playwright 1.61 has no top-level `reducedMotion`
+      // fixture, so `test.use({ reducedMotion })` was silently ignored and the
+      // tilt stayed on (failing intermittently at 2.2-3.6px).
+      test.use({ contextOptions: { reducedMotion: "reduce" } });
 
       test("covers the image rather than growing the card body", async ({ page }) => {
         await page.goto(FIXTURE);
