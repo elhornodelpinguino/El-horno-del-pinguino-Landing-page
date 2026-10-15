@@ -29,6 +29,11 @@ export function buildProductsUrl(base: string): string {
   return `${base.replace(/\/$/, "")}/api/public/products?page=1&limit=100`;
 }
 
+/** Backend host root the build reads from (PUBLIC_API_BASE_URL or the default). */
+export function getApiBaseUrl(): string {
+  return BASE_URL;
+}
+
 export class ApiError extends Error {
   retries: number;
   cause: unknown;
@@ -68,11 +73,18 @@ export async function withRetry<T>(
   );
 }
 
-async function request<T>(url: string): Promise<T> {
+interface RequestOptions {
+  retry?: RetryOptions;
+  /** Per-attempt abort timeout; omitted keeps the unbounded legacy behaviour. */
+  timeoutMs?: number;
+}
+
+export async function request<T>(url: string, opts: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json" };
 
   return withRetry(async () => {
-    const res = await fetch(url, { headers });
+    const signal = opts.timeoutMs ? AbortSignal.timeout(opts.timeoutMs) : undefined;
+    const res = await fetch(url, signal ? { headers, signal } : { headers });
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       throw new Error(
@@ -80,7 +92,7 @@ async function request<T>(url: string): Promise<T> {
       );
     }
     return (await res.json()) as T;
-  });
+  }, opts.retry);
 }
 
 import fallbackRaw from "../data/fallback.json";

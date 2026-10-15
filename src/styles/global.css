@@ -1078,6 +1078,55 @@ html[data-theme="dark"] .on-brand {
   line-height: 1.7;
 }
 
+/* Admin-managed announcement. Token-driven so dark mode follows the theme;
+   rendered only when the admin has a visible banner. */
+.announcement-band {
+  padding: 1.25rem 0;
+  background: var(--surface-soft);
+}
+
+.announcement-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(168, 20, 82, 0.14);
+  border-radius: 1.25rem;
+  background: var(--surface-raised);
+  box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.12);
+}
+
+.announcement-card + .announcement-card {
+  margin-top: 0.75rem;
+}
+
+.announcement-copy {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.announcement-title {
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  font-size: var(--type-lg);
+  color: var(--ink-brand);
+  overflow-wrap: anywhere;
+}
+
+.announcement-body {
+  margin-top: 0.25rem;
+  font-size: var(--type-sm);
+  line-height: 1.6;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.announcement-cta {
+  flex: 0 0 auto;
+}
+
 /* ============================================
    Layout helpers
    ============================================ */

@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import { SITE, whatsappLink } from "~/lib/config";
+import { loadSiteContent } from "~/lib/site-content";
 
-// Backend-independent on purpose: a 404 must render even if the API is asleep.
+// A 404 must render even if the API is asleep: `loadSiteContent` never
+// throws and falls back to the built-in site values.
+await loadSiteContent();
 
 const title = `Página no encontrada — ${SITE.name}`;
 const description = "Esta página no existe, pero el horno sigue encendido. Volvé al inicio o pedí por WhatsApp.";

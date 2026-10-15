@@ -25,6 +25,25 @@ Pages serves the prebuilt `dist/` directory.
     These `PUBLIC_*` vars are inlined at build time by Astro/Vite — they must
     be set before every build, not just once at runtime.
 
+## Admin-managed content (site settings, FAQs, banners)
+
+At build time the landing reads `GET {PUBLIC_API_BASE_URL}/api/public/site` and
+`/api/public/content` (retry + 10s timeout per attempt):
+
+- WhatsApp number, Instagram/TikTok handles and location come from the admin.
+  Precedence per field: valid admin value > `PUBLIC_WHATSAPP_NUMBER` /
+  `PUBLIC_INSTAGRAM_HANDLE` / `PUBLIC_TIKTOK_HANDLE` > built-in default. An
+  invalid admin value (WhatsApp not 8-15 digits, handle with `@`/spaces, empty
+  location) falls back for that field only.
+- FAQs render from the admin; with zero FAQs (or an API failure) the built-in
+  list in `src/data/faq-fallback.ts` is used.
+- Visible banners render as an announcement under the hero; none = nothing.
+- Each endpoint fails independently and the build never fails because of
+  them; look for `[site-content]` warnings in the build log.
+
+The admin fires the deploy hook after each save, so edits go live after a
+rebuild.
+
 ## Privacy-safe analytics activation
 
 Analytics is inert when either analytics variable is absent or invalid. To

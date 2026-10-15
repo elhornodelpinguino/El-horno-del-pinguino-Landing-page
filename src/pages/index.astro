@@ -10,6 +10,7 @@ import HowToOrder from "~/components/HowToOrder.astro";
 
 import Trust from "~/components/Trust.astro";
 import FAQ from "~/components/FAQ.astro";
+import AnnouncementBanner from "~/components/AnnouncementBanner.astro";
 import FinalCTA from "~/components/FinalCTA.astro";
 import Contact from "~/components/Contact.astro";
 import StickyWhatsApp from "~/components/StickyWhatsApp.astro";
@@ -17,7 +18,13 @@ import ErrorBoundary from "~/components/ErrorBoundary.astro";
 import { getProducts, loadFallback } from "~/lib/api";
 import type { Product } from "~/lib/api";
 import { SITE } from "~/lib/config";
+import { loadSiteContent, resolveFaqs } from "~/lib/site-content";
 import { localBusinessSchema } from "~/lib/schema";
+
+// Must run before anything reads SITE: applies the admin's site settings.
+// Never throws — a failed endpoint falls back to today's values.
+const { content } = await loadSiteContent();
+const faqs = resolveFaqs(content.faqs);
 
 let products: Product[] = [];
 let hasProductsError = false;
@@ -51,6 +58,7 @@ if (products.length > 0) {
 >
   <main>
     <Hero />
+    <AnnouncementBanner banners={content.banners} />
     <Marquee />
     <FlavourShowcase />
     <ErrorBoundary hasError={hasProductsError} message="No pudimos cargar los productos ahora. Escríbenos y te contamos lo que tenemos.">
@@ -59,7 +67,7 @@ if (products.length > 0) {
     <Statement />
     <Trust />
     <HowToOrder />
-    <FAQ />
+    <FAQ faqs={faqs} />
     <BusinessBridge />
     <FinalCTA />
     <Contact />
