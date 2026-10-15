@@ -3,6 +3,7 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 import BusinessEditorialGallery from "~/components/BusinessEditorialGallery.astro";
 import BusinessProductShowcase from "~/components/BusinessProductShowcase.astro";
 import BusinessSegmentRow from "~/components/BusinessSegmentRow.astro";
+import Contact from "~/components/Contact.astro";
 import { BUSINESS_STEP_EVIDENCE } from "~/lib/business-media";
 import { BUSINESS_SEGMENTS } from "~/lib/business-segments";
 import { SITE, whatsappLink } from "~/lib/config";
@@ -199,6 +200,7 @@ const steps = [
       </div>
     </section>
   </main>
+  <Contact whatsappContext="business-closing" />
 
   <script>
     import "~/scripts/negocios-animation.js";

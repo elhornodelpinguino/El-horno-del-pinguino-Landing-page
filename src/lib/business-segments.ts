@@ -38,7 +38,7 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/b2b-segment-cafeteria.webp",
       srcset: "/b2b-segment-cafeteria-sm.webp 720w, /b2b-segment-cafeteria.webp 1200w",
-      sizes: "(min-width: 768px) 28vw, 100vw",
+      sizes: "(min-width: 768px) 28vw, calc(100vw - 40px)",
       alt: "Caja abierta con minidonas decoradas y una bebida al costado.",
       width: 1200,
       height: 900,
@@ -59,7 +59,7 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/b2b-segment-school.webp",
       srcset: "/b2b-segment-school-sm.webp 720w, /b2b-segment-school.webp 1200w",
-      sizes: "(min-width: 768px) 28vw, 100vw",
+      sizes: "(min-width: 768px) 28vw, calc(100vw - 40px)",
       alt: "Varios vasos transparentes con minidonas decoradas en exhibición.",
       width: 1200,
       height: 900,
@@ -80,7 +80,7 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/b2b-segment-club.webp",
       srcset: "/b2b-segment-club-sm.webp 720w, /b2b-segment-club.webp 1200w",
-      sizes: "(min-width: 768px) 28vw, 100vw",
+      sizes: "(min-width: 768px) 28vw, calc(100vw - 40px)",
       alt: "Varias cajas abiertas con minidonas decoradas en tonos amarillos y negros.",
       width: 1200,
       height: 900,
@@ -101,7 +101,7 @@ export const BUSINESS_SEGMENTS = [
     media: {
       src: "/b2b-segment-business.webp",
       srcset: "/b2b-segment-business-sm.webp 720w, /b2b-segment-business.webp 1200w",
-      sizes: "(min-width: 768px) 28vw, 100vw",
+      sizes: "(min-width: 768px) 28vw, calc(100vw - 40px)",
       alt: "Minidonas decoradas en azul y blanco dentro de una caja.",
       width: 1200,
       height: 900,

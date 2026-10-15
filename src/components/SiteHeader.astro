@@ -35,7 +35,7 @@ const homeLinks = [
   { label: "Catálogo", href: `${sectionBase}#catalogo`, section: "catalogo" },
   { label: "Cómo pedir", href: `${sectionBase}#como-pedir`, section: "como-pedir" },
   { label: "Preguntas", href: `${sectionBase}#preguntas`, section: "preguntas" },
-  { label: "Para negocios", href: "/negocios", section: "negocios" },
+  { label: "Para negocios", href: "/negocios/", section: "negocios" },
   { label: "Contacto", href: `${sectionBase}#contacto`, section: "contacto" },
 ];
 
@@ -52,7 +52,7 @@ const links = isBusiness ? businessLinks : homeLinks;
 const sectioned = isHome || isBusiness;
 const cta = isBusiness
   ? { label: "Cotizar por WhatsApp", href: whatsappLink(quoteMessage), context: "business-intro" }
-  : { label: "Pedir por WhatsApp", href: whatsappLink(orderMessage), context: undefined };
+  : { label: "Pedir por WhatsApp", href: whatsappLink(orderMessage), context: "consumer" };
 ---
 
 <header class="site-header" data-site-header>
@@ -88,9 +88,9 @@ const cta = isBusiness
     </div>
   </nav>
 
-  <div id="mobile-nav" data-mobile-nav>
+  <div id="mobile-nav" data-mobile-nav inert>
     {links.map((link) => (
-      <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="flex min-h-[44px] items-center" tabindex="0">{link.label}</a>
+      <a href={link.href} data-nav-section={sectioned ? link.section : undefined} class="flex min-h-[44px] items-center">{link.label}</a>
     ))}
   </div>
 </header>

@@ -24,6 +24,7 @@ const { banners = [] } = Astro.props;
               href={whatsappLink(`¡Hola, ${SITE.name}! Vi el anuncio "${banner.title}" en su web y quiero más información.`)}
               target="_blank"
               rel="noopener"
+              data-whatsapp-context="consumer"
               class="btn-primary announcement-cta"
             >
               {banner.ctaLabel}

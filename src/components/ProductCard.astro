@@ -1,6 +1,7 @@
 ---
 import type { Product } from "~/lib/api";
 import { formatPrice } from "~/lib/api";
+import { cloudinaryImage } from "~/lib/cloudinary";
 import { whatsappLink } from "~/lib/config";
 
 interface Props {
@@ -8,6 +9,13 @@ interface Props {
 }
 
 const { product } = Astro.props;
+
+// Cards render between ~290 and ~420 CSS px wide (4:5 box), so a handful of
+// widths covers every viewport and density. The raw upload is 3024x4032.
+const PHOTO_WIDTHS = [360, 480, 640, 800, 960];
+const PHOTO_SIZES =
+  "(min-width: 1536px) 419px, (min-width: 1280px) 376px, (min-width: 1024px) calc((100vw - 152px) / 3), (min-width: 640px) calc((100vw - 92px) / 2), calc(100vw - 40px)";
+const photo = product.imageUrl ? cloudinaryImage(product.imageUrl, { widths: PHOTO_WIDTHS, defaultWidth: 640 }) : null;
 
 const orderLink = whatsappLink(
   `Hola! Quiero pedir información sobre: ${product.name} (${formatPrice(product.price)}). ¿Está disponible?`,
@@ -17,8 +25,18 @@ const orderLink = whatsappLink(
 <article class="product-card">
   <div class="product-card-media">
     {
-      product.imageUrl ? (
-        <img src={product.imageUrl} alt={product.name} loading="lazy" class="h-full w-full object-cover" />
+      photo ? (
+        <img
+          src={photo.src}
+          srcset={photo.srcset}
+          sizes={photo.srcset ? PHOTO_SIZES : undefined}
+          alt={product.name}
+          width={800}
+          height={1000}
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover"
+        />
       ) : (
         <div class="h-full w-full bg-surface-alt" aria-hidden="true"></div>
       )
@@ -46,6 +64,7 @@ const orderLink = whatsappLink(
         href={orderLink}
         target="_blank"
         rel="noopener"
+        data-whatsapp-context="consumer"
         class="inline-flex items-center gap-2 rounded-full bg-horno-magenta px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-horno-magentaDeep"
       >
         Pedir

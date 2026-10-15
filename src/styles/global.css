@@ -2,6 +2,49 @@
 @import "tailwindcss";
 
 /* ============================================
+   Fonts — self-hosted (OFL licenses in public/fonts)
+
+   Latin subset only (Spanish needs nothing more) and only the weights the
+   page renders: Fraunces 600-900 as one variable file (its optical-size axis
+   stays on), Poppins 500/600/700. They used to load from Google Fonts, a
+   render-blocking stylesheet on another origin. `swap` shows text in the
+   fallback face immediately; BaseLayout preloads the hero pair.
+   Enforced by tests/unit/fonts.test.ts.
+   ============================================ */
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+  src: url("/fonts/fraunces-latin-var.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-latin-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-latin-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/poppins-latin-700.woff2") format("woff2");
+}
+
+/* ============================================
    Type scale — the single source of truth
 
    Components used to invent their own rem values, which is how the page
@@ -445,16 +488,20 @@ html[data-theme="dark"] .on-brand {
   background: var(--surface-raised);
   box-shadow: 0 8px 24px -8px rgba(168, 20, 82, 0.14);
   cursor: pointer;
-  opacity: 0.82;
   filter: saturate(0.85);
   transform: translate3d(0, 1rem, 0) scale(0.86);
   transform-origin: center center;
   transition:
     transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 260ms ease,
     filter 260ms ease,
     box-shadow 320ms ease;
   will-change: transform;
+}
+
+/* Side cards recede by dimming the photo only. Fading the whole card with
+   `opacity` also faded the CTA label and its fill (axe: ~4.2:1). */
+.flavour-card:not([data-coverflow-position="active"]) .flavour-card-media {
+  opacity: 0.82;
 }
 
 .flavour-card[data-coverflow-position="active"] {
@@ -479,6 +526,7 @@ html[data-theme="dark"] .on-brand {
 /* Square, not portrait: the flavour photos carry empty wall above and below
    the cake, and a 4:5 frame made the card taller than the viewport. */
 .flavour-card-media {
+  transition: opacity 260ms ease;
   aspect-ratio: 1 / 1;
   margin: 0;
   overflow: hidden;
@@ -719,9 +767,9 @@ html[data-theme="dark"] .on-brand {
   image-rendering: pixelated;
 }
 
-.business-penguin-empresa { background-image: url("/penguin-business-transparent.png"); }
-.business-penguin-colegio { background-image: url("/penguin-student-transparent.png"); }
-.business-penguin-cafeteria { background-image: url("/penguin-coffee-transparent.png"); }
+.business-penguin-empresa { background-image: url("/penguin-business-transparent.webp"); }
+.business-penguin-colegio { background-image: url("/penguin-student-transparent.webp"); }
+.business-penguin-cafeteria { background-image: url("/penguin-coffee-transparent.webp"); }
 
 .business-bullet {
   display: flex;
@@ -971,9 +1019,9 @@ html[data-theme="dark"] .on-brand {
   }
 }
 
-.penguin-step-1 { background-image: url("/penguin-chef-smartphone-transparent.png"); }
-.penguin-step-2 { background-image: url("/penguin-chef-oven-transparent.png"); }
-.penguin-step-3 { background-image: url("/penguin-chef-delivery-box-transparent.png"); }
+.penguin-step-1 { background-image: url("/penguin-chef-smartphone-transparent.webp"); }
+.penguin-step-2 { background-image: url("/penguin-chef-oven-transparent.webp"); }
+.penguin-step-3 { background-image: url("/penguin-chef-delivery-box-transparent.webp"); }
 
 .order-step-number {
   display: block;
@@ -1003,7 +1051,7 @@ html[data-theme="dark"] .on-brand {
 .penguin-trust {
   width: 224px;
   height: 224px;
-  background-image: url("/penguin-chef-clipboard-transparent.png");
+  background-image: url("/penguin-chef-clipboard-transparent.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -1032,7 +1080,7 @@ html[data-theme="dark"] .on-brand {
   width: 184px;
   height: 184px;
   margin-bottom: 1rem;
-  background-image: url("/penguin-chef-question-bubble.png");
+  background-image: url("/penguin-chef-question-bubble.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -1272,7 +1320,7 @@ html[data-theme="dark"] .on-brand {
   min-height: 1.25rem;
   margin-top: 0.5rem;
   font-size: var(--type-xs);
-  color: color-mix(in srgb, var(--ink) 62%, transparent);
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
 }
 
 .negocios-ledger {
@@ -1442,7 +1490,7 @@ html[data-theme="dark"] .on-brand {
   font-size: var(--type-sm);
   font-weight: 600;
   letter-spacing: 0.14em;
-  color: rgba(251, 235, 222, 0.78);
+  color: rgba(251, 235, 222, 0.88);
 }
 
 /* Full-bleed colour bands. Five of the six sections used to sit on the same
@@ -1542,7 +1590,7 @@ html[data-theme="dark"] .on-brand {
 
 .negocios-product-copy .n-eyebrow {
   margin-bottom: 0.75rem;
-  color: theme("colors.horno.orange");
+  color: theme("colors.horno.orangeOnDark");
 }
 
 .negocios-product-copy h3 {
@@ -1617,7 +1665,7 @@ html[data-theme="dark"] .on-brand {
   width: 168px;
   height: 168px;
   justify-self: center;
-  background: url("/penguin-chef-clipboard-transparent.png") center / contain no-repeat;
+  background: url("/penguin-chef-clipboard-transparent.webp") center / contain no-repeat;
   image-rendering: pixelated;
   filter: drop-shadow(0 14px 18px rgba(45, 26, 26, 0.3));
 }
@@ -1805,7 +1853,7 @@ html[data-theme="dark"] .on-brand {
   left: 0.75rem;
   width: 152px;
   height: 152px;
-  background: url("/penguin-chef-clipboard-transparent.png") center / contain no-repeat;
+  background: url("/penguin-chef-clipboard-transparent.webp") center / contain no-repeat;
   image-rendering: pixelated;
   filter: drop-shadow(0 14px 14px rgba(45, 26, 26, 0.3));
   animation: penguin-bob 2.8s ease-in-out infinite;
@@ -2113,10 +2161,10 @@ html[data-theme="dark"] .on-brand {
   }
 }
 
-.negocios-row-penguin--cafeterias { background-image: url("/penguin-coffee-transparent.png"); }
-.negocios-row-penguin--colegios { background-image: url("/penguin-student-transparent.png"); }
-.negocios-row-penguin--clubes { background-image: url("/penguin-chef-delivery-box-transparent.png"); }
-.negocios-row-penguin--empresas { background-image: url("/penguin-business-transparent.png"); }
+.negocios-row-penguin--cafeterias { background-image: url("/penguin-coffee-transparent.webp"); }
+.negocios-row-penguin--colegios { background-image: url("/penguin-student-transparent.webp"); }
+.negocios-row-penguin--clubes { background-image: url("/penguin-chef-delivery-box-transparent.webp"); }
+.negocios-row-penguin--empresas { background-image: url("/penguin-business-transparent.webp"); }
 
 /* Shared idle float for a standalone penguin; animates `translate` so it
    composes with any GSAP entrance that owns `transform`. */
@@ -2128,7 +2176,7 @@ html[data-theme="dark"] .on-brand {
   width: 176px;
   height: 176px;
   margin: 0 auto 1.5rem;
-  background: url("/penguin-chef-smartphone-transparent.png") center / contain no-repeat;
+  background: url("/penguin-chef-smartphone-transparent.webp") center / contain no-repeat;
   image-rendering: pixelated;
   filter: drop-shadow(0 14px 18px rgba(45, 26, 26, 0.35));
 }
@@ -2222,16 +2270,16 @@ html[data-theme="dark"] .on-brand {
 }
 
 .business-bridge-penguin--coffee {
-  background-image: url("/penguin-coffee-transparent.png");
+  background-image: url("/penguin-coffee-transparent.webp");
   animation-delay: -0.4s;
 }
 
 .business-bridge-penguin--business {
-  background-image: url("/penguin-business-transparent.png");
+  background-image: url("/penguin-business-transparent.webp");
 }
 
 .business-bridge-penguin--student {
-  background-image: url("/penguin-student-transparent.png");
+  background-image: url("/penguin-student-transparent.webp");
   animation-delay: -2s;
 }
 

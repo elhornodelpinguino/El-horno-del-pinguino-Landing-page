@@ -21,8 +21,8 @@ export interface BusinessStepEvidence extends BusinessImage {
   label: string;
 }
 
-const landscapeSizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw";
-const productSizes = "(min-width: 768px) 50vw, 100vw";
+const landscapeSizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, calc(100vw - 40px)";
+const productSizes = "(min-width: 768px) 50vw, calc(100vw - 40px)";
 
 export const BUSINESS_GALLERY = [
   {
@@ -92,7 +92,7 @@ export const BUSINESS_STEP_EVIDENCE = [
     label: "Opciones para definir",
     src: "/b2b-gallery-volume.webp",
     srcset: "/b2b-gallery-volume-sm.webp 720w, /b2b-gallery-volume.webp 1200w",
-    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 100vw",
+    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, calc(100vw - 40px)",
     alt: "Cajas abiertas con minidonas decoradas en distintos colores y diseños.",
     width: 1200,
     height: 900,
@@ -102,7 +102,7 @@ export const BUSINESS_STEP_EVIDENCE = [
     label: "Lote organizado",
     src: "/b2b-gallery-ready.webp",
     srcset: "/b2b-gallery-ready-sm.webp 720w, /b2b-gallery-ready.webp 1200w",
-    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 100vw",
+    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, calc(100vw - 40px)",
     alt: "Vasos transparentes con minidonas decoradas dispuestos en filas.",
     width: 1200,
     height: 900,
@@ -112,7 +112,7 @@ export const BUSINESS_STEP_EVIDENCE = [
     label: "Lotes preparados",
     src: "/b2b-step-batch.webp",
     srcset: "/b2b-step-batch-sm.webp 720w, /b2b-step-batch.webp 1200w",
-    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 100vw",
+    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, calc(100vw - 40px)",
     alt: "Vasos transparentes con minidonas decoradas reunidos sobre una mesa.",
     width: 1200,
     height: 900,
@@ -122,7 +122,7 @@ export const BUSINESS_STEP_EVIDENCE = [
     label: "Presentación lista para coordinar",
     src: "/b2b-gallery-individual.webp",
     srcset: "/b2b-gallery-individual-sm.webp 720w, /b2b-gallery-individual.webp 1200w",
-    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, 100vw",
+    sizes: "(min-width: 1024px) 18vw, (min-width: 640px) 42vw, calc(100vw - 40px)",
     alt: "Caja abierta con minidonas decoradas sostenida frente a más cajas.",
     width: 1200,
     height: 900,
