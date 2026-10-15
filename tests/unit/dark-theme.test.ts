@@ -73,6 +73,13 @@ describe("theme roles", () => {
     }
   });
 
+  it("paints order options on a theme surface, not the browser's white popup", () => {
+    const rule = css.match(/\.order-blank option\s*\{([^}]*)\}/);
+    expect(rule, ".order-blank option rule").not.toBeNull();
+    expect(rule![1]).toMatch(/(?:^|[\s;])color:\s*var\(--ink\)/);
+    expect(rule![1]).toMatch(/background-color:\s*var\(--surface-raised\)/);
+  });
+
   it("tells the browser which scheme each theme uses", () => {
     expect(css).toMatch(/:root\s*\{[^}]*color-scheme:\s*light/);
     expect(css).toMatch(/html\[data-theme="dark"\]\s*\{[^}]*color-scheme:\s*dark/);
