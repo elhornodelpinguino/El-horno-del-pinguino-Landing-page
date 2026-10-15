@@ -694,12 +694,13 @@ html[data-theme="dark"] .on-brand {
   background: rgba(255, 255, 255, 0.18);
 }
 
+/* Room for the sticky WhatsApp CTA, only on pages that render it. */
 @media (max-width: 767px) {
-  html {
+  html:has(.sticky-whatsapp) {
     scroll-padding-bottom: 7rem;
   }
 
-  body {
+  body:has(.sticky-whatsapp) {
     padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 
