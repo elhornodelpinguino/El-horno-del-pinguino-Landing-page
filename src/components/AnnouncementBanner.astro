@@ -1,0 +1,37 @@
+---
+import { SITE, whatsappLink } from "~/lib/config";
+import type { BannerItem } from "~/lib/site-content";
+
+interface Props {
+  banners?: BannerItem[];
+}
+
+// Admin-managed text: rendered only through `{}` (escaped), never as raw HTML.
+// With no banners nothing is emitted, so the page layout is unchanged.
+const { banners = [] } = Astro.props;
+---
+{banners.length > 0 && (
+  <section aria-label="Anuncios" class="announcement-band">
+    <div class="section">
+      {banners.map((banner) => (
+        <div class="announcement-card">
+          <div class="announcement-copy">
+            <p class="announcement-title">{banner.title}</p>
+            <p class="announcement-body">{banner.body}</p>
+          </div>
+          {banner.ctaLabel && (
+            <a
+              href={whatsappLink(`¡Hola, ${SITE.name}! Vi el anuncio "${banner.title}" en su web y quiero más información.`)}
+              target="_blank"
+              rel="noopener"
+              data-whatsapp-context="consumer"
+              class="btn-primary announcement-cta"
+            >
+              {banner.ctaLabel}
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+)}

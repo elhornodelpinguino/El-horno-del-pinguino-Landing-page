@@ -9,6 +9,7 @@ const { audience = "consumer" } = Astro.props;
 const message = audience === "business"
   ? `¡Hola, ${SITE.name}! Vi su web y quiero cotizar un pedido para una empresa, colegio o cafetería.`
   : `¡Hola, ${SITE.name}! Vi su web y quiero pedir. ¿Me pasan sabores, tamaños y precios?`;
+const context = audience === "business" ? "business-intro" : "consumer";
 const label = audience === "business" ? "Cotizar pedido por WhatsApp" : "Hacer pedido por WhatsApp";
 const action = audience === "business" ? "Cotización" : "Pedido";
 ---
@@ -17,6 +18,7 @@ const action = audience === "business" ? "Cotización" : "Pedido";
   href={whatsappLink(message)}
   target="_blank"
   rel="noopener"
+  data-whatsapp-context={context}
   class="sticky-whatsapp md:hidden"
   aria-label={label}
 >

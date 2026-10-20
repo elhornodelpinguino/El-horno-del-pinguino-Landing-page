@@ -1,3 +1,14 @@
+---
+import { FAQ_FALLBACK, type FaqItem } from "~/data/faq-fallback";
+
+interface Props {
+  faqs?: FaqItem[];
+}
+
+// Text comes from the admin API: it is only ever rendered through `{}`
+// (escaped by Astro), never as raw HTML.
+const { faqs = FAQ_FALLBACK } = Astro.props;
+---
 <section id="preguntas" class="faq-section relative overflow-hidden py-20 sm:py-28">
   <div class="section relative z-10">
     <div class="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
@@ -10,30 +21,12 @@
       </div>
 
       <div class="space-y-3" data-faq-root>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Cuánto cuesta una minitorta?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Desde $0,99 el cheesecake pequeño. El precio final depende del tamaño, el sabor y la cantidad. Escríbenos por WhatsApp y te enviamos todas las opciones.</div></div>
-        </details>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Puedo pedir una sola?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Claro, para eso son mini.</div></div>
-        </details>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Con cuánta anticipación pido?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Con dos o tres días de anticipación está perfecto. Para pedidos grandes, una semana.</div></div>
-        </details>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Puedo personalizar el diseño?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Sí. Color, dedicatoria y tamaño los definimos contigo por WhatsApp.</div></div>
-        </details>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Hacen entregas?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Sí, dentro de Loja. Coordinamos punto y hora por WhatsApp.</div></div>
-        </details>
-        <details class="faq-item group" data-faq-anim="item">
-          <summary class="faq-summary">¿Cuáles son los métodos de pago?<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">Efectivo o transferencia.</div></div>
-        </details>
+        {faqs.map((faq) => (
+          <details class="faq-item group" data-faq-anim="item">
+            <summary class="faq-summary">{faq.question}<svg class="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-content transition-all duration-300 overflow-hidden max-h-0"><div class="faq-answer">{faq.answer}</div></div>
+          </details>
+        ))}
       </div>
     </div>
   </div>

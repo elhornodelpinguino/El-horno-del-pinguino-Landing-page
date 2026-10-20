@@ -4,6 +4,22 @@
  * Implements focus trap, Escape to close, and dynamic aria attributes.
  * Runs only at viewport < 768px.
  */
+
+/**
+ * Single place that knows what "open" and "closed" mean for the panel.
+ * The closed panel is only transparent (opacity 0), so without `inert` its
+ * links stay focusable and readable by assistive tech while invisible.
+ * @param {{ inert: boolean, setAttribute(name: string, value: string): void }} nav
+ * @param {{ setAttribute(name: string, value: string): void }} btn
+ * @param {boolean} open
+ */
+export function applyMenuState(nav, btn, open) {
+  nav.inert = !open;
+  nav.setAttribute("data-menu-open", String(open));
+  btn.setAttribute("aria-expanded", String(open));
+  btn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+}
+
 (function () {
   if (typeof window === "undefined") return;
 
@@ -40,9 +56,7 @@
     const nav = getNav();
     if (!btn || !nav) return;
 
-    nav.setAttribute("data-menu-open", "true");
-    btn.setAttribute("aria-expanded", "true");
-    btn.setAttribute("aria-label", "Cerrar menú");
+    applyMenuState(nav, btn, true);
   }
 
   function close({ restoreFocus = true } = {}) {
@@ -50,9 +64,7 @@
     const nav = getNav();
     if (!btn || !nav) return;
 
-    nav.setAttribute("data-menu-open", "false");
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Abrir menú");
+    applyMenuState(nav, btn, false);
     if (restoreFocus) btn.focus();
   }
 
@@ -107,9 +119,7 @@
     if (!btn || !nav) return;
 
     // Initial state
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Abrir menú");
-    nav.setAttribute("data-menu-open", "false");
+    applyMenuState(nav, btn, false);
 
     // Toggle on click / Enter / Space
     btn.addEventListener("click", toggle);

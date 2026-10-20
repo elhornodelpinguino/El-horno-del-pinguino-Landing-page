@@ -28,10 +28,13 @@ function px(selector: string, prop: string): number {
 }
 
 describe("heavier type", () => {
+  // Fonts are self-hosted now (see tests/unit/fonts.test.ts): the contract is
+  // that the @font-face declarations still cover the heavy weights the page
+  // renders. Fraunces is one variable file up to 900; Poppins 700 is the
+  // heaviest body face, and no element renders Poppins at 800.
   it("loads the heavy display and body weights", () => {
-    const layout = read("src/layouts/BaseLayout.astro");
-    expect(layout).toMatch(/Fraunces:[^&"]*wght@9\.\.144,600\.\.900/);
-    expect(layout).toMatch(/Poppins:wght@[\d;]*800/);
+    expect(css).toMatch(/font-family:\s*"Fraunces";[^}]*font-weight:\s*600 900;/);
+    expect(css).toMatch(/font-family:\s*"Poppins";[^}]*font-weight:\s*700;/);
   });
 
   it("sets the display utilities at extra-bold weight", () => {
@@ -118,7 +121,7 @@ describe("business bridge", () => {
   });
 
   it("keeps both exits: the /negocios page and the WhatsApp quote", () => {
-    expect(bridge()).toMatch(/href="\/negocios"/);
+    expect(bridge()).toMatch(/href="\/negocios\/"/);
     expect(bridge()).toMatch(/data-whatsapp-context="business-intro"/);
   });
 });
@@ -150,7 +153,7 @@ describe("floating site header", () => {
     const navHrefs = [...homeLinks.matchAll(/href: (?:`\$\{sectionBase\}(#[\w-]+)`|"([^"]+)")/g)].map(
       (m) => m[1] ?? m[2],
     );
-    expect(navHrefs).toEqual(["#sabores", "#catalogo", "#como-pedir", "#preguntas", "/negocios", "#contacto"]);
+    expect(navHrefs).toEqual(["#sabores", "#catalogo", "#como-pedir", "#preguntas", "/negocios/", "#contacto"]);
 
     // Each anchor must exist, and the page must render them in that same order.
     const page = read("src/pages/index.astro");
@@ -159,7 +162,7 @@ describe("floating site header", () => {
       "#catalogo": "ProductGrid",
       "#como-pedir": "HowToOrder",
       "#preguntas": "FAQ",
-      "/negocios": "BusinessBridge",
+      "/negocios/": "BusinessBridge",
       "#contacto": "Contact",
     };
     const positions = navHrefs.map((href) => {

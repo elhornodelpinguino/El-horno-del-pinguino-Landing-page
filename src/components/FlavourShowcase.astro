@@ -7,6 +7,7 @@ const flavours = [
     title: "Maracuyá",
     copy: "Dulce arriba, ácido abajo.",
     image: "/flavour-maracuya.webp",
+    srcset: "/flavour-maracuya-sm.webp 640w, /flavour-maracuya.webp 738w",
     width: 738,
     height: 1600,
     objectPosition: "center 58%",
@@ -16,6 +17,7 @@ const flavours = [
     title: "Oreo",
     copy: "Crema, galleta y más galleta.",
     image: "/flavour-oreo.webp",
+    srcset: "/flavour-oreo-sm.webp 640w, /flavour-oreo.webp 738w",
     width: 738,
     height: 1600,
     objectPosition: "center 55%",
@@ -25,6 +27,7 @@ const flavours = [
     title: "Frutos rojos",
     copy: "Ácido, fresco y nada empalagoso.",
     image: "/flavour-frutos-rojos.webp",
+    srcset: "/flavour-frutos-rojos-sm.webp 640w, /flavour-frutos-rojos.webp 1200w",
     width: 1200,
     height: 1600,
     objectPosition: "center 52%",
@@ -74,7 +77,6 @@ const orderMessage = (flavour: string) =>
               data-flavour-index={index}
               data-coverflow-position={index === 0 ? "active" : index === 1 ? "next" : "previous"}
               class="flavour-card"
-              role="group"
               aria-roledescription="tarjeta"
               aria-label={`Sabor ${index + 1} de ${flavours.length}: ${item.title}`}
               aria-current={index === 0 ? "true" : undefined}
@@ -83,6 +85,8 @@ const orderMessage = (flavour: string) =>
               <figure class="flavour-card-media">
                 <img
                   src={item.image}
+                  srcset={item.srcset}
+                  sizes="(min-width: 432px) 320px, 74vw"
                   alt={`${item.title}: minitorta individual en su envase`}
                   width={item.width}
                   height={item.height}
@@ -101,8 +105,9 @@ const orderMessage = (flavour: string) =>
                   href={whatsappLink(orderMessage(item.title))}
                   target="_blank"
                   rel="noopener"
+                  data-whatsapp-context="consumer"
                   class="flavour-card-cta"
-                  aria-label={`Consultar ${item.title} por WhatsApp`}
+                  aria-label={`Pedir este sabor: ${item.title}, por WhatsApp`}
                 >
                   Pedir este sabor
                   <span aria-hidden="true">↗</span>

@@ -269,7 +269,7 @@ test.describe("Homepage hand-off to /negocios", () => {
     await page.goto("/");
     const bridge = page.locator("#negocios");
     const primaryCta = bridge.getByRole("link", { name: /para negocios|conoce|ver para negocios/i }).first();
-    await expect(primaryCta).toHaveAttribute("href", "/negocios");
+    await expect(primaryCta).toHaveAttribute("href", "/negocios/");
   });
 
   test("BusinessBridge still offers a secondary WhatsApp action", async ({ page }) => {
@@ -283,7 +283,7 @@ test.describe("Homepage hand-off to /negocios", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
     const desktopNavLink = page.locator("nav .hidden.lg\\:flex a", { hasText: "Para negocios" });
-    await expect(desktopNavLink).toHaveAttribute("href", "/negocios");
+    await expect(desktopNavLink).toHaveAttribute("href", "/negocios/");
   });
 
   test("/negocios gets its own nav: its sections in page order, a way home and a business CTA", async ({ page }) => {
@@ -323,7 +323,7 @@ test.describe("Homepage hand-off to /negocios", () => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/");
     const mobileNavLink = page.locator("[data-mobile-nav] a", { hasText: "Para negocios" });
-    await expect(mobileNavLink).toHaveAttribute("href", "/negocios");
+    await expect(mobileNavLink).toHaveAttribute("href", "/negocios/");
   });
 
   // The unit guards in tests/unit/business-segments.test.ts only scan the data

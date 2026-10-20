@@ -1,4 +1,4 @@
-export const SITE = {
+const SITE_BASE = {
   name: "El Horno del Pingüino",
   tagline: "Minitortas y minidonas hechas a mano en Loja.",
   description:
@@ -14,6 +14,22 @@ export const SITE = {
     "elhornodelpinguino",
   location: "Loja, Ecuador",
 };
+
+/**
+ * Brand constants. `whatsapp`, `instagram`, `tiktok` and `location` are
+ * overridden at build time by the admin's /api/public/site values through
+ * `applySiteSettings` (valid API value > PUBLIC_* env > default above).
+ */
+export const SITE = { ...SITE_BASE };
+
+export type SiteOverrides = Partial<
+  Pick<typeof SITE_BASE, "whatsapp" | "instagram" | "tiktok" | "location">
+>;
+
+/** Idempotent: always layers the (already validated) overrides on the base. */
+export function applySiteSettings(overrides: SiteOverrides): void {
+  Object.assign(SITE, SITE_BASE, overrides);
+}
 
 export const ANALYTICS_PROVIDERS = {
   GOATCOUNTER: "goatcounter",

@@ -1,7 +1,11 @@
 import { existsSync } from "node:fs";
 import { defineConfig } from "@playwright/test";
 
-const systemChromium = "/usr/bin/chromium-browser";
+// Prefer a system Chromium-based browser when present so local runs do not
+// depend on Playwright's downloaded build matching the installed version.
+const systemChromium = ["/usr/bin/chromium-browser", "/usr/bin/google-chrome-stable"].find((path) =>
+  existsSync(path),
+);
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -13,7 +17,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         browserName: "chromium",
-        launchOptions: existsSync(systemChromium)
+        launchOptions: systemChromium
           ? {
               executablePath: systemChromium,
               args: ["--no-sandbox", "--disable-setuid-sandbox"],

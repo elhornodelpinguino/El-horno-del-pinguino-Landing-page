@@ -126,4 +126,17 @@ describe("orange is never used as a text colour", () => {
 
     expect(offenders).toEqual([]);
   });
+
+  // The same mistake through Tailwind's theme(): /negocios painted the product
+  // eyebrows with `color: theme("colors.horno.orange")` (4.38:1 on the band).
+  // Eyebrows are 13px labels, so they must use the ink tokens. (Display
+  // numerals are large text and keep the fill colour.)
+  it("paints no .n-eyebrow with the fill orange written through theme()", () => {
+    const css = readFileSync(path.resolve(__dirname, "../../src/styles/global.css"), "utf8");
+    const offenders = [...css.matchAll(/([^{}]*\.n-eyebrow[^{}]*)\{([^}]*)\}/g)]
+      .filter(([, , body]) => /(?<![-\w])color:\s*theme\("colors\.horno\.orange(Light)?"\)/.test(body))
+      .map(([, selector]) => selector.trim());
+
+    expect(offenders).toEqual([]);
+  });
 });

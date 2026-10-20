@@ -3,13 +3,17 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 import BusinessEditorialGallery from "~/components/BusinessEditorialGallery.astro";
 import BusinessProductShowcase from "~/components/BusinessProductShowcase.astro";
 import BusinessSegmentRow from "~/components/BusinessSegmentRow.astro";
+import Contact from "~/components/Contact.astro";
 import { BUSINESS_STEP_EVIDENCE } from "~/lib/business-media";
 import { BUSINESS_SEGMENTS } from "~/lib/business-segments";
 import { SITE, whatsappLink } from "~/lib/config";
 import { localBusinessSchema } from "~/lib/schema";
+import { loadSiteContent } from "~/lib/site-content";
 
-// No `~/lib/api` import anywhere in this page — /negocios must render
-// identically with the backend asleep (design: Data Flow).
+// /negocios must still render with the backend asleep: `loadSiteContent`
+// never throws and falls back to the built-in site values. Runs first so
+// SITE already carries the admin's WhatsApp number for the links below.
+await loadSiteContent();
 
 const introMessage = `¡Hola, ${SITE.name}! Ya conversamos y quiero contarles qué necesito para mi negocio.`;
 const closingMessage = `¡Hola, ${SITE.name}! Les cuento qué necesito para que me armen la propuesta.`;
@@ -196,6 +200,7 @@ const steps = [
       </div>
     </section>
   </main>
+  <Contact whatsappContext="business-closing" />
 
   <script>
     import "~/scripts/negocios-animation.js";

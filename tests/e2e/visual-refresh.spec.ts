@@ -34,6 +34,25 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(nav).toHaveAttribute("data-menu-open", "false");
     });
 
+    test("closed mobile menu is inert: its links cannot take focus", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 800 });
+      await page.goto("/");
+      const nav = page.locator("[data-mobile-nav]");
+      await expect(nav).toHaveJSProperty("inert", true);
+
+      // Tab through the whole bar: focus must never land on a hidden panel link.
+      for (let i = 0; i < 6; i++) {
+        await page.keyboard.press("Tab");
+        const insidePanel = await page.evaluate(() => !!document.activeElement?.closest("[data-mobile-nav]"));
+        expect(insidePanel).toBe(false);
+      }
+
+      await page.locator("[data-hamburger]").click();
+      await expect(nav).toHaveJSProperty("inert", false);
+      await page.keyboard.press("Escape");
+      await expect(nav).toHaveJSProperty("inert", true);
+    });
+
     test("Escape closes mobile menu and returns focus to button", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 800 });
       await page.goto("/");
@@ -678,7 +697,7 @@ test.describe("Visual Refresh — Interactions", () => {
       await expect(cards.nth(2).locator("img")).toHaveAttribute("src", "/flavour-frutos-rojos.webp");
 
       for (const flavour of ["Maracuyá", "Oreo", "Frutos rojos"]) {
-        const href = await page.getByRole("link", { name: new RegExp(`Consultar ${flavour} por WhatsApp`, "i") }).getAttribute("href");
+        const href = await page.getByRole("link", { name: new RegExp(`Pedir este sabor: ${flavour}, por WhatsApp`, "i") }).getAttribute("href");
         expect(decodeURIComponent(href ?? "")).toContain(`sabor ${flavour}`);
       }
     });

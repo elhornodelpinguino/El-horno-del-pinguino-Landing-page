@@ -3,6 +3,7 @@ import SiteHeader from "~/components/SiteHeader.astro";
 import "~/styles/global.css";
 import { ANALYTICS_CONFIG, SITE } from "~/lib/config";
 import { serializeJsonLd } from "~/lib/json-ld";
+import { buildHeadSeo } from "~/lib/seo";
 import { MEASURED_ROUTES, normalizeRoute } from "~/scripts/analytics.js";
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonicalUrl?: string;
+  /** Keep the page out of search results (no canonical, no og:url). */
+  noindex?: boolean;
   jsonLd?: Record<string, unknown>;
 }
 
@@ -18,10 +21,11 @@ const {
   description = SITE.description,
   ogImage = "/og-image.png",
   canonicalUrl = Astro.url.href,
+  noindex = false,
   jsonLd,
 } = Astro.props;
 
-const ogUrl = new URL(canonicalUrl, Astro.site).href;
+const seo = buildHeadSeo({ canonicalUrl, noindex, site: Astro.site });
 const ogImg = new URL(ogImage, Astro.site).href;
 const analyticsEndpoint = ANALYTICS_CONFIG?.endpoint;
 const analyticsRoute = normalizeRoute(Astro.url.pathname);
@@ -46,11 +50,12 @@ const shouldLoadAnalytics = analyticsEndpoint !== undefined && analyticsRoute !=
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={ogUrl} />
+    {seo.robots && <meta name="robots" content={seo.robots} />}
+    {seo.canonical && <link rel="canonical" href={seo.canonical} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={ogUrl} />
+    {seo.ogUrl && <meta property="og:url" content={seo.ogUrl} />}
     <meta property="og:image" content={ogImg} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -60,12 +65,10 @@ const shouldLoadAnalytics = analyticsEndpoint !== undefined && analyticsRoute !=
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600..900&family=Poppins:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Hero fonts: the display face (H1) and the body weight (copy). The other
+         weights are discovered from the CSS and are not on the first-paint path. -->
+    <link rel="preload" href="/fonts/fraunces-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-500.woff2" as="font" type="font/woff2" crossorigin />
     {
       jsonLd && (
         <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />

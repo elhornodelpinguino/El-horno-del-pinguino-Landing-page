@@ -7,7 +7,6 @@ const shell = document.querySelector(".hero-shell");
 if (shell) {
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const nav = shell.querySelector("nav");
   const eyebrow = shell.querySelector("[data-hero-anim='eyebrow']");
   const heading = shell.querySelector("[data-hero-anim='heading']");
   const accent = shell.querySelector("[data-hero-anim='accent']");
@@ -18,16 +17,17 @@ if (shell) {
   const penguin = shell.querySelector(".penguin-sprite");
   const tickets = shell.querySelectorAll(".order-ticket");
 
-  const entranceTargets = [nav, eyebrow, heading, accent, copy, actions, card, ...badges, ...tickets].filter(Boolean);
+  const entranceTargets = [eyebrow, heading, accent, copy, actions, card, ...badges, ...tickets].filter(Boolean);
 
   if (motionQuery.matches) {
     gsap.set(entranceTargets, { clearProps: "all" });
   } else {
     const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.7 } });
 
-    tl.from(nav, { y: -16, opacity: 0 })
-      .from(eyebrow, { y: 14, opacity: 0, duration: 0.5 }, "-=0.35")
-      .from(heading, { y: 28, opacity: 0 }, "-=0.3")
+    // The H1 is the LCP element, so it only slides (transform): it is already
+    // visible at first paint instead of waiting for this script to fade it in.
+    tl.from(eyebrow, { y: 14, opacity: 0, duration: 0.5 })
+      .from(heading, { y: 28 }, "-=0.3")
       .from(accent, { scaleX: 0, opacity: 0, duration: 0.5, transformOrigin: "left center" }, "-=0.35")
       .from(copy, { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
       .from(actions, { y: 16, opacity: 0, duration: 0.55, ease: "back.out(1.7)" }, "-=0.3")

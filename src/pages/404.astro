@@ -1,8 +1,12 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
+import Contact from "~/components/Contact.astro";
 import { SITE, whatsappLink } from "~/lib/config";
+import { loadSiteContent } from "~/lib/site-content";
 
-// Backend-independent on purpose: a 404 must render even if the API is asleep.
+// A 404 must render even if the API is asleep: `loadSiteContent` never
+// throws and falls back to the built-in site values.
+await loadSiteContent();
 
 const title = `Página no encontrada — ${SITE.name}`;
 const description = "Esta página no existe, pero el horno sigue encendido. Volvé al inicio o pedí por WhatsApp.";
@@ -10,11 +14,11 @@ const description = "Esta página no existe, pero el horno sigue encendido. Volv
 const homeMessage = `¡Hola, ${SITE.name}! Llegué a una página que no existe, pero quiero pedir postres.`;
 ---
 
-<BaseLayout title={title} description={description} canonicalUrl="https://elhornodelpinguino.com/404">
+<BaseLayout title={title} description={description} noindex>
   <main class="flex min-h-screen items-center justify-center bg-horno-gradient-soft px-6 py-24 text-center">
     <div class="max-w-xl">
       <img
-        src="/penguin-chef-oven-transparent.png"
+        src="/penguin-chef-oven-transparent.webp"
         alt="El pingüino chef mirando su horno"
         width="220"
         height="220"
@@ -36,4 +40,5 @@ const homeMessage = `¡Hola, ${SITE.name}! Llegué a una página que no existe, 
       </div>
     </div>
   </main>
+  <Contact />
 </BaseLayout>
